@@ -11,7 +11,7 @@ class LinkedList<T : Any> {
 
     fun getSize(): Int = size
 
-    fun push(item: T) {
+    fun push(item: T): LinkedList<T> = apply {
         head = Node(value = item, next = head)
         if (tail == null) {
             tail = head
@@ -19,7 +19,17 @@ class LinkedList<T : Any> {
         size++
     }
 
-    fun append() {}
+    fun append(item: T): LinkedList<T> = apply {
+        val tail = tail
+        if (tail == null) {
+            push(item)
+        } else {
+            val newNode = Node(item)
+            tail.next = newNode
+            this.tail = newNode
+            size++
+        }
+    }
 
     fun insert() {}
 
