@@ -52,4 +52,3 @@ class LinkedListTest {
         "$list2" shouldBe "1 -> 2"
     }
 }
-

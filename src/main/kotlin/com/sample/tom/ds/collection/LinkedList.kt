@@ -1,6 +1,5 @@
 package com.sample.tom.ds.collection
 
-
 /**
  * $head -> $node0 -> $node1 -> $tail -> null
  */
