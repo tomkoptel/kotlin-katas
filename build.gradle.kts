@@ -1,30 +1,39 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.8.21"
-    id("com.diffplug.spotless") version "6.18.0"
-}
-
-spotless {
-  kotlin {
-    ktlint("0.48.2")
-  }
+    alias(libs.plugins.kotlinJvm)
+    alias(libs.plugins.spotless)
 }
 
 group = "com.tom.samples"
 version = "1.0-SNAPSHOT"
 
+spotless {
+    kotlin {
+        ktlint(libs.versions.ktlint.get())
+    }
+}
+
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    val javaVersion = JavaVersion.toVersion(libs.versions.jvm.get())
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "11"
+    kotlinOptions.jvmTarget = libs.versions.jvm.get()
 }
 
 dependencies {
-    testImplementation("junit", "junit", "4.12")
-    testImplementation("org.amshove.kluent:kluent:1.15")
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.kotest.core)
 }
 
