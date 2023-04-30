@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   spotless:
-    name: Validate Labels
+    name: Code checks
     runs-on: ubuntu-latest
     if: ${{ !contains(github.event.pull_request.labels.*.name, 'skip-checks') && github.event.pull_request.draft == false }}
     steps:
