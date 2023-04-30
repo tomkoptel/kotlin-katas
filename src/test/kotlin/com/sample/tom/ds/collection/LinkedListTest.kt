@@ -1,5 +1,6 @@
 package com.sample.tom.ds.collection
 
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
@@ -24,6 +25,31 @@ class LinkedListTest {
         val list2 = LinkedList<String>().append("3").append("2").append("1")
         "$list2" shouldBe "3 -> 2 -> 1"
         list2.getSize() shouldBe 3
+    }
+
+    @Test
+    fun `allow us to track node at position`() {
+        val list1 = LinkedList<String>().append("1").append("2").append("3")
+        list1.nodeAt(index = 0).shouldNotBeNull().value shouldBe "1"
+        list1.nodeAt(index = 1).shouldNotBeNull().value shouldBe "2"
+        list1.nodeAt(index = 2).shouldNotBeNull().value shouldBe "3"
+    }
+
+    @Test
+    fun `adds a value after particular node`() {
+        val list1 = LinkedList<String>().append("1").append("2").append("5")
+        val node1 = list1.nodeAt(1).shouldNotBeNull()
+
+        "${list1.insert("4", node1)}" shouldBe "4 -> 5"
+        "$list1" shouldBe "1 -> 2 -> 4 -> 5"
+
+        "${list1.insert("3", node1)}" shouldBe "3 -> 4 -> 5"
+        "$list1" shouldBe "1 -> 2 -> 3 -> 4 -> 5"
+
+        val list2 = LinkedList<String>().append("1")
+        val tail = list2.nodeAt(0).shouldNotBeNull()
+        "${list2.insert("2", tail)}" shouldBe "2"
+        "$list2" shouldBe "1 -> 2"
     }
 }
 

@@ -31,7 +31,27 @@ class LinkedList<T : Any> {
         }
     }
 
-    fun insert() {}
+    fun nodeAt(index: Int): Node<T>? {
+        val head = head ?: return null
+
+        var currentIndex = 0
+        var currentNode: Node<T>? = head
+
+        while (currentNode != null && currentIndex < index) {
+            currentNode = currentNode.next
+            currentIndex++
+        }
+
+        return currentNode
+    }
+
+    fun insert(item: T, atNode: Node<T>): Node<T> {
+        val atNodeNext = atNode.next
+        val newNode = Node(item, next = atNodeNext)
+        atNode.next = newNode
+        size++
+        return newNode
+    }
 
     override fun toString(): String {
         return when {
