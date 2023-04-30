@@ -1,0 +1,16 @@
+[*]
+indent_style = space
+
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+max_line_length = 160
+
+# don't use wildcard for Java/Kotlin imports
+[*.{kt,kts}]
+ij_kotlin_name_count_to_use_star_import = 999
+ij_kotlin_name_count_to_use_star_import_for_members = 999
+# https://github.com/pinterest/ktlint/issues/709
+ij_kotlin_allow_trailing_comma = true
+ij_kotlin_allow_trailing_comma_on_call_site = false
