@@ -33,7 +33,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Check the accidental transitive dependency update_status
+      - name: Run spotlessCheck
         shell: bash
         run: |
-          ./gradlew dependencyGuard
+          ./gradlew :spotlessCheck
