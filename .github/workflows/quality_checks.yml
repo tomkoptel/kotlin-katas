@@ -1,0 +1,39 @@
+name: Quality Checks
+
+on:
+  push:
+    branches: [ master, rc/* ]
+  pull_request:
+    branches: [ master, rc/*, feature/*/*, bug/*/*, docs/*/*, tech/*/* ]
+    types: [ opened, reopened, labeled, unlabeled, ready_for_review, synchronize ]
+
+# See https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions?s=09#concurrency
+# See https://github.community/t/concurrency-cancel-in-progress-at-top-level-doesnt-seem-to-cancel-running-workflows/175801/5
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  spotless:
+    name: Validate Labels
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'skip-checks') && github.event.pull_request.draft == false }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Check the accidental transitive dependency update_status
+        shell: bash
+        run: |
+          ./gradlew dependencyGuard
