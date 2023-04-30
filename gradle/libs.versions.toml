@@ -1,0 +1,19 @@
+[versions]
+kotlin = { require = "1.8.21" }
+kotest = "5.6.1"
+ktlint = "0.48.2"
+jvm = "11"
+
+[plugins]
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+spotless = { id = "com.diffplug.spotless", version = { require = "6.18.0" } }
+
+[libraries]
+kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-coreJvm = { module = "io.kotest:kotest-assertions-core-jvm", version.ref = "kotest" }
+kotest-shared = { module = "io.kotest:kotest-assertions-shared", version.ref = "kotest" }
+kotest-sharedJvm = { module = "io.kotest:kotest-assertions-shared-jvm", version.ref = "kotest" }
+kotest-apiJvm = { module = "io.kotest:kotest-assertions-api-jvm", version.ref = "kotest" }
+
+junit-bom = { module = "org.junit:junit-bom", version = { require = "5.9.3" } }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }

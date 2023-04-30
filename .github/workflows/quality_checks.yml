@@ -29,3 +29,8 @@ jobs:
         shell: bash
         run: |
           ./gradlew :spotlessCheck
+
+      - name: Run unit tests
+        shell: bash
+        run: |
+          ./gradlew :test
