@@ -63,6 +63,20 @@ class LinkedList<T : Any> {
         return head.also { it.next = null }
     }
 
+    fun removeLast(): Node<T>? {
+        val tail = tail ?: return null
+        nodeAt(getSize() - 2)?.let {
+            it.next = null
+            this.tail = it
+            size--
+        }
+        if (size == 0) {
+            this.tail = null
+            head = null
+        }
+        return tail
+    }
+
     override fun toString(): String {
         return when {
             getSize() == 0 -> "[]"

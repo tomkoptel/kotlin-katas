@@ -1,5 +1,6 @@
 package com.sample.tom.ds.collection
 
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -64,6 +65,30 @@ class LinkedListTest {
         "$list1" shouldBe "3"
 
         "${list1.pop()}" shouldBe "3"
+        list1.getSize() shouldBe 0
+        "$list1" shouldBe "[]"
+
+        list1.pop().shouldBeNull()
+        list1.getSize() shouldBe 0
+        "$list1" shouldBe "[]"
+    }
+
+    @Test
+    fun `removeLast removes the value at the end of the list`() {
+        val list1 = LinkedList<String>().append("1").append("2").append("3")
+        "${list1.removeLast()}" shouldBe "3"
+        list1.getSize() shouldBe 2
+        "$list1" shouldBe "1 -> 2"
+
+        "${list1.removeLast()}" shouldBe "2"
+        list1.getSize() shouldBe 1
+        "$list1" shouldBe "1"
+
+        "${list1.removeLast()}" shouldBe "1"
+        list1.getSize() shouldBe 0
+        "$list1" shouldBe "[]"
+
+        list1.removeLast().shouldBeNull()
         list1.getSize() shouldBe 0
         "$list1" shouldBe "[]"
     }
