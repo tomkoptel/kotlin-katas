@@ -92,4 +92,32 @@ class LinkedListTest {
         list1.getSize() shouldBe 0
         "$list1" shouldBe "[]"
     }
+
+    @Test
+    fun `removeAfter removes a value after a particular node of the list`() {
+        val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
+
+        val node2 = list1.nodeAt(1).shouldNotBeNull()
+        list1.removeAfter(node2) shouldBe "3"
+        list1.getSize() shouldBe 3
+        "$list1" shouldBe "1 -> 2 -> 4"
+
+        val node1 = list1.nodeAt(0).shouldNotBeNull()
+        list1.removeAfter(node1) shouldBe "2"
+        list1.getSize() shouldBe 2
+        "$list1" shouldBe "1 -> 4"
+
+        val node4 = list1.nodeAt(1).shouldNotBeNull()
+        list1.removeAfter(node4).shouldBeNull()
+        list1.getSize() shouldBe 2
+        "$list1" shouldBe "1 -> 4"
+
+        list1.removeAfter(node1) shouldBe "4"
+        list1.getSize() shouldBe 1
+        "$list1" shouldBe "1"
+
+        val list2 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        list2.removeAfter(list2.nodeAt(2).shouldNotBeNull()) shouldBe "4"
+        "$list2" shouldBe "1 -> 2 -> 3"
+    }
 }

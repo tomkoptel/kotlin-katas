@@ -77,6 +77,16 @@ class LinkedList<T : Any> {
         return tail
     }
 
+    fun removeAfter(node: Node<T>): T? {
+        val nodeAfterThis = node.next ?: return null
+        if (nodeAfterThis == tail) {
+            tail = node
+        }
+        node.next = nodeAfterThis.next
+        size--
+        return nodeAfterThis.value
+    }
+
     override fun toString(): String {
         return when {
             getSize() == 0 -> "[]"
