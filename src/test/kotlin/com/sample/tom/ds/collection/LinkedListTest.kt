@@ -51,4 +51,20 @@ class LinkedListTest {
         "${list2.insert("2", tail)}" shouldBe "2"
         "$list2" shouldBe "1 -> 2"
     }
+
+    @Test
+    fun `pop removes the value at the front of the list`() {
+        val list1 = LinkedList<String>().append("1").append("2").append("3")
+        "${list1.pop()}" shouldBe "1"
+        list1.getSize() shouldBe 2
+        "$list1" shouldBe "2 -> 3"
+
+        "${list1.pop()}" shouldBe "2"
+        list1.getSize() shouldBe 1
+        "$list1" shouldBe "3"
+
+        "${list1.pop()}" shouldBe "3"
+        list1.getSize() shouldBe 0
+        "$list1" shouldBe "[]"
+    }
 }

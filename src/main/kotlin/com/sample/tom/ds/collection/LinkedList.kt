@@ -52,9 +52,20 @@ class LinkedList<T : Any> {
         return newNode
     }
 
+    fun pop(): Node<T>? {
+        val head = head ?: return null
+        val nextAfter = head.next
+        this.head = nextAfter
+        size--
+        if (getSize() == 0) {
+            tail = null
+        }
+        return head.also { it.next = null }
+    }
+
     override fun toString(): String {
         return when {
-            getSize() == 0 -> "Empty list"
+            getSize() == 0 -> "[]"
             else -> return "$head"
         }
     }
