@@ -190,4 +190,62 @@ class LinkedListTest {
         list1.isEmpty().shouldBeFalse()
         list2.isEmpty().shouldBeTrue()
     }
+
+    @Test
+    fun `should support clear`() {
+        val list1 = LinkedList<String>().append("1").append("2")
+        list1.clear()
+        list1.isEmpty().shouldBeTrue()
+    }
+
+    @Test
+    fun `should support add`() {
+        val list1 = LinkedList<String>()
+        list1.add("1")
+        list1.add("2")
+        "$list1" shouldBe "1 -> 2"
+    }
+
+    @Test
+    fun `should support addAll`() {
+        val list1 = LinkedList<String>()
+        list1.addAll(listOf("1", "2"))
+        "$list1" shouldBe "1 -> 2"
+    }
+
+    @Test
+    fun `should support retainAll`() {
+        val list1 = LinkedList<String>().append("1").append("2")
+        val list2 = LinkedList<String>().append("2").append("3")
+        list1.retainAll(list2).shouldBeTrue()
+        "$list1" shouldBe "2"
+
+        val list3 = LinkedList<String>().append("2").append("3").append("4")
+        val list4 = LinkedList<String>().append("2").append("3")
+        list3.retainAll(list4).shouldBeTrue()
+        "$list3" shouldBe "2 -> 3"
+
+        val list5 = LinkedList<String>().append("2").append("3").append("4")
+        val list6 = LinkedList<String>().append("2").append("3")
+        list6.retainAll(list5).shouldBeFalse()
+        "$list6" shouldBe "2 -> 3"
+    }
+
+    @Test
+    fun `should support removeAll`() {
+        val list1 = LinkedList<String>().append("1").append("2")
+        val list2 = LinkedList<String>().append("2").append("3")
+        list1.removeAll(list2).shouldBeTrue()
+        "$list1" shouldBe "1"
+
+        val list3 = LinkedList<String>().append("2").append("3").append("4")
+        val list4 = LinkedList<String>().append("2").append("3")
+        list3.removeAll(list4).shouldBeTrue()
+        "$list3" shouldBe "4"
+
+        val list5 = LinkedList<String>().append("2").append("3").append("4")
+        val list6 = LinkedList<String>().append("2").append("3")
+        list6.removeAll(list5)
+        list6.isEmpty().shouldBeTrue()
+    }
 }

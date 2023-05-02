@@ -3,12 +3,30 @@ package com.sample.tom.ds.collection
 /**
  * $head -> $node0 -> $node1 -> $tail -> null
  */
-class LinkedList<T : Any> : Collection<T>, MutableIterable<T> {
+class LinkedList<T : Any> : MutableCollection<T> {
     private var head: Node<T>? = null
     private var tail: Node<T>? = null
     private var _size = 0
     override val size: Int
         get() = _size
+
+    override fun clear() {
+        head = null
+        tail = null
+        _size = 0
+    }
+
+    override fun addAll(elements: Collection<T>): Boolean {
+        elements.forEach {
+            add(it)
+        }
+        return true
+    }
+
+    override fun add(element: T): Boolean {
+        append(element)
+        return true
+    }
 
     override fun isEmpty(): Boolean {
         return _size == 0
@@ -106,6 +124,39 @@ class LinkedList<T : Any> : Collection<T>, MutableIterable<T> {
     }
 
     override fun iterator(): MutableIterator<T> = LinkedListIterator(this)
+
+    override fun retainAll(elements: Collection<T>): Boolean {
+        var result = false
+        val iterator = iterator()
+        while (iterator.hasNext()) {
+            val item = iterator.next()
+            if (!elements.contains(item)) {
+                iterator.remove()
+                result = true
+            }
+        }
+        return result
+    }
+
+    override fun removeAll(elements: Collection<T>): Boolean {
+        var result = false
+        for (item in elements) {
+            result = remove(item) || result
+        }
+        return result
+    }
+
+    override fun remove(element: T): Boolean {
+        val iterator = iterator()
+        while (iterator.hasNext()) {
+            val item = iterator.next()
+            if (item == element) {
+                iterator.remove()
+                return true
+            }
+        }
+        return false
+    }
 
     override fun toString(): String {
         return when {
