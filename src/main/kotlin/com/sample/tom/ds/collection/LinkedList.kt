@@ -3,7 +3,7 @@ package com.sample.tom.ds.collection
 /**
  * $head -> $node0 -> $node1 -> $tail -> null
  */
-class LinkedList<T : Any> {
+class LinkedList<T : Any> : Iterable<T> {
     private var head: Node<T>? = null
     private var tail: Node<T>? = null
     private var size = 0
@@ -86,6 +86,8 @@ class LinkedList<T : Any> {
         size--
         return nodeAfterThis.value
     }
+
+    override fun iterator(): Iterator<T> = LinkedListIterator(this)
 
     override fun toString(): String {
         return when {

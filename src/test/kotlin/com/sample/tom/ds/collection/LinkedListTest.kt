@@ -120,4 +120,19 @@ class LinkedListTest {
         list2.removeAfter(list2.nodeAt(2).shouldNotBeNull()) shouldBe "4"
         "$list2" shouldBe "1 -> 2 -> 3"
     }
+
+    @Test
+    fun `list should support the iterator`() {
+        val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        val iterator = list1.iterator()
+        iterator.hasNext() shouldBe true
+        iterator.next() shouldBe "1"
+        iterator.hasNext() shouldBe true
+        iterator.next() shouldBe "2"
+        iterator.hasNext() shouldBe true
+        iterator.next() shouldBe "3"
+        iterator.hasNext() shouldBe true
+        iterator.next() shouldBe "4"
+        iterator.hasNext() shouldBe false
+    }
 }
