@@ -3,19 +3,37 @@ package com.sample.tom.ds.collection
 /**
  * $head -> $node0 -> $node1 -> $tail -> null
  */
-class LinkedList<T : Any> : Iterable<T> {
+class LinkedList<T : Any> : Iterable<T>, Collection<T> {
     private var head: Node<T>? = null
     private var tail: Node<T>? = null
-    private var size = 0
+    private var _size = 0
+    override val size: Int
+        get() = _size
 
-    fun getSize(): Int = size
+    override fun isEmpty(): Boolean {
+        return _size == 0
+    }
+
+    override fun containsAll(elements: Collection<T>): Boolean {
+        elements.forEach {
+            if (!contains(it)) return false
+        }
+        return true
+    }
+
+    override fun contains(element: T): Boolean {
+        for (el in this) {
+            if (el == element) return true
+        }
+        return false
+    }
 
     fun push(item: T): LinkedList<T> = apply {
         head = Node(value = item, next = head)
         if (tail == null) {
             tail = head
         }
-        size++
+        _size++
     }
 
     fun append(item: T): LinkedList<T> = apply {
@@ -26,7 +44,7 @@ class LinkedList<T : Any> : Iterable<T> {
             val newNode = Node(item)
             tail.next = newNode
             this.tail = newNode
-            size++
+            _size++
         }
     }
 
@@ -48,7 +66,7 @@ class LinkedList<T : Any> : Iterable<T> {
         val atNodeNext = atNode.next
         val newNode = Node(item, next = atNodeNext)
         atNode.next = newNode
-        size++
+        _size++
         return newNode
     }
 
@@ -56,8 +74,8 @@ class LinkedList<T : Any> : Iterable<T> {
         val head = head ?: return null
         val nextAfter = head.next
         this.head = nextAfter
-        size--
-        if (getSize() == 0) {
+        _size--
+        if (size == 0) {
             tail = null
         }
         return head.also { it.next = null }
@@ -65,12 +83,12 @@ class LinkedList<T : Any> : Iterable<T> {
 
     fun removeLast(): Node<T>? {
         val tail = tail ?: return null
-        nodeAt(getSize() - 2)?.let {
+        nodeAt(size - 2)?.let {
             it.next = null
             this.tail = it
-            size--
+            _size--
         }
-        if (size == 0) {
+        if (isEmpty()) {
             this.tail = null
             head = null
         }
@@ -83,7 +101,7 @@ class LinkedList<T : Any> : Iterable<T> {
             tail = node
         }
         node.next = nodeAfterThis.next
-        size--
+        _size--
         return nodeAfterThis.value
     }
 
@@ -91,7 +109,7 @@ class LinkedList<T : Any> : Iterable<T> {
 
     override fun toString(): String {
         return when {
-            getSize() == 0 -> "[]"
+            isEmpty() -> "[]"
             else -> return "$head"
         }
     }

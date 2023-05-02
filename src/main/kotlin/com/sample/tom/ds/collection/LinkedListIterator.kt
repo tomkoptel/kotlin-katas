@@ -5,11 +5,11 @@ class LinkedListIterator<T : Any>(private val list: LinkedList<T>) : Iterator<T>
     private var lastNode: Node<T>? = null
 
     override fun hasNext(): Boolean {
-        return currentIndex < list.getSize()
+        return currentIndex < list.size
     }
 
     override fun next(): T {
-        if (currentIndex >= list.getSize()) throw IndexOutOfBoundsException()
+        if (currentIndex >= list.size) throw IndexOutOfBoundsException()
 
         lastNode = if (currentIndex == 0) {
             list.nodeAt(0)

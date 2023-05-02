@@ -1,5 +1,7 @@
 package com.sample.tom.ds.collection
 
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -10,22 +12,22 @@ class LinkedListTest {
     fun `push adds a value at the front`() {
         val list1 = LinkedList<String>().push("1").push("2").push("3")
         "$list1" shouldBe "3 -> 2 -> 1"
-        list1.getSize() shouldBe 3
+        list1.size shouldBe 3
 
         val list2 = LinkedList<String>().push("3").push("2").push("1")
         "$list2" shouldBe "1 -> 2 -> 3"
-        list2.getSize() shouldBe 3
+        list2.size shouldBe 3
     }
 
     @Test
     fun `push adds a value at the end`() {
         val list1 = LinkedList<String>().append("1").append("2").append("3")
         "$list1" shouldBe "1 -> 2 -> 3"
-        list1.getSize() shouldBe 3
+        list1.size shouldBe 3
 
         val list2 = LinkedList<String>().append("3").append("2").append("1")
         "$list2" shouldBe "3 -> 2 -> 1"
-        list2.getSize() shouldBe 3
+        list2.size shouldBe 3
     }
 
     @Test
@@ -57,19 +59,19 @@ class LinkedListTest {
     fun `pop removes the value at the front of the list`() {
         val list1 = LinkedList<String>().append("1").append("2").append("3")
         "${list1.pop()}" shouldBe "1"
-        list1.getSize() shouldBe 2
+        list1.size shouldBe 2
         "$list1" shouldBe "2 -> 3"
 
         "${list1.pop()}" shouldBe "2"
-        list1.getSize() shouldBe 1
+        list1.size shouldBe 1
         "$list1" shouldBe "3"
 
         "${list1.pop()}" shouldBe "3"
-        list1.getSize() shouldBe 0
+        list1.size shouldBe 0
         "$list1" shouldBe "[]"
 
         list1.pop().shouldBeNull()
-        list1.getSize() shouldBe 0
+        list1.size shouldBe 0
         "$list1" shouldBe "[]"
     }
 
@@ -77,19 +79,19 @@ class LinkedListTest {
     fun `removeLast removes the value at the end of the list`() {
         val list1 = LinkedList<String>().append("1").append("2").append("3")
         "${list1.removeLast()}" shouldBe "3"
-        list1.getSize() shouldBe 2
+        list1.size shouldBe 2
         "$list1" shouldBe "1 -> 2"
 
         "${list1.removeLast()}" shouldBe "2"
-        list1.getSize() shouldBe 1
+        list1.size shouldBe 1
         "$list1" shouldBe "1"
 
         "${list1.removeLast()}" shouldBe "1"
-        list1.getSize() shouldBe 0
+        list1.size shouldBe 0
         "$list1" shouldBe "[]"
 
         list1.removeLast().shouldBeNull()
-        list1.getSize() shouldBe 0
+        list1.size shouldBe 0
         "$list1" shouldBe "[]"
     }
 
@@ -99,21 +101,21 @@ class LinkedListTest {
 
         val node2 = list1.nodeAt(1).shouldNotBeNull()
         list1.removeAfter(node2) shouldBe "3"
-        list1.getSize() shouldBe 3
+        list1.size shouldBe 3
         "$list1" shouldBe "1 -> 2 -> 4"
 
         val node1 = list1.nodeAt(0).shouldNotBeNull()
         list1.removeAfter(node1) shouldBe "2"
-        list1.getSize() shouldBe 2
+        list1.size shouldBe 2
         "$list1" shouldBe "1 -> 4"
 
         val node4 = list1.nodeAt(1).shouldNotBeNull()
         list1.removeAfter(node4).shouldBeNull()
-        list1.getSize() shouldBe 2
+        list1.size shouldBe 2
         "$list1" shouldBe "1 -> 4"
 
         list1.removeAfter(node1) shouldBe "4"
-        list1.getSize() shouldBe 1
+        list1.size shouldBe 1
         "$list1" shouldBe "1"
 
         val list2 = LinkedList<String>().append("1").append("2").append("3").append("4")
@@ -134,5 +136,29 @@ class LinkedListTest {
         iterator.hasNext() shouldBe true
         iterator.next() shouldBe "4"
         iterator.hasNext() shouldBe false
+    }
+
+    @Test
+    fun `should support contains`() {
+        val list1 = LinkedList<String>().append("1").append("2")
+        list1.contains("1") shouldBe true
+        list1.contains("2") shouldBe true
+        list1.contains("3") shouldBe false
+    }
+
+    @Test
+    fun `should support contains all`() {
+        val list1 = LinkedList<String>().append("1").append("2")
+        val list2 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        list2.containsAll(list1).shouldBeTrue()
+        list1.containsAll(list2).shouldBeFalse()
+    }
+
+    @Test
+    fun `should support isEmpty`() {
+        val list1 = LinkedList<String>().append("1").append("2")
+        val list2 = LinkedList<String>()
+        list1.isEmpty().shouldBeFalse()
+        list2.isEmpty().shouldBeTrue()
     }
 }
