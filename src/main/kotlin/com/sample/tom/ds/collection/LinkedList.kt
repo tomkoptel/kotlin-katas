@@ -3,7 +3,7 @@ package com.sample.tom.ds.collection
 /**
  * $head -> $node0 -> $node1 -> $tail -> null
  */
-class LinkedList<T : Any> : Iterable<T>, Collection<T> {
+class LinkedList<T : Any> : Collection<T>, MutableIterable<T> {
     private var head: Node<T>? = null
     private var tail: Node<T>? = null
     private var _size = 0
@@ -75,7 +75,7 @@ class LinkedList<T : Any> : Iterable<T>, Collection<T> {
         val nextAfter = head.next
         this.head = nextAfter
         _size--
-        if (size == 0) {
+        if (isEmpty()) {
             tail = null
         }
         return head.also { it.next = null }
@@ -105,7 +105,7 @@ class LinkedList<T : Any> : Iterable<T>, Collection<T> {
         return nodeAfterThis.value
     }
 
-    override fun iterator(): Iterator<T> = LinkedListIterator(this)
+    override fun iterator(): MutableIterator<T> = LinkedListIterator(this)
 
     override fun toString(): String {
         return when {

@@ -1,6 +1,6 @@
 package com.sample.tom.ds.collection
 
-class LinkedListIterator<T : Any>(private val list: LinkedList<T>) : Iterator<T> {
+class LinkedListIterator<T : Any>(private val list: LinkedList<T>) : MutableIterator<T> {
     private var currentIndex: Int = 0
     private var lastNode: Node<T>? = null
 
@@ -18,5 +18,16 @@ class LinkedListIterator<T : Any>(private val list: LinkedList<T>) : Iterator<T>
         }
         currentIndex++
         return lastNode!!.value
+    }
+
+    override fun remove() {
+        if (currentIndex == 1) {
+            list.pop()
+        } else {
+            val prevNode = list.nodeAt(currentIndex - 2) ?: throw IllegalStateException()
+            list.removeAfter(prevNode)
+            lastNode = prevNode
+        }
+        currentIndex--
     }
 }

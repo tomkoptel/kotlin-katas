@@ -139,6 +139,35 @@ class LinkedListTest {
     }
 
     @Test
+    fun `list should support the mutable iterator`() {
+        val list1 = LinkedList<String>().append("1").append("2").append("3")
+        val iterator1 = list1.iterator()
+        iterator1.hasNext() shouldBe true
+        iterator1.next() shouldBe "1"
+        iterator1.remove()
+        iterator1.hasNext() shouldBe true
+        iterator1.next() shouldBe "2"
+        iterator1.remove()
+        iterator1.hasNext() shouldBe true
+        iterator1.next() shouldBe "3"
+        iterator1.remove()
+        iterator1.hasNext() shouldBe false
+        list1.isEmpty().shouldBeTrue()
+
+        val list2 = LinkedList<String>().append("1").append("2").append("3")
+        val iterator2 = list2.iterator()
+        iterator2.hasNext() shouldBe true
+        iterator2.next() shouldBe "1"
+        iterator2.hasNext() shouldBe true
+        iterator2.next() shouldBe "2"
+        iterator2.remove()
+        iterator2.hasNext() shouldBe true
+        iterator2.next() shouldBe "3"
+        iterator2.hasNext() shouldBe false
+        "$list2" shouldBe "1 -> 3"
+    }
+
+    @Test
     fun `should support contains`() {
         val list1 = LinkedList<String>().append("1").append("2")
         list1.contains("1") shouldBe true
