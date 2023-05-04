@@ -250,21 +250,21 @@ class LinkedListTest {
     }
 
     @Test
-    fun `reverse ext should allow us to reverse the list`() {
+    fun `immutableReverse should allow us to reverse the list`() {
         val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
-        "${list1.reverse()}" shouldBe "4 -> 3 -> 2 -> 1"
+        "${list1.immutableReverse()}" shouldBe "4 -> 3 -> 2 -> 1"
 
         val list2 = LinkedList<String>().append("1").append("2")
-        "${list2.reverse()}" shouldBe "2 -> 1"
+        "${list2.immutableReverse()}" shouldBe "2 -> 1"
 
         val list3 = LinkedList<String>().append("1")
-        "${list3.reverse()}" shouldBe "1"
+        "${list3.immutableReverse()}" shouldBe "1"
 
         val list4 = LinkedList<String>()
-        "${list4.reverse()}" shouldBe "[]"
+        "${list4.immutableReverse()}" shouldBe "[]"
 
         val list5 = LinkedList<String>().append("3").append("2").append("1").append("4").append("5")
-        "${list5.reverse()}" shouldBe "5 -> 4 -> 1 -> 2 -> 3"
+        "${list5.immutableReverse()}" shouldBe "5 -> 4 -> 1 -> 2 -> 3"
     }
 
     @Test
@@ -295,5 +295,23 @@ class LinkedListTest {
 
         val list4 = LinkedList<String>()
         list4.middleWithRunner().shouldBeNull()
+    }
+
+    @Test
+    fun `mutableReverse should allow us to reverse the list`() {
+        val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        "${list1.mutableReverse()}" shouldBe "4 -> 3 -> 2 -> 1"
+
+        val list2 = LinkedList<String>().append("1").append("2")
+        "${list2.mutableReverse()}" shouldBe "2 -> 1"
+
+        val list3 = LinkedList<String>().append("1")
+        "${list3.mutableReverse()}" shouldBe "1"
+
+        val list4 = LinkedList<String>()
+        "${list4.mutableReverse()}" shouldBe "[]"
+
+        val list5 = LinkedList<String>().append("3").append("2").append("1").append("4").append("5")
+        "${list5.mutableReverse()}" shouldBe "5 -> 4 -> 1 -> 2 -> 3"
     }
 }
