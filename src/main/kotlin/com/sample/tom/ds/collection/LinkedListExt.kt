@@ -46,3 +46,28 @@ fun <T : Any> LinkedList<T>.middleWithRunner(): T? {
     }
     return slow?.value
 }
+
+
+fun <T: Comparable<T>> LinkedList<T>.produceSortedMerge(other: LinkedList<T>): LinkedList<T> {
+    val newList = LinkedList<T>()
+    var left = nodeAt(0)
+    var right = other.nodeAt(0)
+    while (left != null && right != null) {
+        if (left.value < right.value) {
+            newList.append(left.value)
+            left = left.next
+        } else {
+            newList.append(right.value)
+            right = right.next
+        }
+    }
+    while (left != null) {
+        newList.append(left.value)
+        left = left.next
+    }
+    while (right != null) {
+        newList.append(right.value)
+        right = right.next
+    }
+    return newList
+}
