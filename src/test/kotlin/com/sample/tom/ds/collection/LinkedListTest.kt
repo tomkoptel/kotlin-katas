@@ -284,26 +284,16 @@ class LinkedListTest {
 
     @Test
     fun `middleWithRunner ext should give us middle node`() {
-//        val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
-//        "${list1.middleWithRunner()}" shouldBe "3"
-//
-//
-//        val list2 = LinkedList<String>().append("1").append("2").append("3").append("4").append("5")
-//        "${list2.middleWithRunner()}" shouldBe "3"
-//
-//        val list3 = LinkedList<String>().append("1")
-//        "${list3.middleWithRunner()}" shouldBe "1"
-//
-//        val list4 = LinkedList<String>()
-//        list4.middleWithRunner().shouldBeNull()
-        val list2 = LinkedList<String>()
-        (0..10000).forEach {
-            list2.append("$it")
-        }
-        list2.middleWithRunner()
-        val result = (0..10000).toList().sumOf {
-            it.toDouble() / 2
-        }
-        println("result = $result")
+        val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        "${list1.middleWithRunner()}" shouldBe "3"
+
+        val list2 = LinkedList<String>().append("1").append("2").append("3").append("4").append("5")
+        "${list2.middleWithRunner()}" shouldBe "3"
+
+        val list3 = LinkedList<String>().append("1")
+        "${list3.middleWithRunner()}" shouldBe "1"
+
+        val list4 = LinkedList<String>()
+        list4.middleWithRunner().shouldBeNull()
     }
 }

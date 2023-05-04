@@ -22,16 +22,12 @@ fun <T : Any> LinkedList<T>.middle(): T? {
 fun <T : Any> LinkedList<T>.middleWithRunner(): T? {
     var slow = nodeAt(0)
     var fast = nodeAt(0)
-    var traverses = 1
     while (fast != null) {
         fast = fast.next
         if (fast != null) {
             fast = fast.next
             slow = slow?.next
         }
-        traverses++
     }
-    println("size = $size traverses => $traverses")
-
     return slow?.value
 }
