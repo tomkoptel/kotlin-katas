@@ -158,6 +158,32 @@ class LinkedList<T : Any> : MutableCollection<T> {
         return false
     }
 
+    /**
+     * 1 -> 2 -> 3 -> 4
+     * step=0 current=1 -> 2 -> 3 -> 4 prev=null
+     * step=1 current=2 -> 3 -> 4 prev=1
+     * step=2 current=3 -> 4 prev=2 -> 1
+     * step=3 current=4 prev=3 -> 2 -> 1
+     * 4 -> 3 -> 2 -> 1
+     */
+    fun mutableReverse(): LinkedList<T> {
+        var current = head
+        var prev: Node<T>? = null
+
+        var step = 0
+        while (current != null) {
+            val next = current.next
+            current.next = prev
+            prev = current
+            current = next
+            step++
+        }
+
+        head = prev
+
+        return this
+    }
+
     override fun toString(): String {
         return when {
             isEmpty() -> "[]"
