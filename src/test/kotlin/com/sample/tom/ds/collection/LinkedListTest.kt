@@ -248,4 +248,52 @@ class LinkedListTest {
         list6.removeAll(list5)
         list6.isEmpty().shouldBeTrue()
     }
+
+    @Test
+    fun `reverse ext should allow us to reverse the list`() {
+        val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        "${list1.reverse()}" shouldBe "4 -> 3 -> 2 -> 1"
+
+        val list2 = LinkedList<String>().append("1").append("2")
+        "${list2.reverse()}" shouldBe "2 -> 1"
+
+        val list3 = LinkedList<String>().append("1")
+        "${list3.reverse()}" shouldBe "1"
+
+        val list4 = LinkedList<String>()
+        "${list4.reverse()}" shouldBe "[]"
+
+        val list5 = LinkedList<String>().append("3").append("2").append("1").append("4").append("5")
+        "${list5.reverse()}" shouldBe "5 -> 4 -> 1 -> 2 -> 3"
+    }
+
+    @Test
+    fun `middle ext should give us middle node`() {
+        val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        "${list1.middle()}" shouldBe "3"
+
+        val list2 = LinkedList<String>().append("1").append("2").append("3")
+        "${list2.middle()}" shouldBe "2"
+
+        val list3 = LinkedList<String>().append("1")
+        "${list3.middle()}" shouldBe "1"
+
+        val list4 = LinkedList<String>()
+        list4.middle().shouldBeNull()
+    }
+
+    @Test
+    fun `middleWithRunner ext should give us middle node`() {
+        val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        "${list1.middleWithRunner()}" shouldBe "3"
+
+        val list2 = LinkedList<String>().append("1").append("2").append("3").append("4").append("5")
+        "${list2.middleWithRunner()}" shouldBe "3"
+
+        val list3 = LinkedList<String>().append("1")
+        "${list3.middleWithRunner()}" shouldBe "1"
+
+        val list4 = LinkedList<String>()
+        list4.middleWithRunner().shouldBeNull()
+    }
 }
