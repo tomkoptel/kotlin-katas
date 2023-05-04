@@ -314,4 +314,22 @@ class LinkedListTest {
         val list5 = LinkedList<String>().append("3").append("2").append("1").append("4").append("5")
         "${list5.mutableReverse()}" shouldBe "5 -> 4 -> 1 -> 2 -> 3"
     }
+
+    @Test
+    fun `immutableRecursiveReverse should allow us to reverse the list`() {
+        val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        "${list1.immutableRecursiveReverse()}" shouldBe "4 -> 3 -> 2 -> 1"
+
+        val list2 = LinkedList<String>().append("1").append("2")
+        "${list2.immutableRecursiveReverse()}" shouldBe "2 -> 1"
+
+        val list3 = LinkedList<String>().append("1")
+        "${list3.immutableRecursiveReverse()}" shouldBe "1"
+
+        val list4 = LinkedList<String>()
+        "${list4.immutableRecursiveReverse()}" shouldBe "[]"
+
+        val list5 = LinkedList<String>().append("3").append("2").append("1").append("4").append("5")
+        "${list5.immutableRecursiveReverse()}" shouldBe "5 -> 4 -> 1 -> 2 -> 3"
+    }
 }
