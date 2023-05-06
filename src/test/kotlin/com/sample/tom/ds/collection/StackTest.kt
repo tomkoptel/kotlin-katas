@@ -25,4 +25,10 @@ class StackTest {
         stack.pop() shouldBe 1
         stack.pop().shouldBeNull()
     }
+
+    @Test
+    fun inReverseWithStack() {
+        val list = LinkedList<Int>().append(1).append(2).append(3).append(4)
+        "${list.inReverseWithStack()}" shouldBe "4 -> 3 -> 2 -> 1"
+    }
 }
