@@ -332,4 +332,11 @@ class LinkedListTest {
         val list5 = LinkedList<String>().append("3").append("2").append("1").append("4").append("5")
         "${list5.immutableRecursiveReverse()}" shouldBe "5 -> 4 -> 1 -> 2 -> 3"
     }
+
+    @Test
+    fun produceSortedMerge() {
+        val list1 = LinkedList<Int>().append(1).append(4).append(10).append(11)
+        val list2 = LinkedList<Int>().append(-1).append(2).append(3).append(6)
+        "${list1.produceSortedMerge(list2)}" shouldBe "-1 -> 1 -> 2 -> 3 -> 4 -> 6 -> 10 -> 11"
+    }
 }
