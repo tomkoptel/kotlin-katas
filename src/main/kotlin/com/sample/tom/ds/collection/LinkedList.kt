@@ -168,6 +168,7 @@ class LinkedList<T : Any> : MutableCollection<T> {
      */
     fun mutableReverse(): LinkedList<T> {
         var current = head
+        val nextTail = head
         var prev: Node<T>? = null
 
         var step = 0
@@ -180,6 +181,7 @@ class LinkedList<T : Any> : MutableCollection<T> {
         }
 
         head = prev
+        tail = nextTail
 
         return this
     }
