@@ -12,3 +12,22 @@ fun <T : Any> LinkedList<T>.inReverseWithStack(): LinkedList<T> {
     }
     return list
 }
+
+/**
+ * Check for balanced parentheses. Given a string, check if there are ( and ) characters, and return true if the parentheses in the string are balanced.
+ * The time complexity `O(n)` and space complexity `O(n)`.
+ */
+fun String.isBalanced(): Boolean {
+    val stack = Stack<Char>()
+    for (char in this) {
+        when (char) {
+            '(' -> stack.push(char)
+            ')' -> if (stack.isEmpty) {
+                return false
+            } else {
+                stack.pop()
+            }
+        }
+    }
+    return stack.isEmpty
+}
