@@ -20,5 +20,4 @@ interface Queue<T : Any> {
      * Returns the element at the front of the queue without removing it from the queue.
      */
     fun peek(): T?
-
 }

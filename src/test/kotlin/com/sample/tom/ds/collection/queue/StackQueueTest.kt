@@ -29,7 +29,6 @@ class StackQueueTest {
             -----------
             )
         """.trimIndent()
-
     }
 
     @Test
