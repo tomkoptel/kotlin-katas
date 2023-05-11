@@ -19,6 +19,8 @@ class IsStringPermutatedTest {
         "aaa".isAPermutationOf("aaa") shouldBe true
         "abc".isAPermutationOf("abc") shouldBe true
         "bca".isAPermutationOf("abc") shouldBe true
+
+        "Dog".isAPermutationOf("goD") shouldBe true
     }
 
     @Test
@@ -28,31 +30,36 @@ class IsStringPermutatedTest {
         "abc".isAPermutationOf("abcc") shouldBe false
         "abc".isAPermutationOf("abcc") shouldBe false
         "abc".isAPermutationOf("abcc") shouldBe false
+        "Dog".isAPermutationOf("god") shouldBe false
     }
 
     @Test
     fun `the string is a permutation of another using isAPermutationOfVector`() {
-        "listen".isAPermutationOfVector("silent") shouldBe true
-        "triangle".isAPermutationOfVector("integral") shouldBe true
-        "cat".isAPermutationOfVector("act") shouldBe true
-        "debit card".isAPermutationOfVector("bad credit") shouldBe true
+        "listen".isAPermutationOfUsingBitVector("silent") shouldBe true
+        "triangle".isAPermutationOfUsingBitVector("integral") shouldBe true
+        "cat".isAPermutationOfUsingBitVector("act") shouldBe true
+        "debit card".isAPermutationOfUsingBitVector("bad credit") shouldBe true
 
-        "abc".isAPermutationOfVector("cba") shouldBe true
-        "aaa".isAPermutationOfVector("aaa") shouldBe true
-        "abc".isAPermutationOfVector("abc") shouldBe true
-        "abc".isAPermutationOfVector("bca") shouldBe true
-        "cba".isAPermutationOfVector("abc") shouldBe true
-        "aaa".isAPermutationOfVector("aaa") shouldBe true
-        "abc".isAPermutationOfVector("abc") shouldBe true
-        "bca".isAPermutationOfVector("abc") shouldBe true
+        "abc".isAPermutationOfUsingBitVector("cba") shouldBe true
+        "aaa".isAPermutationOfUsingBitVector("aaa") shouldBe true
+        "abc".isAPermutationOfUsingBitVector("abc") shouldBe true
+        "abc".isAPermutationOfUsingBitVector("bca") shouldBe true
+        "cba".isAPermutationOfUsingBitVector("abc") shouldBe true
+        "aaa".isAPermutationOfUsingBitVector("aaa") shouldBe true
+        "abc".isAPermutationOfUsingBitVector("abc") shouldBe true
+        "bca".isAPermutationOfUsingBitVector("abc") shouldBe true
+
+        "Dog".isAPermutationOfUsingBitVector("goD") shouldBe true
     }
 
     @Test
     fun `the string is not a permutation of another using isAPermutationOfVector`() {
-        "abc".isAPermutationOfVector("abca") shouldBe false
-        "abc".isAPermutationOfVector("abcb") shouldBe false
-        "abc".isAPermutationOfVector("abcc") shouldBe false
-        "abc".isAPermutationOfVector("abcc") shouldBe false
-        "abc".isAPermutationOfVector("abcc") shouldBe false
+        "abc".isAPermutationOfUsingBitVector("abca") shouldBe false
+        "abc".isAPermutationOfUsingBitVector("abcb") shouldBe false
+        "abc".isAPermutationOfUsingBitVector("abcc") shouldBe false
+        "abc".isAPermutationOfUsingBitVector("abcc") shouldBe false
+        "abc".isAPermutationOfUsingBitVector("abcc") shouldBe false
+
+        "Dog".isAPermutationOfUsingBitVector("god") shouldBe false
     }
 }

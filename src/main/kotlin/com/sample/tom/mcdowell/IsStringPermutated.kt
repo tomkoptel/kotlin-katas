@@ -6,17 +6,28 @@ fun String.isAPermutationOf(other: String): Boolean {
     return left == right
 }
 
-fun String.isAPermutationOfVector(other: String): Boolean {
+fun String.isAPermutationOfUsingBitVector(other: String): Boolean {
     if (length != other.length) return false
 
-    var leftVector = 0
-    var rightVector = 0
-    for (i in indices) {
-        val leftChar = this[i].code
-        val rightChar = this[i].code
-        leftVector = leftVector or (1 shl leftChar)
-        rightVector = rightVector or (1 shl rightChar)
-    }
+    val leftVector = generateBitVector(this)
+    val rightVector = generateBitVector(other)
 
     return leftVector == rightVector
+}
+
+private fun generateBitVector(str: String): Long {
+    var vector = 0L
+
+    for (char in str) {
+        val charCode = char.code
+        if (charCode in 'a'.code..'z'.code) {
+            // For uppercase characters, we set the bit position from 0 to 25 (corresponding to 'A' to 'Z').
+            vector = vector or (1L shl (charCode - 65))
+        } else if (charCode in 'A'.code..'Z'.code) {
+            // For lowercase characters, we set the bit position from 26 to 51 (corresponding to 'a' to 'z').
+            vector = vector or (1L shl (charCode - 97 + 26))
+        }
+    }
+
+    return vector
 }
