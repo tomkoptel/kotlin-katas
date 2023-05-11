@@ -29,4 +29,30 @@ class IsStringPermutatedTest {
         "abc".isAPermutationOf("abcc") shouldBe false
         "abc".isAPermutationOf("abcc") shouldBe false
     }
+
+    @Test
+    fun `the string is a permutation of another using isAPermutationOfVector`() {
+        "listen".isAPermutationOfVector("silent") shouldBe true
+        "triangle".isAPermutationOfVector("integral") shouldBe true
+        "cat".isAPermutationOfVector("act") shouldBe true
+        "debit card".isAPermutationOfVector("bad credit") shouldBe true
+
+        "abc".isAPermutationOfVector("cba") shouldBe true
+        "aaa".isAPermutationOfVector("aaa") shouldBe true
+        "abc".isAPermutationOfVector("abc") shouldBe true
+        "abc".isAPermutationOfVector("bca") shouldBe true
+        "cba".isAPermutationOfVector("abc") shouldBe true
+        "aaa".isAPermutationOfVector("aaa") shouldBe true
+        "abc".isAPermutationOfVector("abc") shouldBe true
+        "bca".isAPermutationOfVector("abc") shouldBe true
+    }
+
+    @Test
+    fun `the string is not a permutation of another using isAPermutationOfVector`() {
+        "abc".isAPermutationOfVector("abca") shouldBe false
+        "abc".isAPermutationOfVector("abcb") shouldBe false
+        "abc".isAPermutationOfVector("abcc") shouldBe false
+        "abc".isAPermutationOfVector("abcc") shouldBe false
+        "abc".isAPermutationOfVector("abcc") shouldBe false
+    }
 }
