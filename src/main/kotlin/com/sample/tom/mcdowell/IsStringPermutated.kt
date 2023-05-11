@@ -31,3 +31,22 @@ private fun generateBitVector(str: String): Long {
 
     return vector
 }
+
+fun String.isAPermutationOfUsingFrequencyMap(other: String): Boolean {
+    if (length != other.length) return false
+    val frequencyMap = mutableMapOf<Char, Int>()
+    for (i in indices) {
+        val char = this[i]
+        frequencyMap[char] = frequencyMap.getOrDefault(char, 0) + 1
+    }
+
+    for (i in indices) {
+        val rightChar = other[i]
+        frequencyMap[rightChar] = frequencyMap.getOrDefault(rightChar, 0) - 1
+        if (frequencyMap.contains(rightChar) && frequencyMap[rightChar]!! < 0) {
+            return false
+        }
+    }
+
+    return true
+}

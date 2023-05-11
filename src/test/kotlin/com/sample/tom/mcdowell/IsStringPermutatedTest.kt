@@ -34,7 +34,7 @@ class IsStringPermutatedTest {
     }
 
     @Test
-    fun `the string is a permutation of another using isAPermutationOfVector`() {
+    fun `the string is a permutation of another using isAPermutationOfUsingBitVector`() {
         "listen".isAPermutationOfUsingBitVector("silent") shouldBe true
         "triangle".isAPermutationOfUsingBitVector("integral") shouldBe true
         "cat".isAPermutationOfUsingBitVector("act") shouldBe true
@@ -53,7 +53,7 @@ class IsStringPermutatedTest {
     }
 
     @Test
-    fun `the string is not a permutation of another using isAPermutationOfVector`() {
+    fun `the string is not a permutation of another using isAPermutationOfUsingBitVector`() {
         "abc".isAPermutationOfUsingBitVector("abca") shouldBe false
         "abc".isAPermutationOfUsingBitVector("abcb") shouldBe false
         "abc".isAPermutationOfUsingBitVector("abcc") shouldBe false
@@ -61,5 +61,34 @@ class IsStringPermutatedTest {
         "abc".isAPermutationOfUsingBitVector("abcc") shouldBe false
 
         "Dog".isAPermutationOfUsingBitVector("god") shouldBe false
+    }
+
+    @Test
+    fun `the string is a permutation of another using isAPermutationOfUsingFrequencyMap`() {
+        "listen".isAPermutationOfUsingFrequencyMap("silent") shouldBe true
+        "triangle".isAPermutationOfUsingFrequencyMap("integral") shouldBe true
+        "cat".isAPermutationOfUsingFrequencyMap("act") shouldBe true
+        "debit card".isAPermutationOfUsingFrequencyMap("bad credit") shouldBe true
+
+        "abc".isAPermutationOfUsingFrequencyMap("cba") shouldBe true
+        "aaa".isAPermutationOfUsingFrequencyMap("aaa") shouldBe true
+        "abc".isAPermutationOfUsingFrequencyMap("abc") shouldBe true
+        "abc".isAPermutationOfUsingFrequencyMap("bca") shouldBe true
+        "cba".isAPermutationOfUsingFrequencyMap("abc") shouldBe true
+        "aaa".isAPermutationOfUsingFrequencyMap("aaa") shouldBe true
+        "abc".isAPermutationOfUsingFrequencyMap("abc") shouldBe true
+        "bca".isAPermutationOfUsingFrequencyMap("abc") shouldBe true
+        "Dog".isAPermutationOfUsingFrequencyMap("goD") shouldBe true
+    }
+
+    @Test
+    fun `the string is not a permutation of another using isAPermutationOfUsingFrequencyMap`() {
+        "abc".isAPermutationOfUsingFrequencyMap("abca") shouldBe false
+        "abc".isAPermutationOfUsingFrequencyMap("abcb") shouldBe false
+        "abc".isAPermutationOfUsingFrequencyMap("abcc") shouldBe false
+        "abc".isAPermutationOfUsingFrequencyMap("abcc") shouldBe false
+        "abc".isAPermutationOfUsingFrequencyMap("abcc") shouldBe false
+        "Dog".isAPermutationOfUsingFrequencyMap("god") shouldBe false
+        "aabb".isAPermutationOfUsingFrequencyMap("bxaa") shouldBe false
     }
 }
