@@ -43,6 +43,11 @@ fun String.isAPermutationOfUsingFrequencyMap(other: String): Boolean {
     for (i in indices) {
         val rightChar = other[i]
         frequencyMap[rightChar] = frequencyMap.getOrDefault(rightChar, 0) - 1
+        // we increment the frequency count for each character in the first string,
+        // and then decrement the count for each character in the second string.
+        // If the count becomes negative during the iteration, it means the second
+        // string contains a character that is not present in the first string, or
+        // it contains more occurrences of a character than the first string.
         if (frequencyMap.contains(rightChar) && frequencyMap[rightChar]!! < 0) {
             return false
         }
