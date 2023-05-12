@@ -1,4 +1,4 @@
-package com.sample.tom.ds.collection.queue
+package com.sample.tom.ds.queue
 
 fun <T : Any> arrayListQueueOf(collection: Collection<T>): Queue<T> {
     val queue = ArrayListQueue<T>()

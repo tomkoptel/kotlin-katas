@@ -1,4 +1,6 @@
-package com.sample.tom.ds.collection
+package com.sample.tom.ds.stack
+
+import com.sample.tom.ds.list.LinkedList
 
 /**
  * Given a linked list, print the nodes in reverse order. You should not use recursion to solve this problem.

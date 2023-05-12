@@ -1,6 +1,6 @@
-package com.sample.tom.ds.collection.queue
+package com.sample.tom.ds.queue
 
-import com.sample.tom.ds.collection.Stack
+import com.sample.tom.ds.stack.Stack
 
 fun <T : Any> stackQueueOf(collection: Collection<T>): Queue<T> {
     val queue = StackQueue<T>()

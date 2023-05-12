@@ -1,4 +1,4 @@
-package com.sample.tom.ds.collection
+package com.sample.tom.ds.stack
 
 @Suppress("FunctionName")
 fun <T : Any> Stack(): Stack<T> = Stack.Impl()

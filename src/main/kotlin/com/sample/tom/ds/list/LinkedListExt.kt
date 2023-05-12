@@ -1,4 +1,4 @@
-package com.sample.tom.ds.collection
+package com.sample.tom.ds.list
 
 fun <T : Any> LinkedList<T>.immutableReverse(): LinkedList<T> {
     if (isEmpty()) return this

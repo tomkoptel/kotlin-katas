@@ -1,4 +1,4 @@
-package com.sample.tom.ds.collection
+package com.sample.tom.ds.list
 
 /**
  * $head -> $node0 -> $node1 -> $tail -> null

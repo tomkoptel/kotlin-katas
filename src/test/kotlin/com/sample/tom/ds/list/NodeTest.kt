@@ -1,4 +1,4 @@
-package com.sample.tom.ds.collection
+package com.sample.tom.ds.list
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test

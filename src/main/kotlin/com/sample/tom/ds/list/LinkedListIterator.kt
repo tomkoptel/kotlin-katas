@@ -1,4 +1,4 @@
-package com.sample.tom.ds.collection
+package com.sample.tom.ds.list
 
 class LinkedListIterator<T : Any>(private val list: LinkedList<T>) : MutableIterator<T> {
     private var currentIndex: Int = 0
