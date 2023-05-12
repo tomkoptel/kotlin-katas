@@ -40,7 +40,7 @@ fun String.isAPermutationOfUsingFrequencyMap(other: String): Boolean {
         frequencyMap[char] = frequencyMap.getOrDefault(char, 0) + 1
     }
 
-    for (i in indices) {
+    for (i in other.indices) {
         val rightChar = other[i]
         frequencyMap[rightChar] = frequencyMap.getOrDefault(rightChar, 0) - 1
         // we increment the frequency count for each character in the first string,
