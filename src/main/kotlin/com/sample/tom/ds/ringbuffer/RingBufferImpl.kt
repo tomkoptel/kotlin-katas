@@ -4,21 +4,29 @@ package com.sample.tom.ds.ringbuffer
 class RingBufferImpl<T : Any>(
     private val capacity: Int,
 ) : RingBuffer<T>, Iterable<T> {
-    private val storage = arrayOf<Any>(capacity)
+    private val storage = Array<Any?>(size = capacity, init = { null })
     private var readPosition = 0
     private var writePosition = 0
-    private var available = 0
 
-    override val size: Int = available
+    override val size: Int
+        get() {
+            val diff = writePosition - readPosition
+            return if (diff < 0) {
+                TODO()
+            } else if (writePosition == readPosition) {
+                return capacity
+            } else {
+                return diff
+            }
+        }
 
     override fun enqueue(item: T) {
-        storage[writePosition] = item
-        if (writePosition == capacity - 1) {
+        // Adding more elements than the capacity
+        if (writePosition == capacity) {
             writePosition = 0
-        } else {
-            writePosition++
-            available++
         }
+        storage[writePosition] = item
+        writePosition++
     }
 
     override fun dequeue(): T? {
