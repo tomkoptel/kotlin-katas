@@ -1,5 +1,6 @@
-package com.sample.tom.ds.collection
+package com.sample.tom.ds.stack
 
+import com.sample.tom.ds.list.LinkedList
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull
