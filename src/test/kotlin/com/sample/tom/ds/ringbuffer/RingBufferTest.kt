@@ -44,6 +44,20 @@ class RingBufferTest {
     }
 
     @Test
+    fun `when the read and write positions point to the same position`() {
+        val ringBuffer = ringBuffer<String>(3)
+
+        ringBuffer.enqueue("Apple")
+        ringBuffer.enqueue("Banana")
+        ringBuffer.enqueue("Cherry")
+
+        ringBuffer.dequeue() shouldBe "Apple"
+        ringBuffer.enqueue("Orange")
+
+        ringBuffer.size shouldBe 3
+    }
+
+    @Test
     fun testCheckingElements() {
         val ringBuffer = ringBuffer<Char>(4)
 

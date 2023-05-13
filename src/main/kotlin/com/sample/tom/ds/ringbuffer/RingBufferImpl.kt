@@ -1,45 +1,86 @@
 package com.sample.tom.ds.ringbuffer
 
-@Suppress("UNCHECKED_CAST")
 class RingBufferImpl<T : Any>(
     private val capacity: Int,
 ) : RingBuffer<T>, Iterable<T> {
-    private val storage = Array<Any?>(size = capacity, init = { null })
-    private var readPosition = 0
-    private var writePosition = 0
+    private val buffer: Array<Any?> = arrayOfNulls<Any?>(capacity)
 
-    override val size: Int
-        get() {
-            val diff = writePosition - readPosition
-            return if (diff < 0) {
-                TODO()
-            } else if (writePosition == readPosition) {
-                return capacity
-            } else {
-                return diff
-            }
-        }
+    // Head - remove from the head (read index)
+    private var head = 0
+
+    // Tail - add to the tail (write index)
+    private var tail = 0
+
+    // How many items are currently in the queue
+    private var _size = 0
+
+    override val size: Int get() = _size
 
     override fun enqueue(item: T) {
-        // Adding more elements than the capacity
-        if (writePosition == capacity) {
-            writePosition = 0
+        if (size == capacity) {
+            buffer[tail] = item
+            tail = (tail + 1) % capacity
+            head = tail
+        } else {
+            buffer[tail] = item
+            tail = (tail + 1) % capacity
+            _size++
         }
-        storage[writePosition] = item
-        writePosition++
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun dequeue(): T? {
-        storage[readPosition]
-        return null
+        if (_size == 0) return null
+        val element = buffer[head] as T
+        buffer[head] = null
+        head = (head + 1) % capacity
+        _size--
+        return element
     }
 
-    override fun peekFirst(): T? = null
-    override fun peekLast(): T? = null
-    override fun peekAt(position: Int): T? = null
-    override fun clear() = Unit
+    @Suppress("UNCHECKED_CAST")
+    override fun peekFirst(): T? {
+        return buffer[head] as? T
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun peekLast(): T? {
+        val lastPosition = (tail - 1 + capacity) % capacity
+        return buffer[lastPosition] as? T
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun peekAt(position: Int): T? {
+        val index = (head + position) % capacity
+        return buffer[index] as? T
+    }
+
+    override fun clear() {
+        buffer.fill(null)
+        tail = 0
+        head = 0
+        _size = 0
+    }
 
     override fun iterator(): Iterator<T> {
-        TODO("Not yet implemented")
+        return object : Iterator<T> {
+            private var currentIndex = head
+            private var remaining = size
+
+            override fun hasNext(): Boolean {
+                return remaining > 0
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            override fun next(): T {
+                if (!hasNext()) {
+                    throw NoSuchElementException("No more elements in the RingBuffer.")
+                }
+                val element = buffer[currentIndex] as T
+                currentIndex = (currentIndex + 1) % capacity
+                remaining--
+                return element
+            }
+        }
     }
 }
