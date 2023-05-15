@@ -5,7 +5,7 @@ class RingBufferImpl<T : Any>(
 ) : RingBuffer<T>, Iterable<T> {
     private val buffer: Array<Any?> = arrayOfNulls<Any?>(capacity)
 
-    // Head - remove from the head (read index)
+    // Head - remove from the head (red index)
     private var head = 0
 
     // Tail - add to the tail (write index)
@@ -43,12 +43,20 @@ class RingBufferImpl<T : Any>(
         return buffer[head] as? T
     }
 
+    /**
+     * If capacity is 5 and tail = 3, then tail - 1 is 2, and lastIndex is 2.
+     * If capacity is 5 and tail = 0, then tail - 1 is -1. Adding capacity gives 4, and % capacity gives us 4. So lastIndex is 4.
+     */
     @Suppress("UNCHECKED_CAST")
     override fun peekLast(): T? {
         val lastPosition = (tail - 1 + capacity) % capacity
         return buffer[lastPosition] as? T
     }
 
+    /**
+     * If capacity is 5, head = 2 and position = 3, then head + position is 5, and 5 % 5 gives us 0. So the index is 0.
+     * If capacity is 5, head = 0 and position = 6, then head + position is 6, and 6 % 5 gives us 1. So the index wraps around to 1.
+     */
     @Suppress("UNCHECKED_CAST")
     override fun peekAt(position: Int): T? {
         val index = (head + position) % capacity
