@@ -41,6 +41,33 @@ class TreeNode<T>(val value: T) {
         }
     }
 
+    /**
+     * Visit 'Beverages'.
+     * Add children of 'Beverages'. The queue is 'Hot' > 'Cold'.
+     * Dequeue 'Hot' and visit it. Then add its children to queue. The queue 'cold' > 'tea' > 'coffee' > 'cocoa'.
+     * Dequeue 'Cold' and visit it. Then add its children to queue. The queue 'tea' > 'coffee' > 'cocoa' > 'soda' > 'milk'.
+     * Dequeue 'Tea' and visit it. Then add its children to queue. The queue 'coffee' > 'cocoa' > 'soda' > 'milk' > 'black' > 'green' > 'chai'.
+     * Dequeue 'Coffee' and visit it. Then add its children to queue. No children. The queue 'cocoa' > 'soda' > 'milk' > 'black' > 'green' > 'chai'.
+     * Dequeue 'Cocoa' and visit it. Then add its children to queue. No children. The queue 'soda' > 'milk' > 'black' > 'green' > 'chai'.
+     * Dequeue 'Soda' and visit it. Then add its children to queue. The queue 'milk' > 'black' > 'green' > 'chai' > 'ginger ale' > 'bitter lemon'.
+     * Dequeue 'Milk' and visit it. Then add its children to queue. No children. The queue 'black' > 'green' > 'chai' > 'ginger ale' > 'bitter lemon'.
+     * Dequeue 'Black' and visit it. Then add its children to queue. No children. The queue 'green' > 'chai' > 'ginger ale' > 'bitter lemon'.
+     * Dequeue 'Green' and visit it. Then add its children to queue. No children. The queue 'chai' > 'ginger ale' > 'bitter lemon'.
+     * Dequeue 'Chai' and visit it. Then add its children to queue. No children. The queue 'ginger ale' > 'bitter lemon'.
+     * Dequeue 'Ginger Ale' and visit it. Then add its children to queue. No children. The queue 'bitter lemon'.
+     * Dequeue 'Bitter Lemon' and visit it. Then add its children to queue. No children. The queue is empty.
+     */
+    fun levelOrder(visitor: Visitor<T>) {
+        val queue = mutableListOf(this)
+        while (queue.isNotEmpty()) {
+            val node = queue.removeFirst()
+            visitor(node)
+            node.children.forEach {
+                queue.add(it)
+            }
+        }
+    }
+
     override fun toString(): String {
         return "TreeNode(value=$value, children=$children)"
     }

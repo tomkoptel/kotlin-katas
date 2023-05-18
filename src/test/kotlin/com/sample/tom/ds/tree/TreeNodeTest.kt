@@ -23,6 +23,19 @@ internal class TreeNodeTest {
 
     @Test
     fun depthFirst2() {
+        val tree = makeBeverageTree()
+
+        tree.depthFirst { println(it.value) }
+    }
+
+    @Test
+    fun levelOrder() {
+        val tree = makeBeverageTree()
+
+        tree.levelOrder { println(it.value) }
+    }
+
+    private fun makeBeverageTree(): TreeNode<String> {
         val tree = TreeNode("Beverages")
 
         val hot = TreeNode("hot")
@@ -58,7 +71,6 @@ internal class TreeNodeTest {
 
         soda.add(gingerAle)
         soda.add(bitterLemon)
-
-        tree.depthFirst { println(it.value) }
+        return tree
     }
 }
