@@ -83,6 +83,25 @@ class TreeNode<T>(val value: T) {
         return result
     }
 
+    fun printEachLevel() {
+        val queue = arrayListOf(this)
+        var levelCount: Int
+
+        while (queue.isNotEmpty()) {
+            levelCount = queue.size
+
+            while (levelCount > 0) {
+                val node = queue.removeAt(0)
+                print("${node.value} ")
+                node.children.forEach {
+                    queue.add(it)
+                }
+                levelCount--
+            }
+            println()
+        }
+    }
+
     override fun toString(): String {
         return "TreeNode(value=$value, children=$children)"
     }

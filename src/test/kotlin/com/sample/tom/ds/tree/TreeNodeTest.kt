@@ -43,6 +43,7 @@ internal class TreeNodeTest {
         val tree = makeBeverageTree()
         tree.search("ginger ale").shouldNotBeNull().value shouldBe "ginger ale"
         tree.search("WKD Blue").shouldBeNull()
+        tree.printEachLevel()
     }
 
     private fun makeBeverageTree(): TreeNode<String> {
