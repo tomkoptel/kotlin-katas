@@ -1,5 +1,8 @@
 package com.sample.tom.ds.tree
 
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
 internal class TreeNodeTest {
@@ -33,6 +36,13 @@ internal class TreeNodeTest {
         val tree = makeBeverageTree()
 
         tree.levelOrder { println(it.value) }
+    }
+
+    @Test
+    fun search() {
+        val tree = makeBeverageTree()
+        tree.search("ginger ale").shouldNotBeNull().value shouldBe "ginger ale"
+        tree.search("WKD Blue").shouldBeNull()
     }
 
     private fun makeBeverageTree(): TreeNode<String> {

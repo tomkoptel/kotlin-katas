@@ -68,6 +68,21 @@ class TreeNode<T>(val value: T) {
         }
     }
 
+    /**
+     * If there are multiple matches, the last match wins.
+     */
+    fun search(value: T): TreeNode<T>? {
+        var result: TreeNode<T>? = null
+
+        levelOrder {
+            if (it.value == value) {
+                result = it
+            }
+        }
+
+        return result
+    }
+
     override fun toString(): String {
         return "TreeNode(value=$value, children=$children)"
     }
