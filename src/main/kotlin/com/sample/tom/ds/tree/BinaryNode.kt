@@ -6,6 +6,24 @@ class BinaryNode<T>(val value: T) {
     var leftChild: BinaryNode<T>? = null
     var rightChild: BinaryNode<T>? = null
 
+    fun preOrder(visitor: Visitor<T>) {
+        visitor(value)
+        leftChild?.preOrder(visitor)
+        rightChild?.preOrder(visitor)
+    }
+
+    fun inOrder(visitor: Visitor<T>) {
+        leftChild?.inOrder(visitor)
+        visitor(value)
+        rightChild?.inOrder(visitor)
+    }
+
+    fun postOrder(visitor: Visitor<T>) {
+        leftChild?.postOrder(visitor)
+        rightChild?.postOrder(visitor)
+        visitor(value)
+    }
+
     override fun toString() = diagram(this)
 
     //  ┌──null\n┌──9\n│ └──8\n7\n│ ┌──5\n└──1\n└──0
