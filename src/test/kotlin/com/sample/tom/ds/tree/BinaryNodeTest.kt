@@ -37,6 +37,18 @@ class BinaryNodeTest {
         orderedResult() shouldBe "0->5->1->8->9->7"
     }
 
+    @Test
+    fun height() {
+        binaryNode().height shouldBe 3
+        BinaryNode(0).height shouldBe 1
+    }
+
+    @Test
+    fun heightRecursive() {
+        binaryNode().height() shouldBe 3
+        BinaryNode(0).height() shouldBe 1
+    }
+
     private fun binaryNode(): BinaryNode<Int> {
         val zero = BinaryNode(0)
         val one = BinaryNode(1)
