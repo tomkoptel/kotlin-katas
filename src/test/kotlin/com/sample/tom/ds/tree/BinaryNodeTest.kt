@@ -49,6 +49,18 @@ class BinaryNodeTest {
         BinaryNode(0).height() shouldBe 1
     }
 
+    @Test
+    fun serialize() {
+        val binaryNode = binaryNode()
+        println("before")
+        println(binaryNode)
+
+        val list = binaryNode.serialize()
+        val binaryNode1 = BinaryNode.deserialize(list)
+        println("after")
+        println(binaryNode1)
+    }
+
     private fun binaryNode(): BinaryNode<Int> {
         val zero = BinaryNode(0)
         val one = BinaryNode(1)

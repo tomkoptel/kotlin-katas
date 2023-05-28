@@ -49,6 +49,44 @@ class BinaryNode<T>(val value: T) {
         } ?: 0
     }
 
+    fun serialize(): MutableList<T?> {
+        val result = mutableListOf<T?>()
+        serializeHelper(this) { value -> result.add(value) }
+        return result
+    }
+
+    private fun <T> serializeHelper(node: BinaryNode<T>?, visitor: Visitor<T?>) {
+        if (node == null) {
+            visitor(null)
+            return
+        }
+
+        visitor(node.value)
+        serializeHelper(node.leftChild, visitor)
+        serializeHelper(node.rightChild, visitor)
+    }
+
+    companion object {
+        fun <T> deserialize(data: List<T?>): BinaryNode<T?>? {
+            val iterator = data.iterator()
+            return deserializeHelper(iterator)
+        }
+
+        private fun <T> deserializeHelper(iterator: Iterator<T?>): BinaryNode<T?>? {
+            if (!iterator.hasNext()) {
+                return null
+            }
+
+            val value = iterator.next() ?: return null
+
+            val node = BinaryNode<T?>(value)
+            node.leftChild = deserializeHelper(iterator)
+            node.rightChild = deserializeHelper(iterator)
+
+            return node
+        }
+    }
+
     override fun toString() = diagram(this)
 
     //  ┌──null\n┌──9\n│ └──8\n7\n│ ┌──5\n└──1\n└──0
