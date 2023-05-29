@@ -1,6 +1,6 @@
 package com.sample.tom.ds.tree
 
-typealias Visitor<T> = (TreeNode<T>) -> Unit
+typealias TreeNodeVisitor<T> = (TreeNode<T>) -> Unit
 
 class TreeNode<T>(val value: T) {
     private val children = mutableListOf<TreeNode<T>>()
@@ -30,7 +30,7 @@ class TreeNode<T>(val value: T) {
      *
      * So the order of visit is 'Beverage' > 'Hot' > 'Tea' > 'Choco' > 'Cold' > 'Shake'.
      */
-    fun depthFirst(visitor: Visitor<T>) {
+    fun depthFirst(visitor: TreeNodeVisitor<T>) {
         val stack = mutableListOf(this)
         while (stack.isNotEmpty()) {
             val node = stack.removeLast()
@@ -57,7 +57,7 @@ class TreeNode<T>(val value: T) {
      * Dequeue 'Ginger Ale' and visit it. Then add its children to queue. No children. The queue 'bitter lemon'.
      * Dequeue 'Bitter Lemon' and visit it. Then add its children to queue. No children. The queue is empty.
      */
-    fun levelOrder(visitor: Visitor<T>) {
+    fun levelOrder(visitor: TreeNodeVisitor<T>) {
         val queue = mutableListOf(this)
         while (queue.isNotEmpty()) {
             val node = queue.removeFirst()
