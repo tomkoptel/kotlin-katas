@@ -33,14 +33,19 @@ class BinarySearchTree<T : Comparable<T>> {
     }
 
     fun contains(value: T): Boolean {
-        val root = root ?: return false
-        var found = false
-        root.preOrder { node ->
-            if (node == value) {
-                found = true
+        var current = root
+        while (current != null) {
+            if (current.value == value) {
+                return true
+            }
+
+            current = if (value < current.value) {
+                current.leftChild
+            } else {
+                current.rightChild
             }
         }
-        return found
+        return false
     }
 
     private fun insertInternal(node: BinaryNode<T>?, value: T): BinaryNode<T> {
