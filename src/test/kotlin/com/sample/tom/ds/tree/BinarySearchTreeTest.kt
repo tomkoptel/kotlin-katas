@@ -1,5 +1,6 @@
 package com.sample.tom.ds.tree
 
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.string.shouldContain
 import org.junit.jupiter.api.Test
 
@@ -27,14 +28,7 @@ class BinarySearchTreeTest {
 
     @Test
     fun insertRecursive() {
-        val tree = BinarySearchTree<Int>().apply {
-            insertRecursive(3)
-            insertRecursive(1)
-            insertRecursive(4)
-            insertRecursive(0)
-            insertRecursive(2)
-            insertRecursive(5)
-        }
+        val tree = tree()
         tree.toString() shouldContain """
              ┌──5
             ┌──4
@@ -44,6 +38,21 @@ class BinarySearchTreeTest {
             └──1
              └──0
         """.trimIndent()
+    }
+
+    @Test
+    fun contains() {
+        val tree = tree()
+        tree.contains(4).shouldBeTrue()
+    }
+
+    private fun tree() = BinarySearchTree<Int>().apply {
+        insertRecursive(3)
+        insertRecursive(1)
+        insertRecursive(4)
+        insertRecursive(0)
+        insertRecursive(2)
+        insertRecursive(5)
     }
 }
 
