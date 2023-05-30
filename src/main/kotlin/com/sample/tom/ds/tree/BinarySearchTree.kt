@@ -3,7 +3,7 @@ package com.sample.tom.ds.tree
 class BinarySearchTree<T : Comparable<T>> {
     private var root: BinaryNode<T>? = null
 
-    fun insert(value: T) {
+    fun insertRecursive(value: T) {
         root = insertInternal(root, value)
     }
 

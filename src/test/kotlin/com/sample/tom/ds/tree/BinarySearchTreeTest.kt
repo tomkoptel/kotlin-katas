@@ -7,12 +7,12 @@ class BinarySearchTreeTest {
     @Test
     fun insert() {
         val tree = BinarySearchTree<Int>().apply {
-            insert(3)
-            insert(1)
-            insert(4)
-            insert(0)
-            insert(2)
-            insert(5)
+            insertRecursive(3)
+            insertRecursive(1)
+            insertRecursive(4)
+            insertRecursive(0)
+            insertRecursive(2)
+            insertRecursive(5)
         }
         tree.toString() shouldContain """
              ┌──5
