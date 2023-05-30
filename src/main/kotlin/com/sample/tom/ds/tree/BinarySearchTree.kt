@@ -58,6 +58,41 @@ class BinarySearchTree<T : Comparable<T>> {
         return node
     }
 
+    fun removeRecursive(value: T) {
+        root = removeRecursive(root, value)
+    }
+
+    private fun removeRecursive(node: BinaryNode<T>?, value: T): BinaryNode<T>? {
+        node ?: return null
+
+        when {
+            value == node.value -> {
+                if (node.leftChild == null && node.rightChild == null) {
+                    return null
+                }
+                if (node.leftChild == null) {
+                    return node.rightChild
+                }
+                if (node.rightChild == null) {
+                    return node.leftChild
+                }
+                node.rightChild?.min?.value?.let {
+                    node.value = it
+                }
+                node.rightChild = removeRecursive(node.rightChild, node.value)
+            }
+
+            value < node.value -> {
+                node.leftChild = removeRecursive(node.leftChild, value)
+            }
+
+            value > node.value -> {
+                node.rightChild = removeRecursive(node.rightChild, value)
+            }
+        }
+
+        return node
+    }
 
     override fun toString(): String {
         return root?.let { "$it" } ?: "empty"
