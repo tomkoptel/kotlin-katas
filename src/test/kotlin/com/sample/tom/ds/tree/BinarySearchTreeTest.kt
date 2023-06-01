@@ -59,6 +59,19 @@ class BinarySearchTreeTest {
         """.trimIndent()
     }
 
+    @Test
+    fun remove() {
+        val tree = tree()
+        tree.remove(3)
+        "$tree" shouldContain """
+            ┌──5
+            4
+            │ ┌──2
+            └──1
+             └──0
+        """.trimIndent()
+    }
+
     private fun tree() = BinarySearchTree<Int>().apply {
         insertRecursive(3)
         insertRecursive(1)
