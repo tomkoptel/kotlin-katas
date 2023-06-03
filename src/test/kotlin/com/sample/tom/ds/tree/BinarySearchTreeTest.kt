@@ -72,6 +72,139 @@ class BinarySearchTreeTest {
         """.trimIndent()
     }
 
+    @Test
+    fun remove_leave_left() {
+        val tree = biggerTree()
+        "$tree" shouldContain """
+             ┌──50
+            ┌──40
+            │ └──35
+            30
+            │  ┌──25
+            │ ┌──20
+            │ │ │ ┌──12
+            │ │ └──11
+            │ │  └──null
+            └──10
+             │ ┌──null
+             └──9
+              └──8
+        """.trimIndent()
+        tree.remove(8)
+        "$tree" shouldContain """
+             ┌──50
+            ┌──40
+            │ └──35
+            30
+            │  ┌──25
+            │ ┌──20
+            │ │ │ ┌──12
+            │ │ └──11
+            │ │  └──null
+            └──10
+             └──9
+        """.trimIndent()
+    }
+
+    @Test
+    fun remove_leave_right() {
+        val tree = biggerTree()
+        "$tree" shouldContain """
+             ┌──50
+            ┌──40
+            │ └──35
+            30
+            │  ┌──25
+            │ ┌──20
+            │ │ │ ┌──12
+            │ │ └──11
+            │ │  └──null
+            └──10
+             │ ┌──null
+             └──9
+              └──8
+        """.trimIndent()
+        tree.remove(50)
+        "$tree" shouldContain """
+             ┌──null
+            ┌──40
+            │ └──35
+            30
+            │  ┌──25
+            │ ┌──20
+            │ │ │ ┌──12
+            │ │ └──11
+            │ │  └──null
+            └──10
+             │ ┌──null
+             └──9
+              └──8
+        """.trimIndent()
+    }
+
+    @Test
+    fun remove_node_with_2_branches() {
+        val tree = biggerTree()
+        "$tree" shouldContain """
+             ┌──50
+            ┌──40
+            │ └──35
+            30
+            │  ┌──25
+            │ ┌──20
+            │ │ │ ┌──12
+            │ │ └──11
+            │ │  └──null
+            └──10
+             │ ┌──null
+             └──9
+              └──8
+        """.trimIndent()
+        tree.remove(20)
+        "$tree" shouldContain """
+             ┌──50
+            ┌──40
+            │ └──35
+            30
+            │  ┌──null
+            │ ┌──25
+            │ │ │ ┌──12
+            │ │ └──11
+            │ │  └──null
+            └──10
+             │ ┌──null
+             └──9
+              └──8
+        """.trimIndent()
+    }
+
+    private fun biggerTree() = BinarySearchTree<Int>().apply {
+        /**
+            ┌──50
+        ┌──40
+        │   └──null
+        30
+        │    ┌──25
+        │   ┌──20
+        │   │ └──11
+        └──10
+            │ ┌──null
+            └──9
+              └──8
+         */
+        insert(30)
+        insert(10)
+        insert(40)
+        insert(9)
+        insert(20)
+        insert(50)
+        insert(25)
+        insert(8)
+        insert(11)
+        insert(35)
+        insert(12)
+    }
+
     private fun tree() = BinarySearchTree<Int>().apply {
         insertRecursive(3)
         insertRecursive(1)
