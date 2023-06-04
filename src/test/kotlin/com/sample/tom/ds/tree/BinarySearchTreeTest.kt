@@ -178,6 +178,42 @@ class BinarySearchTreeTest {
         """.trimIndent()
     }
 
+    @Test
+    fun remove_root_node() {
+        val tree = biggerTree()
+        "$tree" shouldContain """
+             ┌──50
+            ┌──40
+            │ └──35
+            30
+            │  ┌──25
+            │ ┌──20
+            │ │ │ ┌──12
+            │ │ └──11
+            │ │  └──null
+            └──10
+             │ ┌──null
+             └──9
+              └──8
+        """.trimIndent()
+        tree.remove(30)
+        "$tree" shouldContain """
+             ┌──50
+            ┌──40
+            │ └──null
+            35
+            │  ┌──25
+            │ ┌──20
+            │ │ │ ┌──12
+            │ │ └──11
+            │ │  └──null
+            └──10
+             │ ┌──null
+             └──9
+              └──8
+        """.trimIndent()
+    }
+
     private fun biggerTree() = BinarySearchTree<Int>().apply {
         /**
             ┌──50
