@@ -193,6 +193,66 @@ class BinarySearchTree<T : Comparable<T>> {
         return successor
     }
 
+    val isBSTRecursive: Boolean
+        get() {
+            return isBST(root, min = null, max = null)
+        }
+
+    private fun isBST(node: BinaryNode<T>?, min: T?, max: T?): Boolean {
+        node ?: return true
+
+        if (min != null && node.value <= min) {
+            return false
+        } else if (max != null && node.value > max) {
+            return false
+        }
+        return isBST(node.leftChild, min, node.value) && isBST(node.rightChild, node.value, max)
+    }
+
+    /**
+     * 1. We use three stacks: stack to store the nodes, minStack to store the lower bounds, and maxStack to store the upper bounds.
+     * 2. We initialize the stacks by pushing the root node onto the stack and null onto both minStack and maxStack.
+     * 3. We iterate as long as the stack is not empty.
+     * 4. Within the loop, we pop a node from the stack and retrieve the corresponding min and max values from the respective stacks.
+     * 5. If the current node is not null, we perform the validation by checking if its value violates the min and max bounds. If it does, we return false.
+     * 6. If the validation is successful, we push the left child, along with the same min value and the current node's value as the new max value, onto the respective stacks.
+     * 7. We also push the right child, along with the current node's value as the new min value and the same max value, onto the respective stacks.
+     * 8. Repeat steps 4-7 until we have processed all nodes in the tree.
+     * 9. If the validation completes without any violations, we return true.
+     */
+    val isBSTNonRecursive: Boolean
+        get() {
+            val stack = ArrayDeque<BinaryNode<T>?>()
+            val minStack = ArrayDeque<T?>()
+            val maxStack = ArrayDeque<T?>()
+
+            stack.addFirst(root)
+            minStack.addFirst(null)
+            maxStack.addFirst(null)
+
+            while (!stack.isEmpty()) {
+                val current = stack.removeFirst()
+                val min = minStack.removeFirst()
+                val max = maxStack.removeFirst()
+
+                if (current != null) {
+                    if ((min != null && current.value <= min) || (max != null && current.value > max)) {
+                        return false
+                    }
+
+                    stack.addFirst(current.leftChild)
+                    minStack.addFirst(min)
+                    maxStack.addFirst(current.value)
+
+                    stack.addFirst(current.rightChild)
+                    minStack.addFirst(current.value)
+                    maxStack.addFirst(max)
+                }
+            }
+
+            return true
+        }
+
     override fun toString(): String {
         return root?.let { "$it" } ?: "empty"
     }

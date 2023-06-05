@@ -214,11 +214,21 @@ class BinarySearchTreeTest {
         """.trimIndent()
     }
 
+    @Test
+    fun isBSTNonRecursive() {
+        biggerTree().isBSTNonRecursive.shouldBeTrue()
+    }
+
+    @Test
+    fun isBSTRecursive() {
+        biggerTree().isBSTRecursive.shouldBeTrue()
+    }
+
     private fun biggerTree() = BinarySearchTree<Int>().apply {
         /**
             ┌──50
         ┌──40
-        │   └──null
+        │   └──35
         30
         │    ┌──25
         │   ┌──20
