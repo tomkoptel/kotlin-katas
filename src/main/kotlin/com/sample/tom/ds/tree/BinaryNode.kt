@@ -125,4 +125,22 @@ class BinaryNode<T>(var value: T) {
             }
         } ?: "${root}null\n"
     }
+
+    override fun equals(other: Any?): Boolean {
+        // 2
+        return if (other != null && other is BinaryNode<*>) {
+            this.value == other.value &&
+                this.leftChild == other.leftChild &&
+                this.rightChild == other.rightChild
+        } else {
+            false
+        }
+    }
+
+    override fun hashCode(): Int {
+        var result = value?.hashCode() ?: 0
+        result = 31 * result + (leftChild?.hashCode() ?: 0)
+        result = 31 * result + (rightChild?.hashCode() ?: 0)
+        return result
+    }
 }
