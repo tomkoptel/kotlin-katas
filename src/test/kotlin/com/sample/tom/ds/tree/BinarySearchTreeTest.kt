@@ -234,32 +234,36 @@ class BinarySearchTreeTest {
     @Test
     fun `contains tree`() {
         (biggerTree().contains(biggerTree())).shouldBeTrue()
-        (biggerTree().contains(BinarySearchTree<Int>().apply {
-            insert(30)
-            insert(10)
-            insert(40)
-            insert(9)
-            insert(8)
-            insert(11)
-            insert(35)
-            insert(12)
-        })).shouldBeTrue()
+        (
+            biggerTree().contains(
+                BinarySearchTree<Int>().apply {
+                    insert(30)
+                    insert(10)
+                    insert(40)
+                    insert(9)
+                    insert(8)
+                    insert(11)
+                    insert(35)
+                    insert(12)
+                }
+            )
+            ).shouldBeTrue()
         (biggerTree().contains(tree())).shouldBeFalse()
     }
 
     private fun biggerTree() = BinarySearchTree<Int>().apply {
         /**
-            ┌──50
-        ┌──40
-        │   └──35
-        30
-        │    ┌──25
-        │   ┌──20
-        │   │ └──11
-        └──10
-            │ ┌──null
-            └──9
-              └──8
+         ┌──50
+         ┌──40
+         │   └──35
+         30
+         │    ┌──25
+         │   ┌──20
+         │   │ └──11
+         └──10
+         │ ┌──null
+         └──9
+         └──8
          */
         insert(30)
         insert(10)
@@ -283,4 +287,3 @@ class BinarySearchTreeTest {
         insertRecursive(5)
     }
 }
-
