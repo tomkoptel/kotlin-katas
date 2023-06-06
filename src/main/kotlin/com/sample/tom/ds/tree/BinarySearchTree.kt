@@ -297,6 +297,20 @@ class BinarySearchTree<T : Comparable<T>> {
         return true
     }
 
+    fun contains(tree: BinarySearchTree<T>): Boolean {
+        val values = mutableSetOf<T>()
+        root?.inOrder {
+            values.add(it)
+        }
+
+        var isEqual = true
+        tree.root?.inOrder {
+            isEqual = isEqual && values.contains(it)
+        }
+
+        return isEqual
+    }
+
     override fun hashCode(): Int {
         return root?.hashCode() ?: 0
     }
