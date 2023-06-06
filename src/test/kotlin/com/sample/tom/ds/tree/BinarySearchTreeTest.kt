@@ -1,5 +1,6 @@
 package com.sample.tom.ds.tree
 
+import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.string.shouldContain
 import org.junit.jupiter.api.Test
@@ -222,6 +223,12 @@ class BinarySearchTreeTest {
     @Test
     fun isBSTRecursive() {
         biggerTree().isBSTRecursive.shouldBeTrue()
+    }
+
+    @Test
+    fun equals() {
+        (biggerTree() == biggerTree()).shouldBeTrue()
+        (biggerTree() == tree()).shouldBeFalse()
     }
 
     private fun biggerTree() = BinarySearchTree<Int>().apply {

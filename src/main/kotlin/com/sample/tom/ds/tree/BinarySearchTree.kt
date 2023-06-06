@@ -1,5 +1,7 @@
 package com.sample.tom.ds.tree
 
+import kotlin.collections.ArrayDeque
+
 class BinarySearchTree<T : Comparable<T>> {
     private var root: BinaryNode<T>? = null
 
@@ -255,5 +257,47 @@ class BinarySearchTree<T : Comparable<T>> {
 
     override fun toString(): String {
         return root?.let { "$it" } ?: "empty"
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        val otherTree = other as BinarySearchTree<T>
+        val currentTree = this
+
+        val currentNodes = ArrayDeque<BinaryNode<T>?>().also {
+            it.addFirst(currentTree.root)
+        }
+        val otherNodes = ArrayDeque<BinaryNode<T>?>().also {
+            it.addFirst(otherTree.root)
+        }
+
+        while (currentNodes.isNotEmpty()) {
+            val currentNode = currentNodes.removeFirst()
+            val otherNode = otherNodes.removeFirst()
+
+            if (currentNode != null && otherNode != null) {
+                if (currentNode != otherNode) {
+                    return false
+                }
+                currentNodes.addFirst(currentNode.rightChild)
+                currentNodes.addFirst(currentNode.leftChild)
+
+                otherNodes.addFirst(otherNode.rightChild)
+                otherNodes.addFirst(otherNode.leftChild)
+            } else if (currentNode == null && otherNode != null) {
+                return false
+            } else if (currentNode != null && otherNode == null) {
+                return false
+            }
+        }
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return root?.hashCode() ?: 0
     }
 }
