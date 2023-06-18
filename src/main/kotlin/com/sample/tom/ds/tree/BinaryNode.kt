@@ -2,9 +2,11 @@ package com.sample.tom.ds.tree
 
 typealias Visitor<T> = (T) -> Unit
 
-class BinaryNode<T>(val value: T) {
+class BinaryNode<T>(var value: T) {
     var leftChild: BinaryNode<T>? = null
     var rightChild: BinaryNode<T>? = null
+
+    val min: BinaryNode<T> get() = leftChild?.min ?: this
 
     fun preOrder(visitor: Visitor<T>) {
         visitor(value)
@@ -122,5 +124,23 @@ class BinaryNode<T>(val value: T) {
                 right + root + "${node.value}\n" + left
             }
         } ?: "${root}null\n"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        // 2
+        return if (other != null && other is BinaryNode<*>) {
+            this.value == other.value &&
+                this.leftChild == other.leftChild &&
+                this.rightChild == other.rightChild
+        } else {
+            false
+        }
+    }
+
+    override fun hashCode(): Int {
+        var result = value?.hashCode() ?: 0
+        result = 31 * result + (leftChild?.hashCode() ?: 0)
+        result = 31 * result + (rightChild?.hashCode() ?: 0)
+        return result
     }
 }
