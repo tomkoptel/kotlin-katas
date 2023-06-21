@@ -110,9 +110,22 @@ class AVLTree<T : Comparable<T>> {
     /**
      * How many leaf nodes are there in a perfectly balanced tree of height 3?
      * What about a perfectly balanced tree of height h?
+     *
+     * Since each node has two children, the number of leaf nodes doubles as the height increases.
      */
     fun leafNodes(): Int {
         return 2.0.pow((root?.height ?: 0)).roundToInt()
+    }
+
+    /**
+     * How many nodes are there in a perfectly balanced tree of height 3?
+     * What about a perfectly balanced tree of height h?
+     *
+     * the total number of nodes is one less than the number of leaf nodes of the next level.
+     */
+    fun allNodes(): Int {
+        val height = (root?.height ?: 0)
+        return 2.0.pow(height + 1).roundToInt() - 1
     }
 
     override fun toString(): String {

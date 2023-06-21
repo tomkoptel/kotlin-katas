@@ -80,4 +80,15 @@ class AVLTreeTest {
 
         tree.leafNodes() shouldBe 8
     }
+
+    @Test
+    fun allNodes() {
+        val tree = AVLTree<Int>()
+
+        (0..14).forEach {
+            tree.insert(it)
+        }
+
+        tree.allNodes() shouldBe 15
+    }
 }
