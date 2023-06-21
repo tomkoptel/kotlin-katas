@@ -1,5 +1,6 @@
 package com.sample.tom.ds.tree
 
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.junit.jupiter.api.Test
 
@@ -67,5 +68,16 @@ class AVLTreeTest {
         7
         └──6
         """.trimIndent()
+    }
+
+    @Test
+    fun leafNodes() {
+        val tree = AVLTree<Int>()
+
+        (0..14).forEach {
+            tree.insert(it)
+        }
+
+        tree.leafNodes() shouldBe 8
     }
 }

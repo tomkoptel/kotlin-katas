@@ -1,5 +1,8 @@
 package com.sample.tom.ds.tree
 
+import kotlin.math.pow
+import kotlin.math.roundToInt
+
 class AVLTree<T : Comparable<T>> {
     private var root: AVLNode<T>? = null
 
@@ -7,7 +10,7 @@ class AVLTree<T : Comparable<T>> {
         root = internalInsert(root, value)
     }
 
-    private fun internalInsert(node: AVLNode<T>?,value: T): AVLNode<T>? {
+    private fun internalInsert(node: AVLNode<T>?, value: T): AVLNode<T>? {
         node ?: return AVLNode(value)
         if (value < node.value) {
             node.leftChild = internalInsert(node.leftChild, value)
@@ -102,6 +105,14 @@ class AVLTree<T : Comparable<T>> {
         val balancedNode = balance(node)
         balancedNode?.recomputeHeight()
         return balancedNode
+    }
+
+    /**
+     * How many leaf nodes are there in a perfectly balanced tree of height 3?
+     * What about a perfectly balanced tree of height h?
+     */
+    fun leafNodes(): Int {
+        return 2.0.pow((root?.height ?: 0)).roundToInt()
     }
 
     override fun toString(): String {
