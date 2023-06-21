@@ -1,7 +1,5 @@
 package com.sample.tom.ds.tree
 
-import java.lang.Integer.max
-
 class AVLTree<T : Comparable<T>> {
     private var root: AVLNode<T>? = null
 
@@ -66,6 +64,44 @@ class AVLTree<T : Comparable<T>> {
         node?.recomputeHeight()
         pivot?.recomputeHeight()
         return pivot
+    }
+
+    fun remove(value: T) {
+        root = removeRecursive(root, value)
+    }
+
+    private fun removeRecursive(node: AVLNode<T>?, value: T): AVLNode<T>? {
+        node ?: return null
+
+        when {
+            value == node.value -> {
+                if (node.leftChild == null && node.rightChild == null) {
+                    return null
+                }
+                if (node.leftChild == null) {
+                    return node.rightChild
+                }
+                if (node.rightChild == null) {
+                    return node.leftChild
+                }
+                node.rightChild?.min?.value?.let {
+                    node.value = it
+                }
+                node.rightChild = removeRecursive(node.rightChild, node.value)
+            }
+
+            value < node.value -> {
+                node.leftChild = removeRecursive(node.leftChild, value)
+            }
+
+            value > node.value -> {
+                node.rightChild = removeRecursive(node.rightChild, value)
+            }
+        }
+
+        val balancedNode = balance(node)
+        balancedNode?.recomputeHeight()
+        return balancedNode
     }
 
     override fun toString(): String {

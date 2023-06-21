@@ -9,6 +9,8 @@ class AVLNode<T>(var value: T) {
     private val rightHeight: Int get() = rightChild?.height ?: -1
     val balanceFactor: Int get() = leftHeight - rightHeight
 
+    val min: AVLNode<T> get() = leftChild?.min ?: this
+
     fun recomputeHeight() {
         height = Math.max(leftHeight, rightHeight) + 1
     }
