@@ -30,4 +30,22 @@ class AVLTreeTest {
               └──0
         """.trimIndent()
     }
+
+    @Test
+    fun left_right_rotate() {
+        val tree = AVLTree<Int>()
+
+        tree.insert(50)
+        tree.insert(6)
+        tree.insert(7)
+        tree.insert(8)
+
+        tree.toString() shouldContain """
+         ┌──null
+        ┌──50
+        │ └──8
+        7
+        └──6
+        """.trimIndent()
+    }
 }
