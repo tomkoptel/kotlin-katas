@@ -5,8 +5,8 @@ package com.sample.tom.ds.trie
  * a reference to the parent helps to remove() the node
  */
 class TrieNode<Key : Any>(
-    private val key: Key? = null,
-    private val parent: TrieNode<Key>? = null,
+    val key: Key? = null,
+    val parent: TrieNode<Key>? = null,
 ) {
     /**
      *

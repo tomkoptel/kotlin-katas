@@ -5,13 +5,15 @@ class Trie<Key : Any> {
 
     companion object {
         fun Trie<Char>.insert(word: String): Trie<Char> {
-            return apply {
-                insert(word.toList())
-            }
+            return apply { insert(word.toList()) }
         }
 
         fun Trie<Char>.contains(word: String): Boolean {
             return contains(word.toList())
+        }
+
+        fun Trie<Char>.remove(word: String): Trie<Char> {
+            return  apply { remove(word.toList()) }
         }
     }
 
@@ -34,5 +36,23 @@ class Trie<Key : Any> {
             current = child
         }
         return current.isTerminating
+    }
+
+    fun remove(keys: List<Key>) {
+        var current = root
+
+        keys.forEach { element ->
+            val child = current.children[element] ?: return
+            current = child
+        }
+
+        if (!current.isTerminating) return
+
+        current.isTerminating = false
+        val parent = current.parent
+        while (parent != null && current.children.isEmpty() && !current.isTerminating) {
+            parent.children.remove(current.key)
+            current = parent
+        }
     }
 }
