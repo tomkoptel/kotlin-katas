@@ -1,16 +1,16 @@
 package com.sample.tom.ds.trie
 
-import org.junit.jupiter.api.Test
-import com.sample.tom.ds.trie.Trie.Companion.insert
-import com.sample.tom.ds.trie.Trie.Companion.contains
-import com.sample.tom.ds.trie.Trie.Companion.remove
-import com.sample.tom.ds.trie.Trie.Companion.allPrefixesRecursive
 import com.sample.tom.ds.trie.Trie.Companion.allLists
 import com.sample.tom.ds.trie.Trie.Companion.allPrefixesNonRecursive
+import com.sample.tom.ds.trie.Trie.Companion.allPrefixesRecursive
+import com.sample.tom.ds.trie.Trie.Companion.contains
+import com.sample.tom.ds.trie.Trie.Companion.insert
+import com.sample.tom.ds.trie.Trie.Companion.remove
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.Test
 
 class TrieTest {
     @Test

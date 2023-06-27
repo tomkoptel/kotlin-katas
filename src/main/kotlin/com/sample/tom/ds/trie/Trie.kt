@@ -2,7 +2,6 @@ package com.sample.tom.ds.trie
 
 import java.util.*
 
-
 class Trie<Key : Any> {
     private val root = TrieNode<Key>()
     private val storedLists: MutableSet<List<Key>> = mutableSetOf()
@@ -131,5 +130,5 @@ class Trie<Key : Any> {
 
     val isEmpty: Boolean get() = root.children.isEmpty()
 
-    fun lists(): List<List<Key>>  = storedLists.toList()
+    fun lists(): List<List<Key>> = storedLists.toList()
 }
