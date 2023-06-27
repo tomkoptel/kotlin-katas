@@ -1,5 +1,8 @@
 package com.sample.tom.ds.trie
 
+import java.util.*
+
+
 class Trie<Key : Any> {
     private val root = TrieNode<Key>()
 
@@ -16,8 +19,12 @@ class Trie<Key : Any> {
             return apply { remove(word.toList()) }
         }
 
-        fun Trie<Char>.collections(prefix: String): List<String> {
-            return collections(prefix.toList()).map { it.joinToString(separator = "") }
+        fun Trie<Char>.allPrefixesRecursive(prefix: String): List<String> {
+            return allPrefixesRecursive(prefix.toList()).map { it.joinToString(separator = "") }
+        }
+
+        fun Trie<Char>.allPrefixesNonRecursive(prefix: String): List<String> {
+            return allPrefixesNonRecursive(prefix.toList()).map { it.joinToString(separator = "") }
         }
     }
 
@@ -60,16 +67,16 @@ class Trie<Key : Any> {
         }
     }
 
-    fun collections(prefix: List<Key>): List<List<Key>> {
+    fun allPrefixesRecursive(prefix: List<Key>): List<List<Key>> {
         var current = root
         prefix.forEach { element ->
             val child = current.children[element] ?: return emptyList()
             current = child
         }
-        return collections(prefix, current)
+        return allPrefixesRecursive(prefix, current)
     }
 
-    private fun collections(prefix: List<Key>, node: TrieNode<Key>): List<List<Key>> {
+    private fun allPrefixesRecursive(prefix: List<Key>, node: TrieNode<Key>): List<List<Key>> {
         val results = mutableListOf<List<Key>>()
 
         if (node.isTerminating) {
@@ -77,8 +84,36 @@ class Trie<Key : Any> {
         }
 
         node.children.forEach { (key, node) ->
-            val subprefixes = collections(prefix + key, node)
+            val subprefixes = allPrefixesRecursive(prefix + key, node)
             results.addAll(subprefixes)
+        }
+
+        return results
+    }
+
+    fun allPrefixesNonRecursive(prefix: List<Key>): List<List<Key>> {
+        var current = root
+        prefix.forEach { element ->
+            val child = current.children[element] ?: return emptyList()
+            current = child
+        }
+
+        val results = mutableListOf<List<Key>>()
+        val stack = Stack<Pair<List<Key>, TrieNode<Key>>>().also {
+            it.push(prefix to current)
+        }
+
+        while (stack.size > 0) {
+            val (currentPrefix, currentNode) = stack.pop()
+
+            if (currentNode.isTerminating) {
+                results.add(currentPrefix)
+            }
+
+            currentNode.children.forEach { (key, node) ->
+                val subPrefix = currentPrefix + key
+                stack.push(subPrefix to node)
+            }
         }
 
         return results

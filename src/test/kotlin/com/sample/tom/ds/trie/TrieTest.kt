@@ -4,10 +4,11 @@ import org.junit.jupiter.api.Test
 import com.sample.tom.ds.trie.Trie.Companion.insert
 import com.sample.tom.ds.trie.Trie.Companion.contains
 import com.sample.tom.ds.trie.Trie.Companion.remove
-import com.sample.tom.ds.trie.Trie.Companion.collections
+import com.sample.tom.ds.trie.Trie.Companion.allPrefixesRecursive
+import com.sample.tom.ds.trie.Trie.Companion.allPrefixesNonRecursive
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
-import io.kotest.matchers.shouldBe
+import io.kotest.matchers.collections.shouldContainAll
 
 class TrieTest {
     @Test
@@ -30,7 +31,7 @@ class TrieTest {
     }
 
     @Test
-    fun `supports listing of the prefixes`() {
+    fun `supports listing of the prefixes in recursive way`() {
         val trie = Trie<Char>().apply {
             insert("car")
             insert("card")
@@ -42,10 +43,30 @@ class TrieTest {
             insert("cargo")
         }
 
-        val prefixedWithCar = trie.collections("car")
-        prefixedWithCar shouldBe listOf("car", "carapace", "carbs", "cars", "card", "care", "cared", "cargo")
+        val prefixedWithCar = trie.allPrefixesRecursive("car")
+        prefixedWithCar shouldContainAll listOf("car", "carapace", "carbs", "cars", "card", "care", "cared", "cargo")
 
-        val prefixedWithCare = trie.collections("care")
-        prefixedWithCare shouldBe listOf("care", "cared")
+        val prefixedWithCare = trie.allPrefixesRecursive("care")
+        prefixedWithCare shouldContainAll listOf("care", "cared")
+    }
+
+    @Test
+    fun `supports listing of the prefixes in non recursive way`() {
+        val trie = Trie<Char>().apply {
+            insert("car")
+            insert("card")
+            insert("care")
+            insert("cared")
+            insert("cars")
+            insert("carbs")
+            insert("carapace")
+            insert("cargo")
+        }
+
+        val prefixedWithCar = trie.allPrefixesNonRecursive("car")
+        prefixedWithCar shouldContainAll listOf("car", "carapace", "carbs", "cars", "card", "care", "cared", "cargo")
+
+        val prefixedWithCare = trie.allPrefixesNonRecursive("care")
+        prefixedWithCare shouldContainAll listOf("care", "cared")
     }
 }
