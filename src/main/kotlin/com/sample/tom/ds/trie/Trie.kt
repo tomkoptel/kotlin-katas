@@ -5,6 +5,7 @@ import java.util.*
 
 class Trie<Key : Any> {
     private val root = TrieNode<Key>()
+    private val storedLists: MutableSet<List<Key>> = mutableSetOf()
 
     companion object {
         fun Trie<Char>.insert(word: String): Trie<Char> {
@@ -42,6 +43,7 @@ class Trie<Key : Any> {
         }
 
         current.isTerminating = true
+        storedLists.add(keys)
     }
 
     fun contains(keys: List<Key>): Boolean {
@@ -50,6 +52,7 @@ class Trie<Key : Any> {
             val child = current.children[element] ?: return false
             current = child
         }
+        storedLists.remove(keys)
         return current.isTerminating
     }
 
@@ -124,30 +127,9 @@ class Trie<Key : Any> {
         return results
     }
 
-    val listsCount: Int get() = lists().size
+    val listsCount: Int get() = storedLists.size
 
     val isEmpty: Boolean get() = root.children.isEmpty()
 
-    fun lists(): List<List<Key>> {
-        val current = root
-        val results = mutableListOf<List<Key>>()
-        val stack = Stack<Pair<List<Key>, TrieNode<Key>>>().also {
-            it.push(listOfNotNull(current.key) to root)
-        }
-
-        while (stack.size > 0) {
-            val (currentPrefix, currentNode) = stack.pop()
-
-            if (currentNode.isTerminating) {
-                results.add(currentPrefix)
-            }
-
-            currentNode.children.forEach { (key, node) ->
-                val subPrefix = currentPrefix + key
-                stack.push(subPrefix to node)
-            }
-        }
-
-        return results
-    }
+    fun lists(): List<List<Key>>  = storedLists.toList()
 }
