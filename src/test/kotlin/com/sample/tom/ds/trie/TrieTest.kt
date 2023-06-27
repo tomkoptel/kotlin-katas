@@ -5,6 +5,7 @@ import com.sample.tom.ds.trie.Trie.Companion.insert
 import com.sample.tom.ds.trie.Trie.Companion.contains
 import com.sample.tom.ds.trie.Trie.Companion.remove
 import com.sample.tom.ds.trie.Trie.Companion.allPrefixesRecursive
+import com.sample.tom.ds.trie.Trie.Companion.allLists
 import com.sample.tom.ds.trie.Trie.Companion.allPrefixesNonRecursive
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
@@ -68,5 +69,21 @@ class TrieTest {
 
         val prefixedWithCare = trie.allPrefixesNonRecursive("care")
         prefixedWithCare shouldContainAll listOf("care", "cared")
+    }
+
+    @Test
+    fun `lists return collection of all words`() {
+        val trie = Trie<Char>().apply {
+            insert("car")
+            insert("card")
+            insert("care")
+            insert("cared")
+            insert("cars")
+            insert("carbs")
+            insert("carapace")
+            insert("cargo")
+        }
+
+        trie.allLists() shouldContainAll listOf("car", "card", "care", "cared", "cars", "carbs", "carapace", "cargo")
     }
 }

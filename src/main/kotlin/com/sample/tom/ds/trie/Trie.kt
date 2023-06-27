@@ -26,6 +26,10 @@ class Trie<Key : Any> {
         fun Trie<Char>.allPrefixesNonRecursive(prefix: String): List<String> {
             return allPrefixesNonRecursive(prefix.toList()).map { it.joinToString(separator = "") }
         }
+
+        fun Trie<Char>.allLists(): List<String> {
+            return lists().map { it.joinToString(separator = "") }
+        }
     }
 
     fun insert(keys: List<Key>) {
@@ -101,6 +105,29 @@ class Trie<Key : Any> {
         val results = mutableListOf<List<Key>>()
         val stack = Stack<Pair<List<Key>, TrieNode<Key>>>().also {
             it.push(prefix to current)
+        }
+
+        while (stack.size > 0) {
+            val (currentPrefix, currentNode) = stack.pop()
+
+            if (currentNode.isTerminating) {
+                results.add(currentPrefix)
+            }
+
+            currentNode.children.forEach { (key, node) ->
+                val subPrefix = currentPrefix + key
+                stack.push(subPrefix to node)
+            }
+        }
+
+        return results
+    }
+
+    fun lists(): List<List<Key>> {
+        val current = root
+        val results = mutableListOf<List<Key>>()
+        val stack = Stack<Pair<List<Key>, TrieNode<Key>>>().also {
+            it.push(listOfNotNull(current.key) to root)
         }
 
         while (stack.size > 0) {
