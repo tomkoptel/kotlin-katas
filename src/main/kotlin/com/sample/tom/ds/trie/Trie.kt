@@ -64,10 +64,11 @@ class Trie<Key : Any> {
         if (!current.isTerminating) return
 
         current.isTerminating = false
-        val parent = current.parent
+        var parent = current.parent
         while (parent != null && current.children.isEmpty() && !current.isTerminating) {
             parent.children.remove(current.key)
             current = parent
+            parent = current.parent
         }
     }
 
@@ -124,6 +125,8 @@ class Trie<Key : Any> {
     }
 
     val listsCount: Int get() = lists().size
+
+    val isEmpty: Boolean get() = root.children.isEmpty()
 
     fun lists(): List<List<Key>> {
         val current = root

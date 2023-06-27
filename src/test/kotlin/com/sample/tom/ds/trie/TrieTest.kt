@@ -88,4 +88,14 @@ class TrieTest {
         trie.allLists() shouldContainAll listOf("car", "card", "care", "cared", "cars", "carbs", "carapace", "cargo")
         trie.listsCount shouldBe 8
     }
+
+    @Test
+    fun `is trie empty`() {
+        val trie = Trie<Char>()
+        trie.isEmpty.shouldBeTrue()
+        trie.insert("card")
+        trie.isEmpty.shouldBeFalse()
+        trie.remove("card")
+        trie.isEmpty.shouldBeTrue()
+    }
 }
