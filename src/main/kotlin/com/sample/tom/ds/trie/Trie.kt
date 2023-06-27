@@ -123,6 +123,8 @@ class Trie<Key : Any> {
         return results
     }
 
+    val listsCount: Int get() = lists().size
+
     fun lists(): List<List<Key>> {
         val current = root
         val results = mutableListOf<List<Key>>()

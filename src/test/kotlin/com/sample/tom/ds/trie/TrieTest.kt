@@ -10,6 +10,7 @@ import com.sample.tom.ds.trie.Trie.Companion.allPrefixesNonRecursive
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.collections.shouldContainAll
+import io.kotest.matchers.shouldBe
 
 class TrieTest {
     @Test
@@ -85,5 +86,6 @@ class TrieTest {
         }
 
         trie.allLists() shouldContainAll listOf("car", "card", "care", "cared", "cars", "carbs", "carapace", "cargo")
+        trie.listsCount shouldBe 8
     }
 }
