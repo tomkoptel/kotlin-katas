@@ -4,6 +4,7 @@ import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import com.sample.tom.ds.binary.CollectionExt.binarySearch
+import com.sample.tom.ds.binary.CollectionExt.findIndices
 
 class BinarySearchTest {
     @Test
@@ -50,4 +51,31 @@ class BinarySearchTest {
         strings.binarySearch("fig").shouldBeNull()
     }
 
+    @Test
+    fun findIndicesForMoreThanOneDuplicateSequential() {
+        val array = arrayListOf(1, 2, 3, 3, 3, 4, 5, 5)
+        val indices = array.findIndices(3)
+        indices shouldBe (2..4)
+    }
+
+    @Test
+    fun findIndicesForOneInstance() {
+        val array = arrayListOf(1, 2, 3, 4, 5, 6, 7, 8)
+        val indices = array.findIndices(3)
+        indices shouldBe (2..2)
+    }
+
+    @Test
+    fun findIndicesForNoInstances() {
+        val array = arrayListOf(1, 2, 3, 4, 5, 6, 7, 8)
+        val indices = array.findIndices(9)
+        indices.shouldBeNull()
+    }
+
+    @Test
+    fun findIndicesForEmptyList() {
+        val array = emptyList<Int>()
+        val indices = array.findIndices(9)
+        indices.shouldBeNull()
+    }
 }
