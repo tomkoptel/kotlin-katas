@@ -1,11 +1,11 @@
 package com.sample.tom.ds.binary
 
-import io.kotest.matchers.nulls.shouldBeNull
-import io.kotest.matchers.shouldBe
-import org.junit.jupiter.api.Test
 import com.sample.tom.ds.binary.CollectionExt.binarySearch
 import com.sample.tom.ds.binary.CollectionExt.findIndices
 import com.sample.tom.ds.binary.CollectionExt.findIndicesRecursive
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.Test
 
 class BinarySearchTest {
     @Test

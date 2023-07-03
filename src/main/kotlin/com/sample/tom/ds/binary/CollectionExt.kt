@@ -96,7 +96,6 @@ object CollectionExt {
             }
         } else if (value < this[middleIndex]) {
             endIndex(value, range.first until middleIndex)
-
         } else {
             endIndex(value, (middleIndex + 1)..range.last)
         }
