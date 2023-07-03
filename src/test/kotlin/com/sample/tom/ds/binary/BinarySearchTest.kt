@@ -5,6 +5,7 @@ import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import com.sample.tom.ds.binary.CollectionExt.binarySearch
 import com.sample.tom.ds.binary.CollectionExt.findIndices
+import com.sample.tom.ds.binary.CollectionExt.findIndicesRecursive
 
 class BinarySearchTest {
     @Test
@@ -76,6 +77,34 @@ class BinarySearchTest {
     fun findIndicesForEmptyList() {
         val array = emptyList<Int>()
         val indices = array.findIndices(9)
+        indices.shouldBeNull()
+    }
+
+    @Test
+    fun findIndicesRecursiveForMoreThanOneDuplicateSequential() {
+        val array = arrayListOf(1, 2, 3, 3, 3, 4, 5, 5)
+        val indices = array.findIndicesRecursive(3)
+        indices shouldBe (2..4)
+    }
+
+    @Test
+    fun findIndicesRecursiveForOneInstance() {
+        val array = arrayListOf(1, 2, 3, 4, 5, 6, 7, 8)
+        val indices = array.findIndicesRecursive(3)
+        indices shouldBe (2..2)
+    }
+
+    @Test
+    fun findIndicesRecursiveForNoInstances() {
+        val array = arrayListOf(1, 2, 3, 4, 5, 6, 7, 8)
+        val indices = array.findIndicesRecursive(9)
+        indices.shouldBeNull()
+    }
+
+    @Test
+    fun findIndicesRecursiveForEmptyList() {
+        val array = emptyList<Int>()
+        val indices = array.findIndicesRecursive(9)
         indices.shouldBeNull()
     }
 }
