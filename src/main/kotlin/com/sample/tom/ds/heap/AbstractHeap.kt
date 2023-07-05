@@ -16,6 +16,19 @@ abstract class AbstractHeap<T : Any> : Heap<T> {
         siftUp(count - 1)
     }
 
+    override fun remove(index: Int): T? {
+        if (index >= count) return null
+        return if (index == count - 1) {
+            elements.removeAt(count - 1)
+        } else {
+            Collections.swap(elements, index, count - 1)
+            val item = elements.removeAt(count - 1)
+            siftDown(index)
+            siftUp(index)
+            item
+        }
+    }
+
     override fun remove(): T? {
         if (isEmpty) return null
         Collections.swap(elements, 0, count - 1)
