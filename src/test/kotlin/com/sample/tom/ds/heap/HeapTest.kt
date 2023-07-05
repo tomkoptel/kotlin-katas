@@ -38,8 +38,8 @@ class HeapTest {
 
     @Test
     fun `remove from min heap`() {
-        maxHeap.remove(1) shouldBe 1
-        maxHeap.remove(1) shouldBe 1
-        maxHeap.remove(1).shouldBeNull()
+        minHeap.remove(1) shouldBe 1
+        minHeap.remove(1) shouldBe 1
+        minHeap.remove(1).shouldBeNull()
     }
 }

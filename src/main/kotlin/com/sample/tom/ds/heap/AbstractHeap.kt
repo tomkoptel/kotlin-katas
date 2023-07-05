@@ -114,21 +114,44 @@ abstract class AbstractHeap<T : Any> : Heap<T> {
         }
     }
 
-    private fun elementIndex(element: T, i: Int): Int? {
+    private fun elementIndexRecursive(element: T, i: Int): Int? {
         if (i >= count) {
-            return null // 1
+            return null
         }
         if (compare(element, elements[i]) > 0) {
-            return null // 2
+            return null
         }
         if (element == elements[i]) {
-            return i // 3
+            return i
         }
 
         val leftChildIndex = elementIndex(element, leftChildIndex(i))
         if (leftChildIndex != null) return leftChildIndex // 4
         val rightChildIndex = elementIndex(element, rightChildIndex(i))
         if (rightChildIndex != null) return rightChildIndex // 5
-        return null // 6
+        return null
+    }
+
+    private fun elementIndex(element: T, i: Int): Int? {
+        val indexQueue = ArrayDeque<Int>().also {
+            it.add(i)
+        }
+
+        while (indexQueue.isNotEmpty()) {
+            val index = indexQueue.removeFirst()
+            if (index >= count) {
+                return null
+            }
+            if (compare(element, elements[index]) > 0) {
+                return null
+            }
+            if (element == elements[index]) {
+                return index
+            }
+            indexQueue.addLast(leftChildIndex(index))
+            indexQueue.addLast(rightChildIndex(index))
+        }
+
+        return null
     }
 }
