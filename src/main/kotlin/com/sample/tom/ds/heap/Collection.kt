@@ -10,5 +10,5 @@ interface Collection<T: Any> {
 
     fun remove(): T?
 
-    fun remove(index: Int): T?
+    fun remove(element: T): T?
 }

@@ -15,7 +15,7 @@ fun <T : Comparable<T>> heapOf(elements: List<T>): Heap<T> {
     }
 }
 
-fun <T: Any> List<T>.heapify(comparator: Comparator<T>): Heap<T> {
+fun <T : Any> List<T>.heapify(comparator: Comparator<T>): Heap<T> {
     val self = this
     return object : AbstractHeap<T>() {
         init {
@@ -41,7 +41,11 @@ abstract class AbstractHeap<T : Any> : Heap<T> {
         siftUp(count - 1)
     }
 
-    override fun remove(index: Int): T? {
+    override fun remove(element: T): T? {
+        return elementIndex(element, 0)?.let(::removeAt)
+    }
+
+    private fun removeAt(index: Int): T? {
         if (index >= count) return null
         return if (index == count - 1) {
             elements.removeAt(count - 1)
@@ -108,5 +112,23 @@ abstract class AbstractHeap<T : Any> : Heap<T> {
                 siftDown(it)
             }
         }
+    }
+
+    private fun elementIndex(element: T, i: Int): Int? {
+        if (i >= count) {
+            return null // 1
+        }
+        if (compare(element, elements[i]) > 0) {
+            return null // 2
+        }
+        if (element == elements[i]) {
+            return i // 3
+        }
+
+        val leftChildIndex = elementIndex(element, leftChildIndex(i))
+        if (leftChildIndex != null) return leftChildIndex // 4
+        val rightChildIndex = elementIndex(element, rightChildIndex(i))
+        if (rightChildIndex != null) return rightChildIndex // 5
+        return null // 6
     }
 }
