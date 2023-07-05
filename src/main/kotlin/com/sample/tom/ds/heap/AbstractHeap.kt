@@ -3,6 +3,31 @@ package com.sample.tom.ds.heap
 import java.util.*
 import kotlin.collections.ArrayList
 
+fun <T : Comparable<T>> heapOf(elements: List<T>): Heap<T> {
+    return object : AbstractHeap<T>() {
+        init {
+            heapify(ArrayList(elements))
+        }
+
+        override fun compare(a: T, b: T): Int {
+            return a.compareTo(b)
+        }
+    }
+}
+
+fun <T: Any> List<T>.heapify(comparator: Comparator<T>): Heap<T> {
+    val self = this
+    return object : AbstractHeap<T>() {
+        init {
+            heapify(ArrayList(self))
+        }
+
+        override fun compare(a: T, b: T): Int {
+            return comparator.compare(a, b)
+        }
+    }
+}
+
 abstract class AbstractHeap<T : Any> : Heap<T> {
     var elements = ArrayList<T>()
 
@@ -73,6 +98,15 @@ abstract class AbstractHeap<T : Any> : Heap<T> {
             }
             Collections.swap(elements, parent, candidate)
             parent = candidate
+        }
+    }
+
+    protected fun heapify(values: ArrayList<T>) {
+        elements = values
+        if (!elements.isEmpty()) {
+            (count / 2 downTo 0).forEach {
+                siftDown(it)
+            }
         }
     }
 }
