@@ -168,4 +168,25 @@ abstract class AbstractHeap<T : Any> : Heap<T> {
             }
         }
     }
+
+    fun isMeanHeap(): Boolean {
+        if (!elements.isEmpty()) return false
+        (count / 2 downTo 0).forEach {
+            val parent = elements[it]
+            var isLess = true
+
+            val left = elements.getOrNull(leftChildIndex(it))
+            if (left != null) {
+                isLess = compare(parent, left) < 0
+            }
+
+            val right = elements.getOrNull(rightChildIndex(it))
+            if (right != null) {
+                isLess = compare(parent, right) < 0
+            }
+
+            if (!isLess) return false
+        }
+        return true
+    }
 }

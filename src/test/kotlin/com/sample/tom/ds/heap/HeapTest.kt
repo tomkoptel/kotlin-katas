@@ -1,5 +1,7 @@
 package com.sample.tom.ds.heap
 
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -62,5 +64,11 @@ class HeapTest {
             }
         }
         result shouldBe listOf(12, 8, 7, 6, 4, 3, 1, 1)
+    }
+
+    @Test
+    fun `is mean heap`() {
+        maxHeap.isMeanHeap().shouldBeFalse()
+        minHeap.isMeanHeap().shouldBeTrue()
     }
 }
