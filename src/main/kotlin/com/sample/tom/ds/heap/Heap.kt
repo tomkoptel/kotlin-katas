@@ -6,7 +6,7 @@ package com.sample.tom.ds.heap
  * * the parent is greater or equal for max heap
  * * the parent is less or equal for min heap
  */
-interface Heap<T: Any> : Collection<T> {
+interface Heap<T : Any> : Collection<T> {
     /**
      * The peek operation is a generalization of methods returning the min or the max depending on the implementation. ”
      */

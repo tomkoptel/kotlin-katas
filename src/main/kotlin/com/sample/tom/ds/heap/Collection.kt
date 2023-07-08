@@ -1,6 +1,6 @@
 package com.sample.tom.ds.heap
 
-interface Collection<T: Any> {
+interface Collection<T : Any> {
     val count: Int
 
     val isEmpty: Boolean
