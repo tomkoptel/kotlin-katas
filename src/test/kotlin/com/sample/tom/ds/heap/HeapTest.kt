@@ -42,4 +42,11 @@ class HeapTest {
         minHeap.remove(1) shouldBe 1
         minHeap.remove(1).shouldBeNull()
     }
+
+    @Test
+    fun `the smallest n-th element`() {
+        val integers = arrayListOf(3, 10, 18, 5, 21, 100)
+        integers.theSmallestNth(n = 3) shouldBe 10
+        integers.theSmallestNth(n = 3) shouldBe 10
+    }
 }
