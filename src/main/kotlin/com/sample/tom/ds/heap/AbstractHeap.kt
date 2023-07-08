@@ -3,7 +3,7 @@ package com.sample.tom.ds.heap
 import java.util.*
 import kotlin.collections.ArrayList
 
-fun <T : Comparable<T>> heapOf(elements: List<T>): Heap<T> {
+fun <T : Comparable<T>> heapOf(elements: List<T>): AbstractHeap<T> {
     return object : AbstractHeap<T>() {
         init {
             heapify(ArrayList(elements))
@@ -15,7 +15,7 @@ fun <T : Comparable<T>> heapOf(elements: List<T>): Heap<T> {
     }
 }
 
-fun <T : Any> List<T>.heapify(comparator: Comparator<T>): Heap<T> {
+fun <T : Any> List<T>.heapify(comparator: Comparator<T>): AbstractHeap<T> {
     val self = this
     return object : AbstractHeap<T>() {
         init {
@@ -114,6 +114,7 @@ abstract class AbstractHeap<T : Any> : Heap<T> {
         }
     }
 
+    @Suppress("unused")
     private fun elementIndexRecursive(element: T, i: Int): Int? {
         if (i >= count) {
             return null
@@ -153,5 +154,18 @@ abstract class AbstractHeap<T : Any> : Heap<T> {
         }
 
         return null
+    }
+
+    fun merge(heap: AbstractHeap<T>) {
+        elements.addAll(heap.elements)
+        buildHeap()
+    }
+
+    private fun buildHeap() {
+        if (!elements.isEmpty()) {
+            (count / 2 downTo 0).forEach {
+                siftDown(it)
+            }
+        }
     }
 }

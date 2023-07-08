@@ -49,4 +49,18 @@ class HeapTest {
         integers.theSmallestNth(n = 3) shouldBe 10
         integers.theSmallestNth(n = 3) shouldBe 10
     }
+
+    @Test
+    fun `merge heap with another heap`() {
+        val heap1 = heapOf(listOf(1, 12, 3, 4))
+        val heap2 = heapOf(listOf(1, 6, 8, 7))
+        heap1.merge(heap2)
+        val result = mutableListOf<Int>()
+        while (!heap1.isEmpty) {
+            heap1.remove()?.let {
+                result += it
+            }
+        }
+        result shouldBe listOf(12, 8, 7, 6, 4, 3, 1, 1)
+    }
 }
