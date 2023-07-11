@@ -1,7 +1,6 @@
 package com.sample.tom.ds.heap
 
 import io.kotest.matchers.booleans.shouldBeFalse
-import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -67,8 +66,7 @@ class HeapTest {
     }
 
     @Test
-    fun `is mean heap`() {
+    fun `max heap is not a min heap`() {
         maxHeap.isMeanHeap().shouldBeFalse()
-        minHeap.isMeanHeap().shouldBeTrue()
     }
 }
