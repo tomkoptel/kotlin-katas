@@ -2,7 +2,7 @@ package com.sample.tom.ds.queue
 
 import com.sample.tom.ds.heap.Heap
 
-abstract class AbstractPriorityQueue    <T: Any> : Queue<T> {
+abstract class AbstractPriorityQueue<T : Any> : Queue<T> {
     abstract val heap: Heap<T>
         get
 
