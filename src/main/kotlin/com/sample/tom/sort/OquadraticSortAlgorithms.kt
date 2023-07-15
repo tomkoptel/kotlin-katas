@@ -3,7 +3,7 @@ package com.sample.tom.sort
 import java.util.*
 
 object OquadraticSortAlgorithms {
-    fun <T : Comparable<T>> ArrayList<T>.bubbleSort() {
+    fun <T : Comparable<T>> MutableList<T>.bubbleSort() {
         if (size < 2) return
 
         for (end in lastIndex downTo 1) {
@@ -26,7 +26,7 @@ object OquadraticSortAlgorithms {
         }
     }
 
-    fun <T : Comparable<T>> ArrayList<T>.selectionSort() {
+    fun <T : Comparable<T>> MutableList<T>.selectionSort() {
         if (size < 2) return
 
         for (current in 0 until lastIndex) {
@@ -47,7 +47,7 @@ object OquadraticSortAlgorithms {
         }
     }
 
-    fun <T : Comparable<T>> ArrayList<T>.insertionSort() {
+    fun <T : Comparable<T>> MutableList<T>.insertionSort() {
         for (current in 1 until size) {
             val range = (1..current).reversed()
             println("range=$range")
