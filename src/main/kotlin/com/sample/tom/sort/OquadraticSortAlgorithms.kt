@@ -62,4 +62,11 @@ object OquadraticSortAlgorithms {
             println(this)
         }
     }
+
+    /**
+     * Given a list of Comparable elements, bring all instances of a given value in the list to the right side of the list.
+     */
+    fun <T : Comparable<T>> MutableList<T>.rightAlign(element: T) {
+
+    }
 }
