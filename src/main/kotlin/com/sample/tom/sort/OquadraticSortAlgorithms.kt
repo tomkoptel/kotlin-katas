@@ -46,4 +46,20 @@ object OquadraticSortAlgorithms {
             println(this)
         }
     }
+
+    fun <T : Comparable<T>> ArrayList<T>.insertionSort() {
+        for (current in 1 until size) {
+            val range = (1..current).reversed()
+            println("range=$range")
+            for (shifting in range) {
+                println("current=$current remaining=$shifting")
+                if (this[shifting] < this[shifting - 1]) {
+                    Collections.swap(this, shifting, shifting - 1)
+                } else {
+                    break
+                }
+            }
+            println(this)
+        }
+    }
 }
