@@ -3,6 +3,7 @@ package com.sample.tom.sort
 import com.sample.tom.sort.OquadraticSortAlgorithms.bubbleSort
 import com.sample.tom.sort.OquadraticSortAlgorithms.insertionSort
 import com.sample.tom.sort.OquadraticSortAlgorithms.rightAlign
+import com.sample.tom.sort.OquadraticSortAlgorithms.rightAlignBook
 import com.sample.tom.sort.OquadraticSortAlgorithms.selectionSort
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -45,6 +46,25 @@ class OquadraticSortAlgorithmsTest {
 
         val list3 = mutableListOf(1, 2, 4, 5)
         list3.rightAlign(3)
+        list3 shouldBe listOf(1, 2, 4, 5)
+    }
+
+    @Test
+    fun rightAlignBook() {
+        val list = mutableListOf(1, 2, 3, 3, 3, 4, 5)
+        list.rightAlignBook(3)
+        list shouldBe listOf(1, 2, 4, 5, 3, 3, 3)
+
+        val list1 = mutableListOf(1, 2, 3, 3, 4, 5)
+        list1.rightAlignBook(3)
+        list1 shouldBe listOf(1, 2, 4, 5, 3, 3)
+
+        val list2 = mutableListOf(1, 2, 3, 4, 5)
+        list2.rightAlignBook(3)
+        list2 shouldBe listOf(1, 2, 4, 5, 3)
+
+        val list3 = mutableListOf(1, 2, 4, 5)
+        list3.rightAlignBook(3)
         list3 shouldBe listOf(1, 2, 4, 5)
     }
 }
