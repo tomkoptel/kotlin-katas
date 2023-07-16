@@ -32,13 +32,19 @@ class OquadraticSortAlgorithmsTest {
     @Test
     fun rightAlign() {
         val list = mutableListOf(1, 2, 3, 3, 3, 4, 5)
-        // 1, 2, 3, 3, 3, 4, 5
-        // 1, 2, 3, 3, 4, 5, 3
-        // 1, 2, 3, 4, 5, 3, 3
-        // 1, 2, 4, 5, 3, 3, 3
-        // 1, 2, 4, 5, 3, 3, 3
-        // 1, 2, 4, 5, 3, 3, 3
         list.rightAlign(3)
         list shouldBe listOf(1, 2, 4, 5, 3, 3, 3)
+
+        val list1 = mutableListOf(1, 2, 3, 3, 4, 5)
+        list1.rightAlign(3)
+        list1 shouldBe listOf(1, 2, 4, 5, 3, 3)
+
+        val list2 = mutableListOf(1, 2, 3, 4, 5)
+        list2.rightAlign(3)
+        list2 shouldBe listOf(1, 2, 4, 5, 3)
+
+        val list3 = mutableListOf(1, 2, 4, 5)
+        list3.rightAlign(3)
+        list3 shouldBe listOf(1, 2, 4, 5)
     }
 }

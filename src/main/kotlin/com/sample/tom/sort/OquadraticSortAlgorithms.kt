@@ -67,6 +67,19 @@ object OquadraticSortAlgorithms {
      * Given a list of Comparable elements, bring all instances of a given value in the list to the right side of the list.
      */
     fun <T : Comparable<T>> MutableList<T>.rightAlign(element: T) {
+        val first = indexOfFirst { it == element }
+        val last = indexOfLast { it == element }
+        if (first < 0 || last < 0) return
 
+        val shiftIndex = last - first
+        val firstAtEnd = lastIndex - shiftIndex
+        var index = indexOf(element)
+
+        while (index != firstAtEnd) {
+            for (current in index until size - 1) {
+                Collections.swap(this, current, current + 1)
+            }
+            index = indexOf(element)
+        }
     }
 }
