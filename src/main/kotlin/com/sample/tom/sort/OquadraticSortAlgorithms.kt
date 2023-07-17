@@ -98,4 +98,15 @@ object OquadraticSortAlgorithms {
             searchIndex--
         }
     }
+
+    fun <T : Comparable<T>> MutableList<T>.biggestDuplicate(): T? {
+        if (this.size == 0) return null
+        for (current in (1 until size).reversed()) {
+            val el = this[current]
+            if (el.compareTo(this[current - 1]) == 0) {
+                return this[current]
+            }
+        }
+        return null
+    }
 }

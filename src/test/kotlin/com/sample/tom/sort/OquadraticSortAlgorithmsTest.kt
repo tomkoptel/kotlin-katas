@@ -1,10 +1,12 @@
 package com.sample.tom.sort
 
+import com.sample.tom.sort.OquadraticSortAlgorithms.biggestDuplicate
 import com.sample.tom.sort.OquadraticSortAlgorithms.bubbleSort
 import com.sample.tom.sort.OquadraticSortAlgorithms.insertionSort
 import com.sample.tom.sort.OquadraticSortAlgorithms.rightAlign
 import com.sample.tom.sort.OquadraticSortAlgorithms.rightAlignBook
 import com.sample.tom.sort.OquadraticSortAlgorithms.selectionSort
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
@@ -66,5 +68,32 @@ class OquadraticSortAlgorithmsTest {
         val list3 = mutableListOf(1, 2, 4, 5)
         list3.rightAlignBook(3)
         list3 shouldBe listOf(1, 2, 4, 5)
+    }
+
+    @Test
+    fun `should return null when list is empty`() {
+        val list = mutableListOf<Int>()
+        val result = list.biggestDuplicate()
+        result.shouldBeNull()
+    }
+
+    @Test
+    fun `should return null when list has no duplicates`() {
+        val list = mutableListOf(1, 2, 3, 4, 5)
+        val result = list.biggestDuplicate()
+        result.shouldBeNull()
+    }
+
+    @Test
+    fun `should return the largest duplicate when list has duplicates`() {
+        val list = mutableListOf(1, 2, 3, 4, 4, 5, 5)
+        list.biggestDuplicate() shouldBe 5
+    }
+
+    @Test
+    fun `should work with any comparable type`() {
+        val list = mutableListOf("a", "b", "c", "c", "d", "d")
+        val result = list.biggestDuplicate()
+        result shouldBe "d"
     }
 }

@@ -32,6 +32,7 @@ tasks.withType<KotlinCompile> {
 }
 
 dependencies {
+    implementation("org.testng:testng:7.1.0")
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.kotest.core)
