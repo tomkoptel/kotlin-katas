@@ -3,6 +3,7 @@ package com.sample.tom.sort
 import com.sample.tom.sort.OquadraticSortAlgorithms.biggestDuplicate
 import com.sample.tom.sort.OquadraticSortAlgorithms.bubbleSort
 import com.sample.tom.sort.OquadraticSortAlgorithms.insertionSort
+import com.sample.tom.sort.OquadraticSortAlgorithms.rev
 import com.sample.tom.sort.OquadraticSortAlgorithms.rightAlign
 import com.sample.tom.sort.OquadraticSortAlgorithms.rightAlignBook
 import com.sample.tom.sort.OquadraticSortAlgorithms.selectionSort
@@ -95,5 +96,12 @@ class OquadraticSortAlgorithmsTest {
         val list = mutableListOf("a", "b", "c", "c", "d", "d")
         val result = list.biggestDuplicate()
         result shouldBe "d"
+    }
+
+    @Test
+    fun `should reverse the list`() {
+        val list = mutableListOf(1, 2, 3, 4, 4, 5, 5)
+        list.rev()
+        list shouldBe mutableListOf(5, 5, 4, 4, 3, 2, 1)
     }
 }

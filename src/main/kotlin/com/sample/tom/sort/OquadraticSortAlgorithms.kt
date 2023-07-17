@@ -109,4 +109,14 @@ object OquadraticSortAlgorithms {
         }
         return null
     }
+
+    fun <T : Comparable<T>> MutableList<T>.rev() {
+        var left = 0
+        var right = lastIndex
+        while (left < right) {
+            Collections.swap(this, right, left)
+            right--
+            left++
+        }
+    }
 }
