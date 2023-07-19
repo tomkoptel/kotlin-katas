@@ -1,5 +1,6 @@
 package com.sample.tom.sort
 
+import com.sample.tom.sort.MergeSort.merge
 import com.sample.tom.sort.MergeSort.mergeSort
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -49,5 +50,13 @@ class MergeSortTest {
         val expected = listOfStrings.sorted()
         val result = listOfStrings.mergeSort()
         result shouldBe expected
+    }
+
+    @Test
+    fun `merge iterable`() {
+        val list1 = listOf(1, 2, 3, 4, 5, 6, 7, 8)
+        val list2 = listOf(1, 3, 4, 5, 5, 6, 7, 7)
+        val result = merge(list1, list2)
+        result shouldBe listOf(1, 1, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8)
     }
 }

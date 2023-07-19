@@ -41,4 +41,15 @@ object MergeSort {
         result.addAll(right.subList(rightIndex, right.size))
         return result
     }
+
+    /**
+     * Write a function that takes two sorted iterables and merges them into a single iterable.
+     */
+    fun <T : Comparable<T>> merge(
+        first: Iterable<T>,
+        second: Iterable<T>
+    ): Iterable<T> {
+        TODO()
+    }
+
 }
