@@ -47,9 +47,41 @@ object MergeSort {
      */
     fun <T : Comparable<T>> merge(
         first: Iterable<T>,
-        second: Iterable<T>
+        second: Iterable<T>,
     ): Iterable<T> {
-        TODO()
+        val firstIterator = first.iterator()
+        val secondIterator = second.iterator()
+        val result = mutableListOf<T>()
+
+        if (!firstIterator.hasNext()) return second
+        if (!secondIterator.hasNext()) return first
+
+        var firstValue: T? = firstIterator.nextOrNull()
+        var secondValue: T? = secondIterator.nextOrNull()
+
+        while (firstValue != null && secondValue != null) {
+            if (firstValue <= secondValue) {
+                result += firstValue
+                firstValue = firstIterator.nextOrNull()
+            } else {
+                result += secondValue
+                secondValue = secondIterator.nextOrNull()
+            }
+        }
+
+        while (firstValue != null) {
+            result += firstValue
+            firstValue = firstIterator.nextOrNull()
+        }
+        while (secondValue != null) {
+            result += secondValue
+            secondValue = secondIterator.nextOrNull()
+        }
+
+        return result
     }
 
+    private fun <T> Iterator<T>.nextOrNull(): T? {
+        return if (this.hasNext()) this.next() else null
+    }
 }
