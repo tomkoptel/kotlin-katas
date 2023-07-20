@@ -28,6 +28,6 @@ class RadixSortTest {
 
     @Test
     fun testListWithDuplicates() {
-        mutableListOf(5, 2, 7, 2, 8, 5, 1, 9, 7).radixSort() shouldBe mutableListOf(1, 2, 2, 5, 5, 8, 7, 9)
+        mutableListOf(5, 2, 7, 2, 8, 5, 1, 9, 7).radixSort() shouldBe mutableListOf(1, 2, 2, 5, 5, 7, 7, 8, 9)
     }
 }
