@@ -1,6 +1,7 @@
 package com.sample.tom.sort
 
 import com.sample.tom.sort.RadixSort.lexicographicalSort
+import com.sample.tom.sort.RadixSort.lexicographicalSortRecursive
 import com.sample.tom.sort.RadixSort.radixSort
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
@@ -47,12 +48,12 @@ class RadixSortTest {
     @Test
     fun lexicographicalSortRecursive() {
         val list = mutableListOf(448, 3168, 6217, 7117, 1256, 3887, 3900, 3444, 4976, 6891, 4682)
-        list.lexicographicalSort() shouldBe mutableListOf(1256, 3168, 3444, 3887, 3900, 448, 4682, 4976, 6217, 6891, 7117)
+        list.lexicographicalSortRecursive() shouldBe mutableListOf(1256, 3168, 3444, 3887, 3900, 448, 4682, 4976, 6217, 6891, 7117)
     }
 
     @Test
     fun lexicographicalSortRecursiveSmall() {
         val list = mutableListOf(500, 1345, 13, 459, 44)
-        list.lexicographicalSort() shouldBe mutableListOf(13, 1345, 44, 459, 500)
+        list.lexicographicalSortRecursive() shouldBe mutableListOf(13, 1345, 44, 459, 500)
     }
 }
