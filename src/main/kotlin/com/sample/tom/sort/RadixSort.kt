@@ -1,7 +1,6 @@
 package com.sample.tom.sort
 
 import java.lang.Math.pow
-import java.text.FieldPosition
 
 object RadixSort {
     fun MutableList<Int>.radixSort(): MutableList<Int> {
@@ -33,30 +32,42 @@ object RadixSort {
     }
 
     fun MutableList<Int>.lexicographicalSort(): MutableList<Int> {
-        return msdRadixSorted(this, 0)
-    }
+        val stack = mutableListOf(this to 0)
+        val result = mutableListOf<Int>()
 
-    private fun msdRadixSorted(list: MutableList<Int>, position: Int): MutableList<Int> {
-        if (position >= list.maxDigits()) return list
-        val buckets = MutableList<MutableList<Int>>(10) { mutableListOf() }
-        val priorityBucket = arrayListOf<Int>()
+        while (stack.isNotEmpty()) {
+            val (currentList, position) = stack.removeAt(stack.size - 1)
 
-        list.forEach { number ->
-            val digit = number.digit(position)
-            if (digit == null) {
-                priorityBucket.add(number)
+            if (position >= currentList.maxDigits()) {
+                result.addAll(currentList)
             } else {
-                buckets[digit].add(number)
+                val buckets = MutableList(10) { mutableListOf<Int>() }
+                val priorityBucket = arrayListOf<Int>()
+
+                currentList.forEach { number ->
+                    val digit = number.digit(position)
+                    if (digit == null) {
+                        priorityBucket.add(number)
+                    } else {
+                        buckets[digit].add(number)
+                    }
+                }
+
+                // Add the buckets to the stack in reverse order
+                for (i in 9 downTo 0) {
+                    if (buckets[i].isNotEmpty()) {
+                        stack.add(buckets[i] to position + 1)
+                    }
+                }
+
+                // Add the priority bucket to the stack for further processing
+                if (priorityBucket.isNotEmpty()) {
+                    stack.add(priorityBucket to position + 1)
+                }
             }
         }
 
-        val newValues = buckets.reduce { result, bucket ->
-            if (bucket.isEmpty()) return@reduce result
-            result.addAll(msdRadixSorted(bucket, position + 1))
-            result
-        }
-        priorityBucket.addAll(newValues)
-        return priorityBucket
+        return result
     }
 
     private fun Int.digits(): Int {

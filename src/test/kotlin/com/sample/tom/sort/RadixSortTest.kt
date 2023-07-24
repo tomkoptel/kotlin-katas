@@ -37,4 +37,10 @@ class RadixSortTest {
         val list = mutableListOf(448, 3168, 6217, 7117, 1256, 3887, 3900, 3444, 4976, 6891, 4682)
         list.lexicographicalSort() shouldBe mutableListOf(1256, 3168, 3444, 3887, 3900, 448, 4682, 4976, 6217, 6891, 7117)
     }
+
+    @Test
+    fun lexicographicalSort1() {
+        val list = mutableListOf(500, 1345, 13, 459, 44)
+        list.lexicographicalSort() shouldBe mutableListOf(13, 1345, 44, 459, 500)
+    }
 }
