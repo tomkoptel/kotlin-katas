@@ -6,7 +6,7 @@ jvm = "11"
 
 [plugins]
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-spotless = { id = "com.diffplug.spotless", version = { require = "6.18.0" } }
+spotless = { id = "com.diffplug.spotless", version = { require = "6.20.0" } }
 
 [libraries]
 kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
