@@ -1,12 +1,12 @@
 [versions]
-kotlin = { require = "1.8.21" }
-kotest = "5.6.1"
-ktlint = "0.48.2"
+kotlin = { require = "1.9.0" }
+kotest = "5.6.2"
+ktlint = "0.50.0"
 jvm = "11"
 
 [plugins]
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-spotless = { id = "com.diffplug.spotless", version = { require = "6.18.0" } }
+spotless = { id = "com.diffplug.spotless", version = { require = "6.20.0" } }
 
 [libraries]
 kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
