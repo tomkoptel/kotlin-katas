@@ -14,7 +14,7 @@ object HeapSort {
 
     private fun <T> MutableList<T>.heapify(comparator: Comparator<T>) {
         if (isEmpty()) return
-        for (i in (size / 2) downTo  0) {
+        for (i in (size / 2) downTo 0) {
             siftDown(i, size, comparator)
         }
     }
