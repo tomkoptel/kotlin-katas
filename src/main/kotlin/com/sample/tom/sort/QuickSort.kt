@@ -1,5 +1,6 @@
 package com.sample.tom.sort
 
+import com.sample.tom.sort.QuickSort.lomutoQuickSort
 import java.util.Collections
 import java.util.LinkedList
 
@@ -42,6 +43,36 @@ object QuickSort {
                 Collections.swap(this, i, high)
                 stack.push(i + 1 to high)
                 stack.push(low to i - 1)
+            }
+        }
+        return this
+    }
+
+    fun <T : Comparable<T>> List<T>.hoareQuickSort(): List<T> {
+        if (size < 2) return this
+        val stack = LinkedList<Pair<Int, Int>>()
+        stack.push(0 to size - 1)
+        while (stack.isNotEmpty()) {
+            val (low, high) = stack.pop()
+            if (low < high) {
+                val pivot = this[low]
+                var i = low - 1
+                var j = high + 1
+                while (true) {
+                    do {
+                        j -= 1
+                    } while (this[j] > pivot)
+                    do {
+                        i += 1
+                    } while (this[i] < pivot)
+                    if (i < j) {
+                        Collections.swap(this, i, j)
+                    } else {
+                        break
+                    }
+                }
+                stack.push(j + 1 to high)
+                stack.push(low to j)
             }
         }
         return this
