@@ -3,7 +3,6 @@ package com.sample.tom.sort
 import com.sample.tom.sort.QuickSort.hoareQuickSort
 import com.sample.tom.sort.QuickSort.lomutoQuickSort
 import com.sample.tom.sort.QuickSort.naiveQuickSort
-import com.sample.tom.sort.QuickSort.quicksortHoare
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 

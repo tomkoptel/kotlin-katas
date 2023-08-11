@@ -1,22 +1,20 @@
 package com.sample.tom.sort
 
-import com.sample.tom.sort.QuickSort.lomutoQuickSort
-import java.util.Collections
-import java.util.LinkedList
+import java.util.*
 
 object QuickSort {
     fun <T : Comparable<T>> List<T>.naiveQuickSort(): List<T> {
         val stack = LinkedList<List<T>>().also { it.add(this) }
         val result = LinkedList<T>()
         while (stack.isNotEmpty()) {
-            val list = stack.removeLast()
+            val list = stack.pop()
             if (list.size > 1) {
                 val pivot = list[list.size / 2]
                 val less = list.filter { it < pivot }
                 val more = list.filter { it > pivot }
-                stack.add(more)
-                stack.add(listOf(pivot))
-                stack.add(less)
+                stack.push(more)
+                stack.push(listOf(pivot))
+                stack.push(less)
             } else {
                 list.firstOrNull()?.let { result.add(it) }
             }
