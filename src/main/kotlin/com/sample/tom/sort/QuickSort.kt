@@ -1,5 +1,6 @@
 package com.sample.tom.sort
 
+import com.sample.tom.sort.QuickSort.hoareQuickSort
 import java.util.*
 
 object QuickSort {
@@ -30,6 +31,9 @@ object QuickSort {
         while (stack.isNotEmpty()) {
             val (low, high) = stack.pop()
             if (low < high) {
+                val pivotIndex = medianOfThree(low, high)
+                Collections.swap(this, pivotIndex, high)
+
                 val pivot = this[high]
                 var i = low
                 for (j in low until high) {
@@ -53,6 +57,9 @@ object QuickSort {
         while (stack.isNotEmpty()) {
             val (low, high) = stack.pop()
             if (low < high) {
+                val pivotIndex = medianOfThree(low, high)
+                Collections.swap(this, pivotIndex, high)
+
                 val pivot = this[low]
                 var i = low - 1
                 var j = high + 1
@@ -74,5 +81,19 @@ object QuickSort {
             }
         }
         return this
+    }
+
+    private fun <T : Comparable<T>> List<T>.medianOfThree(low: Int, high: Int): Int {
+        val center = (low + high) / 2
+        if (this[low] > this[center]) {
+            Collections.swap(this, low, center)
+        }
+        if (this[low] > this[high]) {
+            Collections.swap(this, low, high)
+        }
+        if (this[center] > this[high]) {
+            Collections.swap(this, center, high)
+        }
+        return center
     }
 }
