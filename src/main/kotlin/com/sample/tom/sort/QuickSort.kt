@@ -1,6 +1,5 @@
 package com.sample.tom.sort
 
-import com.sample.tom.sort.QuickSort.hoareQuickSort
 import java.util.*
 
 object QuickSort {
@@ -78,6 +77,36 @@ object QuickSort {
                 }
                 stack.push(j + 1 to high)
                 stack.push(low to j)
+            }
+        }
+        return this
+    }
+
+    fun <T : Comparable<T>> List<T>.dutchFlagQuickSort(): List<T> {
+        if (size < 2) return this
+        val stack = LinkedList<Pair<Int, Int>>()
+        stack.push(0 to size - 1)
+        while (stack.isNotEmpty()) {
+            val (low, high) = stack.pop()
+            if (low < high) {
+                var smaller = low
+                var larger = high
+                var equal = low
+                val pivot = this[high]
+                while (equal <= larger) {
+                    if (this[equal] < pivot) {
+                        Collections.swap(this, smaller, equal)
+                        smaller++
+                        equal++
+                    } else if (this[equal] == pivot) {
+                        equal++
+                    } else {
+                        Collections.swap(this, equal, larger)
+                        larger--
+                    }
+                }
+                stack.push(low + 1 to high)
+                stack.push(low to larger - 1)
             }
         }
         return this
