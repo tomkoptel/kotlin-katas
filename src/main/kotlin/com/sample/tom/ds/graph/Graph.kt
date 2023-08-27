@@ -8,14 +8,17 @@ interface Graph<T: Any> {
                         destination: Vertex<T>,
                         weight: Double?)
 
-    fun addUndirectedEdge(source: Vertex<T>,
-                          destination: Vertex<T>,
-                          weight: Double?)
+    fun addUndirectedEdge(source: Vertex<T>, destination: Vertex<T>, weight: Double?) {
+        addDirectedEdge(source, destination, weight)
+        addDirectedEdge(destination, source, weight)
+    }
 
-    fun add(edge: EdgeType,
-            source: Vertex<T>,
-            destination: Vertex<T>,
-            weight: Double?)
+    fun add(edge: EdgeType, source: Vertex<T>, destination: Vertex<T>, weight: Double?) {
+        when (edge) {
+            EdgeType.DIRECTED -> addDirectedEdge(source, destination, weight)
+            EdgeType.UNDIRECTED -> addUndirectedEdge(source, destination, weight)
+        }
+    }
 
     fun edges(source: Vertex<T>): ArrayList<Edge<T>>
 
