@@ -1,5 +1,7 @@
 package com.sample.tom.ds.graph
 
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.junit.jupiter.api.Test
 
@@ -39,5 +41,37 @@ class AdjacencyListTest {
         graphString shouldContain "Washington DC ---> [ Tokyo, Austin Texas, San Francisco, Seattle ]"
         graphString shouldContain "Austin Texas ---> [ Detroit, Washington DC, San Francisco ]"
         graphString shouldContain "Seattle ---> [ Washington DC, San Francisco ]"
+    }
+
+    @Test
+    fun smallWorld() {
+        val graph = AdjacencyList<String>()
+        val vincent = graph.createVertex("Vincent")
+        val chelsey = graph.createVertex("Chelsey")
+        val ruiz = graph.createVertex("Ruiz")
+        val patrick = graph.createVertex("Patrick")
+        val ray = graph.createVertex("Ray")
+        val sun = graph.createVertex("Sun")
+        val cole = graph.createVertex("Cole")
+        val kerry = graph.createVertex("Kerry")
+
+        graph.add(EdgeType.UNDIRECTED, vincent, chelsey, 300.0)
+        graph.add(EdgeType.UNDIRECTED, vincent, ruiz, 300.0)
+        graph.add(EdgeType.UNDIRECTED, vincent, patrick, 300.0)
+
+        graph.add(EdgeType.UNDIRECTED, ruiz, ray, 300.0)
+        graph.add(EdgeType.UNDIRECTED, ruiz, sun, 300.0)
+
+        graph.add(EdgeType.UNDIRECTED, patrick, cole, 300.0)
+        graph.add(EdgeType.UNDIRECTED, patrick, kerry, 300.0)
+
+        graph.add(EdgeType.UNDIRECTED, cole, ruiz, 300.0)
+        graph.add(EdgeType.UNDIRECTED, cole, vincent, 300.0)
+
+        println(graph)
+        val vincentFriends = graph.edges(vincent).map { it.destination.data }.toSet()
+        val ruizFriends = graph.edges(ruiz).map { it.destination.data }.toSet()
+        val commonFriends = vincentFriends.intersect(ruizFriends)
+        commonFriends shouldBe setOf("Cole")
     }
 }
