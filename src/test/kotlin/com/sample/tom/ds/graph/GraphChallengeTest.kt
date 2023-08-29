@@ -1,6 +1,7 @@
 package com.sample.tom.ds.graph
 
 import com.sample.tom.ds.graph.GraphChallenge.distanceNonRecursive
+import com.sample.tom.ds.graph.GraphChallenge.distanceRecursive
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
@@ -9,6 +10,12 @@ class GraphChallengeTest {
     fun `distance between vertices non recursive`() {
         val (graph, vertexA, vertexE) = pepareTestData()
         graph.distanceNonRecursive(vertexA, vertexE) shouldBe 5
+    }
+
+    @Test
+    fun `distance between vertices recursive`() {
+        val (graph, vertexA, vertexE) = pepareTestData()
+        graph.distanceRecursive(vertexA, vertexE) shouldBe 5
     }
 
     private fun pepareTestData(): Triple<AdjacencyList<String>, Vertex<String>, Vertex<String>> {
