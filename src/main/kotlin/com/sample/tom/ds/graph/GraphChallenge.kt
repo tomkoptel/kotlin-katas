@@ -36,7 +36,7 @@ object GraphChallenge {
         source: Vertex<T>,
         destination: Vertex<T>,
         visited: MutableSet<Vertex<T>>,
-        numberOfPaths: AtomicInteger
+        numberOfPaths: AtomicInteger,
     ) {
         visited.add(source)
         if (source == destination) {

@@ -1,12 +1,14 @@
 package com.sample.tom.ds.graph
 
-interface Graph<T: Any> {
+interface Graph<T : Any> {
 
     fun createVertex(data: T): Vertex<T>
 
-    fun addDirectedEdge(source: Vertex<T>,
-                        destination: Vertex<T>,
-                        weight: Double?)
+    fun addDirectedEdge(
+        source: Vertex<T>,
+        destination: Vertex<T>,
+        weight: Double?,
+    )
 
     fun addUndirectedEdge(source: Vertex<T>, destination: Vertex<T>, weight: Double?) {
         addDirectedEdge(source, destination, weight)
@@ -22,8 +24,8 @@ interface Graph<T: Any> {
 
     fun edges(source: Vertex<T>): ArrayList<Edge<T>>
 
-    fun weight(source: Vertex<T>,
-               destination: Vertex<T>
+    fun weight(
+        source: Vertex<T>,
+        destination: Vertex<T>,
     ): Double?
-
 }
