@@ -24,4 +24,41 @@ object GraphSearch {
 
         return visited
     }
+
+    fun <T : Any> Graph<T>.breadthFirstSearchRecursive(source: Vertex<T>): List<Vertex<T>> {
+        val queue = LinkedList<Vertex<T>>()
+        val enqueued = mutableSetOf<Vertex<T>>()
+        val visited = mutableListOf<Vertex<T>>()
+
+        queue.add(source)
+        enqueued.add(source)
+
+        breadthFirstSearchRecursive(
+            queue,
+            enqueued,
+            visited
+        )
+
+        return visited
+    }
+
+    private fun <T : Any> Graph<T>.breadthFirstSearchRecursive(
+        queue: LinkedList<Vertex<T>>,
+        enqueued: MutableSet<Vertex<T>>,
+        visited: MutableList<Vertex<T>>,
+    ) {
+        val source = queue.poll() ?: return
+        visited.add(source)
+        edges(source).forEach { edge ->
+            if (!enqueued.contains(edge.destination)) {
+                queue.add(edge.destination)
+                enqueued.add(edge.destination)
+            }
+        }
+        breadthFirstSearchRecursive(
+            queue,
+            enqueued,
+            visited
+        )
+    }
 }
