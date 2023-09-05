@@ -1,6 +1,7 @@
 package com.sample.tom.ds.graph
 
 interface Graph<T : Any> {
+    val allVertices: List<Vertex<T>>
 
     fun createVertex(data: T): Vertex<T>
 

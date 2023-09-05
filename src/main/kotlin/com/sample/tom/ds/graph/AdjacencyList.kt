@@ -22,6 +22,9 @@ class AdjacencyList<T : Any> : Graph<T> {
         return edges(source).firstOrNull { it.destination == destination }?.weight
     }
 
+    override val allVertices: List<Vertex<T>>
+        get() = adjacencies.keys.toList()
+
     override fun toString(): String {
         return buildString {
             adjacencies.forEach { (vertex, edges) ->

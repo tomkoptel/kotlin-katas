@@ -25,6 +25,11 @@ object GraphSearch {
         return visited
     }
 
+    val <T : Any> Graph<T>.isConnected: Boolean get() {
+        val vertex = allVertices.firstOrNull() ?: return false
+        return breadthFirstSearch(vertex).containsAll(allVertices)
+    }
+
     fun <T : Any> Graph<T>.breadthFirstSearchRecursive(source: Vertex<T>): List<Vertex<T>> {
         val queue = LinkedList<Vertex<T>>()
         val enqueued = mutableSetOf<Vertex<T>>()
