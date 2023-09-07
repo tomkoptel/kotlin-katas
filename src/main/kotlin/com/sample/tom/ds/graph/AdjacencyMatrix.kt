@@ -35,6 +35,9 @@ class AdjacencyMatrix<T : Any> : Graph<T> {
         return weights[source.index][destination.index]
     }
 
+    override val allVertices: List<Vertex<T>>
+        get() = vertices
+
     override fun toString(): String {
         val verticesDescription = vertices.joinToString("\n") { "${it.index}:${it.data}" }
         val grid = arrayListOf<String>()
