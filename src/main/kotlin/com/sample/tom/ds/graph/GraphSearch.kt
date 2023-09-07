@@ -25,10 +25,11 @@ object GraphSearch {
         return visited
     }
 
-    val <T : Any> Graph<T>.isConnected: Boolean get() {
-        val vertex = allVertices.firstOrNull() ?: return false
-        return breadthFirstSearch(vertex).containsAll(allVertices)
-    }
+    val <T : Any> Graph<T>.isConnected: Boolean
+        get() {
+            val vertex = allVertices.firstOrNull() ?: return false
+            return breadthFirstSearch(vertex).containsAll(allVertices)
+        }
 
     fun <T : Any> Graph<T>.breadthFirstSearchRecursive(source: Vertex<T>): List<Vertex<T>> {
         val queue = LinkedList<Vertex<T>>()
@@ -65,5 +66,40 @@ object GraphSearch {
             enqueued,
             visited
         )
+    }
+
+    fun <T : Any> Graph<T>.depthFirstSearch(source: Vertex<T>): List<Vertex<T>> {
+        val stack = LinkedList<Vertex<T>>()
+        val visited = arrayListOf<Vertex<T>>()
+        val pushed = mutableSetOf<Vertex<T>>()
+
+        stack.push(source)
+        pushed.add(source)
+        visited.add(source)
+
+        outer@ while (true) {
+            if (stack.isEmpty()) break
+
+            val vertex = stack.peek()!!
+            val neighbors = edges(vertex)
+
+            if (neighbors.isEmpty()) {
+                stack.pop()
+                continue
+            }
+
+            for (i in 0 until neighbors.size) { // 4
+                val destination = neighbors[i].destination
+                if (destination !in pushed) {
+                    stack.push(destination)
+                    pushed.add(destination)
+                    visited.add(destination)
+                    continue@outer // 5
+                }
+            }
+            stack.pop() // 6
+        }
+
+        return visited
     }
 }
