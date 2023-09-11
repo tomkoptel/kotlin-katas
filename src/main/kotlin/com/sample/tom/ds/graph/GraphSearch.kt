@@ -69,27 +69,37 @@ object GraphSearch {
     }
 
     fun <T : Any> Graph<T>.depthFirstSearch(source: Vertex<T>): List<Vertex<T>> {
-        val visited = mutableSetOf<Vertex<T>>()
-        val result = mutableListOf<Vertex<T>>()
-        val stack = mutableListOf<Vertex<T>>()
+        val stack = LinkedList<Vertex<T>>()
+        val visited = arrayListOf<Vertex<T>>()
+        val pushed = mutableSetOf<Vertex<T>>()
 
-        stack.add(source)
+        stack.push(source)
+        pushed.add(source)
+        visited.add(source)
 
-        while (stack.isNotEmpty()) {
-            val currentVertex = stack.removeAt(stack.size - 1)
+        outer@ while (true) {
+            if (stack.isEmpty()) break
 
-            if (currentVertex !in visited) {
-                visited.add(currentVertex)
-                result.add(currentVertex)
+            val vertex = stack.peek()!!
+            val neighbors = edges(vertex)
 
-                for (neighbor in edges(currentVertex).map { it.destination }) {
-                    if (neighbor !in visited) {
-                        stack.add(neighbor)
-                    }
+            if (neighbors.isEmpty()) {
+                stack.pop()
+                continue
+            }
+
+            for (i in 0 until neighbors.size) { // 4
+                val destination = neighbors[i].destination
+                if (destination !in pushed) {
+                    stack.push(destination)
+                    pushed.add(destination)
+                    visited.add(destination)
+                    continue@outer // 5
                 }
             }
+            stack.pop() // 6
         }
 
-        return result
+        return visited
     }
 }
