@@ -31,6 +31,39 @@ object GraphSearch {
             return breadthFirstSearch(vertex).containsAll(allVertices)
         }
 
+    val <T : Any> Graph<T>.hasCycles: Boolean
+        get() {
+            val source = allVertices.firstOrNull() ?: return false
+
+            val stack = LinkedList<Vertex<T>>()
+            val visited = mutableSetOf<Vertex<T>>()
+            val order = mutableListOf<Vertex<T>>()
+
+            stack.push(source)
+
+            while (stack.isNotEmpty()) {
+                val vertex = stack.pop()
+                if (vertex in visited) {
+                    return true
+                } else {
+                    visited.add(vertex)
+                    order.add(vertex)
+
+                    val neighbors = edges(vertex)
+                    neighbors.forEach { edge ->
+                        val destination = edge.destination
+                        if (destination !in visited) {
+                            stack.push(destination)
+                        } else {
+                            return true
+                        }
+                    }
+                }
+            }
+
+            return false
+        }
+
     fun <T : Any> Graph<T>.breadthFirstSearchRecursive(source: Vertex<T>): List<Vertex<T>> {
         val queue = LinkedList<Vertex<T>>()
         val enqueued = mutableSetOf<Vertex<T>>()
