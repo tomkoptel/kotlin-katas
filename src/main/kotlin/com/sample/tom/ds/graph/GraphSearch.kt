@@ -25,10 +25,44 @@ object GraphSearch {
         return visited
     }
 
-    val <T : Any> Graph<T>.isConnected: Boolean get() {
-        val vertex = allVertices.firstOrNull() ?: return false
-        return breadthFirstSearch(vertex).containsAll(allVertices)
-    }
+    val <T : Any> Graph<T>.isConnected: Boolean
+        get() {
+            val vertex = allVertices.firstOrNull() ?: return false
+            return breadthFirstSearch(vertex).containsAll(allVertices)
+        }
+
+    val <T : Any> Graph<T>.hasCycles: Boolean
+        get() {
+            val source = allVertices.firstOrNull() ?: return false
+
+            val stack = LinkedList<Vertex<T>>()
+            val visited = mutableSetOf<Vertex<T>>()
+            val order = mutableListOf<Vertex<T>>()
+
+            stack.push(source)
+
+            while (stack.isNotEmpty()) {
+                val vertex = stack.pop()
+                if (vertex in visited) {
+                    return true
+                } else {
+                    visited.add(vertex)
+                    order.add(vertex)
+
+                    val neighbors = edges(vertex)
+                    neighbors.forEach { edge ->
+                        val destination = edge.destination
+                        if (destination !in visited) {
+                            stack.push(destination)
+                        } else {
+                            return true
+                        }
+                    }
+                }
+            }
+
+            return false
+        }
 
     fun <T : Any> Graph<T>.breadthFirstSearchRecursive(source: Vertex<T>): List<Vertex<T>> {
         val queue = LinkedList<Vertex<T>>()
@@ -65,5 +99,66 @@ object GraphSearch {
             enqueued,
             visited
         )
+    }
+
+    fun <T : Any> Graph<T>.depthFirstSearch(source: Vertex<T>): List<Vertex<T>> {
+        val stack = LinkedList<Vertex<T>>()
+        val visited = arrayListOf<Vertex<T>>()
+        val pushed = mutableSetOf<Vertex<T>>()
+
+        stack.push(source)
+        pushed.add(source)
+        visited.add(source)
+
+        outer@ while (true) {
+            if (stack.isEmpty()) break
+
+            val vertex = stack.peek()!!
+            val neighbors = edges(vertex)
+
+            if (neighbors.isEmpty()) {
+                stack.pop()
+                continue
+            }
+
+            for (i in 0 until neighbors.size) { // 4
+                val destination = neighbors[i].destination
+                if (destination !in pushed) {
+                    stack.push(destination)
+                    pushed.add(destination)
+                    visited.add(destination)
+                    continue@outer // 5
+                }
+            }
+            stack.pop() // 6
+        }
+
+        return visited
+    }
+
+    fun <T : Any> Graph<T>.depthFirstSearchRecursive(source: Vertex<T>): List<Vertex<T>> {
+        val visited = arrayListOf<Vertex<T>>()
+        val pushed = mutableSetOf<Vertex<T>>()
+
+        depthFirstSearchRecursive(source, visited, pushed)
+
+        return visited
+    }
+
+    private fun <T : Any> Graph<T>.depthFirstSearchRecursive(
+        source: Vertex<T>,
+        visited: ArrayList<Vertex<T>>,
+        pushed: MutableSet<Vertex<T>>,
+    ) {
+        visited.add(source)
+        pushed.add(source)
+
+        val neighbors = edges(source)
+        for (neighbour in neighbors) {
+            val destination = neighbour.destination
+            if (destination !in pushed) {
+                depthFirstSearchRecursive(destination, visited, pushed)
+            }
+        }
     }
 }

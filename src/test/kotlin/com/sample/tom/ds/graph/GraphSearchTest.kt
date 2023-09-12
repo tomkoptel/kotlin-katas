@@ -2,6 +2,9 @@ package com.sample.tom.ds.graph
 
 import com.sample.tom.ds.graph.GraphSearch.breadthFirstSearch
 import com.sample.tom.ds.graph.GraphSearch.breadthFirstSearchRecursive
+import com.sample.tom.ds.graph.GraphSearch.depthFirstSearch
+import com.sample.tom.ds.graph.GraphSearch.depthFirstSearchRecursive
+import com.sample.tom.ds.graph.GraphSearch.hasCycles
 import com.sample.tom.ds.graph.GraphSearch.isConnected
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
@@ -41,6 +44,109 @@ class GraphSearchTest {
     @Test
     fun `isDisconnected for disconnected should be true`() {
         disConnectedGraph().isConnected.shouldBeFalse()
+    }
+
+    @Test
+    fun `hasCycles for graph without cycles should be false`() {
+        val graphNoCycles = AdjacencyList<String>()
+        val a = graphNoCycles.createVertex("A")
+        val b = graphNoCycles.createVertex("B")
+        val c = graphNoCycles.createVertex("C")
+        val d = graphNoCycles.createVertex("D")
+        val e = graphNoCycles.createVertex("E")
+
+        graphNoCycles.addDirectedEdge(a, b, 0.0)
+        graphNoCycles.addDirectedEdge(a, c, 0.0)
+        graphNoCycles.addDirectedEdge(b, d, 0.0)
+        graphNoCycles.addDirectedEdge(c, e, 0.0)
+
+        graphNoCycles.hasCycles.shouldBeFalse()
+    }
+
+    @Test
+    fun `hasCycles for graph with cycles should be true`() {
+        val graphWithCycle = AdjacencyList<String>()
+        val a = graphWithCycle.createVertex("A")
+        val b = graphWithCycle.createVertex("B")
+        val c = graphWithCycle.createVertex("C")
+        val d = graphWithCycle.createVertex("D")
+        val e = graphWithCycle.createVertex("E")
+
+        graphWithCycle.addDirectedEdge(a, b, 0.0)
+        graphWithCycle.addDirectedEdge(a, c, 0.0)
+        graphWithCycle.addDirectedEdge(b, d, 0.0)
+        graphWithCycle.addDirectedEdge(c, e, 0.0)
+        graphWithCycle.addDirectedEdge(e, a, 0.0)
+
+        graphWithCycle.hasCycles.shouldBeTrue()
+    }
+
+    @Test
+    fun testDepthFirstSearch() {
+        val graph = AdjacencyList<String>()
+        val a = graph.createVertex("A")
+        val b = graph.createVertex("B")
+        val c = graph.createVertex("C")
+        val d = graph.createVertex("D")
+        val e = graph.createVertex("E")
+
+        graph.addDirectedEdge(a, b, 0.0)
+        graph.addDirectedEdge(a, c, 0.0)
+        graph.addDirectedEdge(b, d, 0.0)
+        graph.addDirectedEdge(c, e, 0.0)
+
+        graph.depthFirstSearch(a).map { it.data } shouldBe listOf(a, b, d, c, e).map { it.data }
+    }
+
+    @Test
+    fun testDepthFirstSearch2() {
+        // Create a graph
+        val graph = AdjacencyList<Int>()
+        val vertexA = graph.createVertex(1)
+        val vertexB = graph.createVertex(2)
+        val vertexC = graph.createVertex(3)
+        val vertexD = graph.createVertex(4)
+
+        // Add edges
+        graph.addDirectedEdge(vertexA, vertexB, null)
+        graph.addDirectedEdge(vertexA, vertexC, null)
+        graph.addDirectedEdge(vertexB, vertexD, null)
+
+        graph.depthFirstSearch(vertexA).map { it.data } shouldBe listOf(vertexA, vertexB, vertexD, vertexC).map { it.data }
+    }
+
+    @Test
+    fun depthFirstSearchRecursive() {
+        val graph = AdjacencyList<String>()
+        val a = graph.createVertex("A")
+        val b = graph.createVertex("B")
+        val c = graph.createVertex("C")
+        val d = graph.createVertex("D")
+        val e = graph.createVertex("E")
+
+        graph.addDirectedEdge(a, b, 0.0)
+        graph.addDirectedEdge(a, c, 0.0)
+        graph.addDirectedEdge(b, d, 0.0)
+        graph.addDirectedEdge(c, e, 0.0)
+
+        graph.depthFirstSearchRecursive(a).map { it.data } shouldBe listOf(a, b, d, c, e).map { it.data }
+    }
+
+    @Test
+    fun depthFirstSearchRecursive2() {
+        // Create a graph
+        val graph = AdjacencyList<Int>()
+        val vertexA = graph.createVertex(1)
+        val vertexB = graph.createVertex(2)
+        val vertexC = graph.createVertex(3)
+        val vertexD = graph.createVertex(4)
+
+        // Add edges
+        graph.addDirectedEdge(vertexA, vertexB, null)
+        graph.addDirectedEdge(vertexA, vertexC, null)
+        graph.addDirectedEdge(vertexB, vertexD, null)
+
+        graph.depthFirstSearchRecursive(vertexA).map { it.data } shouldBe listOf(vertexA, vertexB, vertexD, vertexC).map { it.data }
     }
 
     private fun connectedGraph(): Graph<String> {
