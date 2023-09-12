@@ -10,7 +10,6 @@ import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import org.testng.annotations.Ignore
 
 class GraphSearchTest {
     private val graph = AdjacencyList<String>()
@@ -73,7 +72,6 @@ class GraphSearchTest {
         val d = graphWithCycle.createVertex("D")
         val e = graphWithCycle.createVertex("E")
 
-
         graphWithCycle.addDirectedEdge(a, b, 0.0)
         graphWithCycle.addDirectedEdge(a, c, 0.0)
         graphWithCycle.addDirectedEdge(b, d, 0.0)
@@ -82,7 +80,6 @@ class GraphSearchTest {
 
         graphWithCycle.hasCycles.shouldBeTrue()
     }
-
 
     @Test
     fun testDepthFirstSearch() {
