@@ -34,30 +34,25 @@ object GraphSearch {
     val <T : Any> Graph<T>.hasCycles: Boolean
         get() {
             val source = allVertices.firstOrNull() ?: return false
-
-            val stack = LinkedList<Vertex<T>>()
+            val stack = LinkedList<Pair<Vertex<T>, Iterator<Edge<T>>>>()
             val visited = mutableSetOf<Vertex<T>>()
-            val order = mutableListOf<Vertex<T>>()
 
-            stack.push(source)
+            stack.push(source to edges(source).iterator())
 
             while (stack.isNotEmpty()) {
-                val vertex = stack.pop()
-                if (vertex in visited) {
-                    return true
-                } else {
-                    visited.add(vertex)
-                    order.add(vertex)
-
-                    val neighbors = edges(vertex)
-                    neighbors.forEach { edge ->
-                        val destination = edge.destination
-                        if (destination !in visited) {
-                            stack.push(destination)
-                        } else {
-                            return true
-                        }
+                val (current, edgesIterator) = stack.element()
+                if (edgesIterator.hasNext()) {
+                    val edge = edgesIterator.next()
+                    val neighbour = edge.destination
+                    if (neighbour in visited) {
+                        return true
+                    } else {
+                        visited.add(neighbour)
+                        stack.push(neighbour to edges(neighbour).iterator())
                     }
+                } else {
+                    stack.pop()
+                    visited.remove(current)
                 }
             }
 
@@ -107,30 +102,29 @@ object GraphSearch {
         val pushed = mutableSetOf<Vertex<T>>()
 
         stack.push(source)
-        pushed.add(source)
-        visited.add(source)
 
-        outer@ while (true) {
-            if (stack.isEmpty()) break
-
-            val vertex = stack.peek()!!
+        while (stack.isNotEmpty()) {
+            val vertex = stack.element()
             val neighbors = edges(vertex)
 
-            if (neighbors.isEmpty()) {
-                stack.pop()
-                continue
+            if (vertex !in pushed) {
+                pushed.add(vertex)
+                visited.add(vertex)
             }
 
+            var allNeighborsVisited = true
             for (i in 0 until neighbors.size) { // 4
                 val destination = neighbors[i].destination
                 if (destination !in pushed) {
+                    allNeighborsVisited = false
                     stack.push(destination)
-                    pushed.add(destination)
-                    visited.add(destination)
-                    continue@outer // 5
+                    break
                 }
             }
-            stack.pop() // 6
+
+            if (allNeighborsVisited) {
+                stack.pop()
+            }
         }
 
         return visited
