@@ -63,22 +63,36 @@ class GraphSearchTest {
         graphNoCycles.hasCycles.shouldBeFalse()
     }
 
+    /**
+     *      1 -> 2
+     *     ^
+     *    /
+     * 0 -> 3 ->  4
+     *      ^
+     *  \   |   /
+     *   ▼      ▼
+     *      5
+     */
     @Test
     fun `hasCycles for graph with cycles should be true`() {
-        val graphWithCycle = AdjacencyList<String>()
-        val a = graphWithCycle.createVertex("A")
-        val b = graphWithCycle.createVertex("B")
-        val c = graphWithCycle.createVertex("C")
-        val d = graphWithCycle.createVertex("D")
-        val e = graphWithCycle.createVertex("E")
+        val graphWithCycles = AdjacencyList<Int>()
+        val n_0 = graphWithCycles.createVertex(0)
+        val n_1 = graphWithCycles.createVertex(1)
+        val n_2 = graphWithCycles.createVertex(2)
+        val n_3 = graphWithCycles.createVertex(3)
+        val n_4 = graphWithCycles.createVertex(4)
+        val n_5 = graphWithCycles.createVertex(5)
 
-        graphWithCycle.addDirectedEdge(a, b, 0.0)
-        graphWithCycle.addDirectedEdge(a, c, 0.0)
-        graphWithCycle.addDirectedEdge(b, d, 0.0)
-        graphWithCycle.addDirectedEdge(c, e, 0.0)
-        graphWithCycle.addDirectedEdge(e, a, 0.0)
+        graphWithCycles.addDirectedEdge(n_0, n_1, 0.0)
+        graphWithCycles.addDirectedEdge(n_0, n_3, 0.0)
+        graphWithCycles.addDirectedEdge(n_0, n_5, 0.0)
+        graphWithCycles.addDirectedEdge(n_1, n_2, 0.0)
+        graphWithCycles.addDirectedEdge(n_1, n_3, 0.0)
+        graphWithCycles.addDirectedEdge(n_3, n_4, 0.0)
+        graphWithCycles.addDirectedEdge(n_5, n_3, 0.0)
+        graphWithCycles.addDirectedEdge(n_4, n_5, 0.0)
 
-        graphWithCycle.hasCycles.shouldBeTrue()
+        graphWithCycles.hasCycles.shouldBeTrue()
     }
 
     @Test
