@@ -66,6 +66,6 @@ class Dijkstra<T : Any>(
 
     enum class VisitType {
         START,
-        EDGE
+        EDGE,
     }
 }
