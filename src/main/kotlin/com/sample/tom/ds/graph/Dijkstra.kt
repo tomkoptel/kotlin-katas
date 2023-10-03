@@ -5,6 +5,18 @@ import java.util.PriorityQueue
 class Dijkstra<T : Any>(
     private val graph: AdjacencyList<T>,
 ) {
+    fun getAllShortestPath(source: Vertex<T>): Map<Vertex<T>, List<Edge<T>>> {
+        val paths = mutableMapOf<Vertex<T>, List<Edge<T>>>()
+
+        val pathsFromSource = shortestPath(source)
+        val otherVertices = graph.allVertices.toSet().minus(source)
+        otherVertices.forEach { target ->
+            paths[target] = route(target, pathsFromSource)
+        }
+
+        return paths
+    }
+
     fun shortestPath(start: Vertex<T>, finish: Vertex<T>): List<Edge<T>> {
         val paths = shortestPath(start)
         return route(finish, paths)
