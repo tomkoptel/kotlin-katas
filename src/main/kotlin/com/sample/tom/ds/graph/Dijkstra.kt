@@ -3,7 +3,7 @@ package com.sample.tom.ds.graph
 import java.util.PriorityQueue
 
 class Dijkstra<T : Any>(
-    private val graph: AdjacencyList<T>,
+    private val graph: Graph<T>,
 ) {
     fun getAllShortestPath(source: Vertex<T>): Map<Vertex<T>, List<Edge<T>>> {
         val paths = mutableMapOf<Vertex<T>, List<Edge<T>>>()
