@@ -46,39 +46,39 @@ class DijkstraTest {
     fun getAllShortestPath() {
         val dijkstra = Dijkstra(graph)
         val paths = dijkstra.getAllShortestPath(singapore)
-        paths shouldContain (tokyo to listOf(Edge(source = singapore, destination = tokyo, weight = 500.0)))
-        paths shouldContain (hongKong to listOf(Edge(source = singapore, destination = hongKong, weight = 300.0)))
-        paths shouldContain (
+        paths.shouldContain(tokyo to listOf(Edge(source = singapore, destination = tokyo, weight = 500.0)))
+        paths.shouldContain(hongKong to listOf(Edge(source = singapore, destination = hongKong, weight = 300.0)))
+        paths.shouldContain(
             detroit to listOf(
                 Edge(source = tokyo, destination = detroit, weight = 450.0),
                 Edge(source = singapore, destination = tokyo, weight = 500.0)
             )
-            )
-        paths shouldContain (
+        )
+        paths.shouldContain(
             sanFrancisco to listOf(
                 Edge(source = hongKong, destination = sanFrancisco, weight = 600.0),
                 Edge(source = singapore, destination = hongKong, weight = 300.0)
             )
-            )
-        paths shouldContain (
+        )
+        paths.shouldContain(
             washingtonDC to listOf(
                 Edge(source = tokyo, destination = washingtonDC, weight = 300.0),
                 Edge(source = singapore, destination = tokyo, weight = 500.0)
             )
-            )
-        paths shouldContain (
+        )
+        paths.shouldContain(
             austinTexas to listOf(
                 Edge(source = detroit, destination = austinTexas, weight = 50.0),
                 Edge(source = tokyo, destination = detroit, weight = 450.0),
                 Edge(source = singapore, destination = tokyo, weight = 500.0)
             )
-            )
-        paths shouldContain (
+        )
+        paths.shouldContain(
             seattle to listOf(
                 Edge(source = washingtonDC, destination = seattle, weight = 277.0),
                 Edge(source = tokyo, destination = washingtonDC, weight = 300.0),
                 Edge(source = singapore, destination = tokyo, weight = 500.0)
             )
-            )
+        )
     }
 }
