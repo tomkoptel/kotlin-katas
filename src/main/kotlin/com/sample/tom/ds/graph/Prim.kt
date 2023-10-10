@@ -10,7 +10,7 @@ object Prim {
         var cost = 0.0
         val visited = mutableSetOf<Vertex<T>>()
         val comparator = Comparator<Edge<T>> { first, second ->
-            ((first.weight ?: 0.0) - (second.weight ?: 0.0)).roundToInt()
+            ((second.weight ?: 0.0) - (first.weight ?: 0.0)).roundToInt()
         }
         val queue = PriorityQueue(comparator)
         val mst = AdjacencyList<T>()
