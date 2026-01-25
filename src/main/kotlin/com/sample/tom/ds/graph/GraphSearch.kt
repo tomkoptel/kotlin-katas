@@ -133,11 +133,7 @@ object GraphSearch {
         return visited
     }
 
-    private fun <T : Any> Graph<T>.depthFirstSearchRecursive(
-        source: Vertex<T>,
-        visited: ArrayList<Vertex<T>>,
-        pushed: MutableSet<Vertex<T>>,
-    ) {
+    private fun <T : Any> Graph<T>.depthFirstSearchRecursive(source: Vertex<T>, visited: ArrayList<Vertex<T>>, pushed: MutableSet<Vertex<T>>) {
         visited.add(source)
         pushed.add(source)
 

@@ -2,9 +2,7 @@ package com.sample.tom.ds.tree
 
 typealias Visitor<T> = (T) -> Unit
 
-class BinaryNode<T>(
-    var value: T,
-) {
+class BinaryNode<T>(var value: T) {
     var leftChild: BinaryNode<T>? = null
     var rightChild: BinaryNode<T>? = null
 
@@ -47,10 +45,9 @@ class BinaryNode<T>(
             return rightLevel.coerceAtLeast(leftLevel) + 1
         }
 
-    fun height(node: BinaryNode<T>? = this): Int =
-        node?.let {
-            1 + height(node.leftChild).coerceAtLeast(height(node.rightChild))
-        } ?: 0
+    fun height(node: BinaryNode<T>? = this): Int = node?.let {
+        1 + height(node.leftChild).coerceAtLeast(height(node.rightChild))
+    } ?: 0
 
     fun serialize(): MutableList<T?> {
         val result = mutableListOf<T?>()
@@ -58,10 +55,7 @@ class BinaryNode<T>(
         return result
     }
 
-    private fun <T> serializeHelper(
-        node: BinaryNode<T>?,
-        visitor: Visitor<T?>,
-    ) {
+    private fun <T> serializeHelper(node: BinaryNode<T>?, visitor: Visitor<T?>) {
         if (node == null) {
             visitor(null)
             return
@@ -103,33 +97,27 @@ class BinaryNode<T>(
     // │ ┌──5
     // └──1
     // └──0
-    private fun diagram(
-        node: BinaryNode<T>?,
-        top: String = "",
-        root: String = "",
-        bottom: String = "",
-    ): String =
-        node?.let {
-            if (node.leftChild == null && node.rightChild == null) {
-                "$root${node.value}\n"
-            } else {
-                val right =
-                    diagram(
-                        node = node.rightChild,
-                        top = "$top ",
-                        root = "$top┌──",
-                        bottom = "$top│ "
-                    )
-                val left =
-                    diagram(
-                        node = node.leftChild,
-                        top = "$bottom│ ",
-                        root = "$bottom└──",
-                        bottom = "$bottom "
-                    )
-                right + root + "${node.value}\n" + left
-            }
-        } ?: "${root}null\n"
+    private fun diagram(node: BinaryNode<T>?, top: String = "", root: String = "", bottom: String = ""): String = node?.let {
+        if (node.leftChild == null && node.rightChild == null) {
+            "$root${node.value}\n"
+        } else {
+            val right =
+                diagram(
+                    node = node.rightChild,
+                    top = "$top ",
+                    root = "$top┌──",
+                    bottom = "$top│ "
+                )
+            val left =
+                diagram(
+                    node = node.leftChild,
+                    top = "$bottom│ ",
+                    root = "$bottom└──",
+                    bottom = "$bottom "
+                )
+            right + root + "${node.value}\n" + left
+        }
+    } ?: "${root}null\n"
 
     override fun equals(other: Any?): Boolean {
         // 2

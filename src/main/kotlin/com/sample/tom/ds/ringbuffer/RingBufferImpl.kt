@@ -1,8 +1,7 @@
 package com.sample.tom.ds.ringbuffer
 
-class RingBufferImpl<T : Any>(
-    private val capacity: Int,
-) : RingBuffer<T>,
+class RingBufferImpl<T : Any>(private val capacity: Int) :
+    RingBuffer<T>,
     Iterable<T> {
     private val buffer: Array<Any?> = arrayOfNulls<Any?>(capacity)
 

@@ -2,17 +2,13 @@ package com.sample.tom.ds.heap
 
 import java.util.Collections
 
-fun <T : Comparable<T>> heapOf(elements: List<T>): AbstractHeap<T> =
-    object : AbstractHeap<T>() {
-        init {
-            heapify(ArrayList(elements))
-        }
-
-        override fun compare(
-            a: T,
-            b: T,
-        ): Int = a.compareTo(b)
+fun <T : Comparable<T>> heapOf(elements: List<T>): AbstractHeap<T> = object : AbstractHeap<T>() {
+    init {
+        heapify(ArrayList(elements))
     }
+
+    override fun compare(a: T, b: T): Int = a.compareTo(b)
+}
 
 fun <T : Any> List<T>.heapify(comparator: Comparator<T>): AbstractHeap<T> {
     val self = this
@@ -21,10 +17,7 @@ fun <T : Any> List<T>.heapify(comparator: Comparator<T>): AbstractHeap<T> {
             heapify(ArrayList(self))
         }
 
-        override fun compare(
-            a: T,
-            b: T,
-        ): Int = comparator.compare(a, b)
+        override fun compare(a: T, b: T): Int = comparator.compare(a, b)
     }
 }
 
@@ -70,10 +63,7 @@ abstract class AbstractHeap<T : Any> : Heap<T> {
 
     private fun parentIndex(index: Int) = (index - 1) / 2
 
-    abstract fun compare(
-        a: T,
-        b: T,
-    ): Int
+    abstract fun compare(a: T, b: T): Int
 
     private fun siftUp(index: Int) {
         var child = index
@@ -116,10 +106,7 @@ abstract class AbstractHeap<T : Any> : Heap<T> {
     }
 
     @Suppress("unused")
-    private fun elementIndexRecursive(
-        element: T,
-        i: Int,
-    ): Int? {
+    private fun elementIndexRecursive(element: T, i: Int): Int? {
         if (i >= count) {
             return null
         }
@@ -137,10 +124,7 @@ abstract class AbstractHeap<T : Any> : Heap<T> {
         return null
     }
 
-    private fun elementIndex(
-        element: T,
-        i: Int,
-    ): Int? {
+    private fun elementIndex(element: T, i: Int): Int? {
         val indexQueue =
             ArrayDeque<Int>().also {
                 it.add(i)

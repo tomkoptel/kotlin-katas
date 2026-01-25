@@ -260,45 +260,43 @@ class BinarySearchTreeTest {
                     insert(12)
                 }
             )
-        ).shouldBeTrue()
+            ).shouldBeTrue()
         (biggerTree().contains(tree())).shouldBeFalse()
     }
 
-    private fun biggerTree() =
-        BinarySearchTree<Int>().apply {
-            /**
-             ┌──50
-             ┌──40
-             │   └──35
-             30
-             │    ┌──25
-             │   ┌──20
-             │   │ └──11
-             └──10
-             │ ┌──null
-             └──9
-             └──8
-             */
-            insert(30)
-            insert(10)
-            insert(40)
-            insert(9)
-            insert(20)
-            insert(50)
-            insert(25)
-            insert(8)
-            insert(11)
-            insert(35)
-            insert(12)
-        }
+    private fun biggerTree() = BinarySearchTree<Int>().apply {
+        /**
+         ┌──50
+         ┌──40
+         │   └──35
+         30
+         │    ┌──25
+         │   ┌──20
+         │   │ └──11
+         └──10
+         │ ┌──null
+         └──9
+         └──8
+         */
+        insert(30)
+        insert(10)
+        insert(40)
+        insert(9)
+        insert(20)
+        insert(50)
+        insert(25)
+        insert(8)
+        insert(11)
+        insert(35)
+        insert(12)
+    }
 
-    private fun tree() =
-        BinarySearchTree<Int>().apply {
-            insertRecursive(3)
-            insertRecursive(1)
-            insertRecursive(4)
-            insertRecursive(0)
-            insertRecursive(2)
-            insertRecursive(5)
-        }
+    private fun tree() = BinarySearchTree<Int>().apply {
+        insertRecursive(3)
+        insertRecursive(1)
+        insertRecursive(4)
+        insertRecursive(0)
+        insertRecursive(2)
+        insertRecursive(5)
+    }
 }

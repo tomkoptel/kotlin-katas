@@ -71,10 +71,7 @@ class Trie<Key : Any> {
         return allPrefixesRecursive(prefix, current)
     }
 
-    private fun allPrefixesRecursive(
-        prefix: List<Key>,
-        node: TrieNode<Key>,
-    ): List<List<Key>> {
+    private fun allPrefixesRecursive(prefix: List<Key>, node: TrieNode<Key>): List<List<Key>> {
         val results = mutableListOf<List<Key>>()
 
         if (node.isTerminating) {

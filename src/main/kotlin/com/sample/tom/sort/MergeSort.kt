@@ -19,10 +19,7 @@ object MergeSort {
         return queue.remove()
     }
 
-    private fun <T : Comparable<T>> merge(
-        left: List<T>,
-        right: List<T>,
-    ): List<T> {
+    private fun <T : Comparable<T>> merge(left: List<T>, right: List<T>): List<T> {
         val result = mutableListOf<T>()
         var leftIndex = 0
         var rightIndex = 0
@@ -48,10 +45,7 @@ object MergeSort {
     /**
      * Write a function that takes two sorted iterables and merges them into a single iterable.
      */
-    fun <T : Comparable<T>> merge(
-        first: Iterable<T>,
-        second: Iterable<T>,
-    ): Iterable<T> {
+    fun <T : Comparable<T>> merge(first: Iterable<T>, second: Iterable<T>): Iterable<T> {
         val firstIterator = first.iterator()
         val secondIterator = second.iterator()
         val result = mutableListOf<T>()

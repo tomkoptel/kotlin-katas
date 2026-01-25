@@ -113,10 +113,7 @@ object QuickSort {
         return this
     }
 
-    private fun <T : Comparable<T>> List<T>.medianOfThree(
-        low: Int,
-        high: Int,
-    ): Int {
+    private fun <T : Comparable<T>> List<T>.medianOfThree(low: Int, high: Int): Int {
         val center = (low + high) / 2
         if (this[low] > this[center]) {
             Collections.swap(this, low, center)

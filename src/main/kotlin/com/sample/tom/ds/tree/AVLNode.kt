@@ -1,8 +1,6 @@
 package com.sample.tom.ds.tree
 
-class AVLNode<T>(
-    var value: T,
-) {
+class AVLNode<T>(var value: T) {
     var leftChild: AVLNode<T>? = null
     var rightChild: AVLNode<T>? = null
 
@@ -19,31 +17,25 @@ class AVLNode<T>(
 
     override fun toString() = diagram(this)
 
-    private fun diagram(
-        node: AVLNode<T>?,
-        top: String = "",
-        root: String = "",
-        bottom: String = "",
-    ): String =
-        node?.let {
-            if (node.leftChild == null && node.rightChild == null) {
-                "$root${node.value}\n"
-            } else {
-                val right =
-                    diagram(
-                        node = node.rightChild,
-                        top = "$top ",
-                        root = "$top┌──",
-                        bottom = "$top│ "
-                    )
-                val left =
-                    diagram(
-                        node = node.leftChild,
-                        top = "$bottom│ ",
-                        root = "$bottom└──",
-                        bottom = "$bottom "
-                    )
-                right + root + "${node.value}\n" + left
-            }
-        } ?: "${root}null\n"
+    private fun diagram(node: AVLNode<T>?, top: String = "", root: String = "", bottom: String = ""): String = node?.let {
+        if (node.leftChild == null && node.rightChild == null) {
+            "$root${node.value}\n"
+        } else {
+            val right =
+                diagram(
+                    node = node.rightChild,
+                    top = "$top ",
+                    root = "$top┌──",
+                    bottom = "$top│ "
+                )
+            val left =
+                diagram(
+                    node = node.leftChild,
+                    top = "$bottom│ ",
+                    root = "$bottom└──",
+                    bottom = "$bottom "
+                )
+            right + root + "${node.value}\n" + left
+        }
+    } ?: "${root}null\n"
 }

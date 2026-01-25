@@ -10,10 +10,7 @@ class AVLTree<T : Comparable<T>> {
         root = internalInsert(root, value)
     }
 
-    private fun internalInsert(
-        node: AVLNode<T>?,
-        value: T,
-    ): AVLNode<T>? {
+    private fun internalInsert(node: AVLNode<T>?, value: T): AVLNode<T>? {
         node ?: return AVLNode(value)
         if (value < node.value) {
             node.leftChild = internalInsert(node.leftChild, value)
@@ -28,30 +25,29 @@ class AVLTree<T : Comparable<T>> {
     }
 
     // shouldn't it be recursive
-    private fun balance(node: AVLNode<T>): AVLNode<T>? =
-        when (node.balanceFactor) {
-            2 -> { // left heavy
-                // is it a right or left we need check
-                val balanceFactor = node.leftChild?.balanceFactor ?: 0
-                if (balanceFactor == -1) {
-                    // why do we need to reassign it?
-                    // because here we have a reference to the node which height is at minimum 2 and we need fix the skew of left branch
-                    // we are rotating the left child that has a height of 1 but skew to the left and change it to right
-                    node.leftChild = leftRotate(node.leftChild)
-                }
-                rightRotate(node)
+    private fun balance(node: AVLNode<T>): AVLNode<T>? = when (node.balanceFactor) {
+        2 -> { // left heavy
+            // is it a right or left we need check
+            val balanceFactor = node.leftChild?.balanceFactor ?: 0
+            if (balanceFactor == -1) {
+                // why do we need to reassign it?
+                // because here we have a reference to the node which height is at minimum 2 and we need fix the skew of left branch
+                // we are rotating the left child that has a height of 1 but skew to the left and change it to right
+                node.leftChild = leftRotate(node.leftChild)
             }
-
-            -2 -> {
-                val balanceFactor = node.rightChild?.balanceFactor ?: 0
-                if (balanceFactor == 1) {
-                    node.rightChild = rightRotate(node.rightChild)
-                }
-                leftRotate(node)
-            }
-
-            else -> node
+            rightRotate(node)
         }
+
+        -2 -> {
+            val balanceFactor = node.rightChild?.balanceFactor ?: 0
+            if (balanceFactor == 1) {
+                node.rightChild = rightRotate(node.rightChild)
+            }
+            leftRotate(node)
+        }
+
+        else -> node
+    }
 
     private fun leftRotate(node: AVLNode<T>?): AVLNode<T>? {
         val pivot = node?.rightChild
@@ -75,10 +71,7 @@ class AVLTree<T : Comparable<T>> {
         root = removeRecursive(root, value)
     }
 
-    private fun removeRecursive(
-        node: AVLNode<T>?,
-        value: T,
-    ): AVLNode<T>? {
+    private fun removeRecursive(node: AVLNode<T>?, value: T): AVLNode<T>? {
         node ?: return null
 
         when {

@@ -2,9 +2,7 @@ package com.sample.tom.ds.tree
 
 typealias TreeNodeVisitor<T> = (TreeNode<T>) -> Unit
 
-class TreeNode<T>(
-    val value: T,
-) {
+class TreeNode<T>(val value: T) {
     private val children = mutableListOf<TreeNode<T>>()
 
     fun add(child: TreeNode<T>) = children.add(child)

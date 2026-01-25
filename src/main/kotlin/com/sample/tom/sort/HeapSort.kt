@@ -19,11 +19,7 @@ object HeapSort {
         }
     }
 
-    private fun <T> MutableList<T>.siftDown(
-        index: Int,
-        upTo: Int,
-        comparator: Comparator<T>,
-    ) {
+    private fun <T> MutableList<T>.siftDown(index: Int, upTo: Int, comparator: Comparator<T>) {
         var parent = index
         while (true) {
             val left = leftIndex(parent)

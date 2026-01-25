@@ -51,10 +51,7 @@ class BinarySearchTree<T : Comparable<T>> {
         return false
     }
 
-    private fun insertInternal(
-        node: BinaryNode<T>?,
-        value: T,
-    ): BinaryNode<T> {
+    private fun insertInternal(node: BinaryNode<T>?, value: T): BinaryNode<T> {
         node ?: return BinaryNode(value)
         if (value < node.value) {
             node.leftChild = insertInternal(node.leftChild, value)
@@ -68,10 +65,7 @@ class BinarySearchTree<T : Comparable<T>> {
         root = removeRecursive(root, value)
     }
 
-    private fun removeRecursive(
-        node: BinaryNode<T>?,
-        value: T,
-    ): BinaryNode<T>? {
+    private fun removeRecursive(node: BinaryNode<T>?, value: T): BinaryNode<T>? {
         node ?: return null
 
         when {
@@ -128,11 +122,7 @@ class BinarySearchTree<T : Comparable<T>> {
         }
     }
 
-    private fun removeNode(
-        node: BinaryNode<T>,
-        parent: BinaryNode<T>?,
-        isLeftChild: Boolean,
-    ) {
+    private fun removeNode(node: BinaryNode<T>, parent: BinaryNode<T>?, isLeftChild: Boolean) {
         if (node.leftChild == null && node.rightChild == null) {
             // Case 1: Node is a leaf node
             if (parent == null) {
@@ -211,11 +201,7 @@ class BinarySearchTree<T : Comparable<T>> {
             return isBST(root, min = null, max = null)
         }
 
-    private fun isBST(
-        node: BinaryNode<T>?,
-        min: T?,
-        max: T?,
-    ): Boolean {
+    private fun isBST(node: BinaryNode<T>?, min: T?, max: T?): Boolean {
         node ?: return true
 
         if (min != null && node.value <= min) {

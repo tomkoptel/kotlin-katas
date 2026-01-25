@@ -22,12 +22,11 @@ class LinkedListQueue<T : Any> : Queue<T> {
 
     override fun enqueue(element: T): Boolean = storage.add(element)
 
-    override fun dequeue(): T? =
-        try {
-            storage.pop()
-        } catch (ex: NoSuchElementException) {
-            null
-        }
+    override fun dequeue(): T? = try {
+        storage.pop()
+    } catch (ex: NoSuchElementException) {
+        null
+    }
 
     override val count: Int
         get() = storage.size

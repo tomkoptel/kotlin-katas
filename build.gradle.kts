@@ -9,6 +9,11 @@ version = "1.0-SNAPSHOT"
 spotless {
     kotlin {
         ktlint(libs.versions.ktlint.get())
+            .editorConfigOverride(
+                mapOf(
+                    "ktlint_standard_property-naming" to "disabled",
+                ),
+            )
     }
 }
 

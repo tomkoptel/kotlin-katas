@@ -44,27 +44,25 @@ class LinkedList<T : Any> : MutableCollection<T> {
         return false
     }
 
-    fun push(item: T): LinkedList<T> =
-        apply {
-            head = Node(value = item, next = head)
-            if (tail == null) {
-                tail = head
-            }
+    fun push(item: T): LinkedList<T> = apply {
+        head = Node(value = item, next = head)
+        if (tail == null) {
+            tail = head
+        }
+        _size++
+    }
+
+    fun append(item: T): LinkedList<T> = apply {
+        val tail = tail
+        if (tail == null) {
+            push(item)
+        } else {
+            val newNode = Node(item)
+            tail.next = newNode
+            this.tail = newNode
             _size++
         }
-
-    fun append(item: T): LinkedList<T> =
-        apply {
-            val tail = tail
-            if (tail == null) {
-                push(item)
-            } else {
-                val newNode = Node(item)
-                tail.next = newNode
-                this.tail = newNode
-                _size++
-            }
-        }
+    }
 
     fun nodeAt(index: Int): Node<T>? {
         val head = head ?: return null
@@ -80,10 +78,7 @@ class LinkedList<T : Any> : MutableCollection<T> {
         return currentNode
     }
 
-    fun insert(
-        item: T,
-        atNode: Node<T>,
-    ): Node<T> {
+    fun insert(item: T, atNode: Node<T>): Node<T> {
         val atNodeNext = atNode.next
         val newNode = Node(item, next = atNodeNext)
         atNode.next = newNode

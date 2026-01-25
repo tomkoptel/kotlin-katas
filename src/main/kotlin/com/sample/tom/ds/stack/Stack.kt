@@ -40,13 +40,12 @@ interface Stack<T : Any> {
         override val size: Int
             get() = storage.size
 
-        override fun toString(): String =
-            buildString {
-                appendLine("----top----")
-                storage.asReversed().forEach {
-                    appendLine("$it")
-                }
-                appendLine("-----------")
+        override fun toString(): String = buildString {
+            appendLine("----top----")
+            storage.asReversed().forEach {
+                appendLine("$it")
             }
+            appendLine("-----------")
+        }
     }
 }
