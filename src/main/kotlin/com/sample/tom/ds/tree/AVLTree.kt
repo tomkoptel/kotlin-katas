@@ -10,7 +10,10 @@ class AVLTree<T : Comparable<T>> {
         root = internalInsert(root, value)
     }
 
-    private fun internalInsert(node: AVLNode<T>?, value: T): AVLNode<T>? {
+    private fun internalInsert(
+        node: AVLNode<T>?,
+        value: T,
+    ): AVLNode<T>? {
         node ?: return AVLNode(value)
         if (value < node.value) {
             node.leftChild = internalInsert(node.leftChild, value)
@@ -25,8 +28,8 @@ class AVLTree<T : Comparable<T>> {
     }
 
     // shouldn't it be recursive
-    private fun balance(node: AVLNode<T>): AVLNode<T>? {
-        return when (node.balanceFactor) {
+    private fun balance(node: AVLNode<T>): AVLNode<T>? =
+        when (node.balanceFactor) {
             2 -> { // left heavy
                 // is it a right or left we need check
                 val balanceFactor = node.leftChild?.balanceFactor ?: 0
@@ -49,7 +52,6 @@ class AVLTree<T : Comparable<T>> {
 
             else -> node
         }
-    }
 
     private fun leftRotate(node: AVLNode<T>?): AVLNode<T>? {
         val pivot = node?.rightChild
@@ -73,7 +75,10 @@ class AVLTree<T : Comparable<T>> {
         root = removeRecursive(root, value)
     }
 
-    private fun removeRecursive(node: AVLNode<T>?, value: T): AVLNode<T>? {
+    private fun removeRecursive(
+        node: AVLNode<T>?,
+        value: T,
+    ): AVLNode<T>? {
         node ?: return null
 
         when {
@@ -113,9 +118,7 @@ class AVLTree<T : Comparable<T>> {
      *
      * Since each node has two children, the number of leaf nodes doubles as the height increases.
      */
-    fun leafNodes(): Int {
-        return 2.0.pow((root?.height ?: 0)).roundToInt()
-    }
+    fun leafNodes(): Int = 2.0.pow((root?.height ?: 0)).roundToInt()
 
     /**
      * How many nodes are there in a perfectly balanced tree of height 3?
@@ -128,7 +131,5 @@ class AVLTree<T : Comparable<T>> {
         return 2.0.pow(height + 1).roundToInt() - 1
     }
 
-    override fun toString(): String {
-        return root?.let { "$it" } ?: "empty"
-    }
+    override fun toString(): String = root?.let { "$it" } ?: "empty"
 }

@@ -7,7 +7,8 @@ class StackQueueTest {
     @Test
     fun `should support enqueue method`() {
         val queue = stackQueueOf(listOf("1", "2", "3", "4"))
-        "$queue" shouldBe """
+        "$queue" shouldBe
+            """
             StackQueue(left=----top----
             -----------
             , right=----top----
@@ -17,9 +18,10 @@ class StackQueueTest {
             1
             -----------
             )
-        """.trimIndent()
+            """.trimIndent()
         queue.dequeue()
-        "$queue" shouldBe """
+        "$queue" shouldBe
+            """
             StackQueue(left=----top----
             2
             3
@@ -28,7 +30,7 @@ class StackQueueTest {
             , right=----top----
             -----------
             )
-        """.trimIndent()
+            """.trimIndent()
     }
 
     @Test

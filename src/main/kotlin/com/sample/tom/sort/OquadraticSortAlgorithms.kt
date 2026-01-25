@@ -1,6 +1,6 @@
 package com.sample.tom.sort
 
-import java.util.*
+import java.util.Collections
 
 object OquadraticSortAlgorithms {
     fun <T : Comparable<T>> MutableList<T>.bubbleSort() {

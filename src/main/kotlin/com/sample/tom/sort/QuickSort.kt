@@ -1,6 +1,7 @@
 package com.sample.tom.sort
 
-import java.util.*
+import java.util.Collections
+import java.util.LinkedList
 
 object QuickSort {
     fun <T : Comparable<T>> List<T>.naiveQuickSort(): List<T> {
@@ -112,7 +113,10 @@ object QuickSort {
         return this
     }
 
-    private fun <T : Comparable<T>> List<T>.medianOfThree(low: Int, high: Int): Int {
+    private fun <T : Comparable<T>> List<T>.medianOfThree(
+        low: Int,
+        high: Int,
+    ): Int {
         val center = (low + high) / 2
         if (this[low] > this[center]) {
             Collections.swap(this, low, center)

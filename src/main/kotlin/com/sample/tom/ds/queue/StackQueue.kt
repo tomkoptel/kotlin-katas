@@ -50,7 +50,5 @@ class StackQueue<T : Any> : Queue<T> {
     override val isEmpty: Boolean
         get() = left.isEmpty && right.isEmpty
 
-    override fun toString(): String {
-        return "StackQueue(left=$left, right=$right)"
-    }
+    override fun toString(): String = "StackQueue(left=$left, right=$right)"
 }

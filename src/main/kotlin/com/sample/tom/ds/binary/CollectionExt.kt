@@ -1,6 +1,6 @@
 package com.sample.tom.ds.binary
 
-import java.util.*
+import java.util.Stack
 
 object CollectionExt {
     fun <T : Comparable<T>> List<T>.binarySearch(el: T): Int? {
@@ -55,7 +55,10 @@ object CollectionExt {
         return startIndex..endIndex
     }
 
-    private fun <T : Comparable<T>> List<T>.startIndex(value: T, range: IntRange): Int? {
+    private fun <T : Comparable<T>> List<T>.startIndex(
+        value: T,
+        range: IntRange,
+    ): Int? {
         val middleIndex = range.first + (range.last - range.first + 1) / 2
         if (middleIndex == 0 || middleIndex == size - 1) {
             return if (this[middleIndex] == value) {
@@ -78,7 +81,10 @@ object CollectionExt {
         }
     }
 
-    private fun <T : Comparable<T>> List<T>.endIndex(value: T, range: IntRange): Int? {
+    private fun <T : Comparable<T>> List<T>.endIndex(
+        value: T,
+        range: IntRange,
+    ): Int? {
         val middleIndex = range.first + (range.last - range.first + 1) / 2
         if (middleIndex == 0 || middleIndex == size - 1) {
             return if (this[middleIndex] == value) {

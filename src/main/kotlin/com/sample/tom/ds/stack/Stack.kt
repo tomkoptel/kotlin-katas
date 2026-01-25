@@ -13,8 +13,11 @@ fun <T : Any> stackOf(items: Iterable<T>): Stack<T> {
 
 interface Stack<T : Any> {
     fun push(value: T): T
+
     fun pop(): T?
+
     fun peek(): T?
+
     val size: Int
     val isEmpty: Boolean
         get() = size == 0
@@ -32,19 +35,18 @@ interface Stack<T : Any> {
             return storage.removeAt(storage.lastIndex)
         }
 
-        override fun peek(): T? {
-            return storage.lastOrNull()
-        }
+        override fun peek(): T? = storage.lastOrNull()
 
         override val size: Int
             get() = storage.size
 
-        override fun toString(): String = buildString {
-            appendLine("----top----")
-            storage.asReversed().forEach {
-                appendLine("$it")
+        override fun toString(): String =
+            buildString {
+                appendLine("----top----")
+                storage.asReversed().forEach {
+                    appendLine("$it")
+                }
+                appendLine("-----------")
             }
-            appendLine("-----------")
-        }
     }
 }

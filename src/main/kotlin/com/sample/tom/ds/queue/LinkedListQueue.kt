@@ -1,6 +1,6 @@
 package com.sample.tom.ds.queue
 
-import java.util.*
+import java.util.LinkedList
 
 fun <T : Any> linkedListQueueQueueOf(collection: Collection<T>): Queue<T> {
     val queue = LinkedListQueue<T>()
@@ -20,26 +20,19 @@ fun <T : Any> linkedListQueueQueueOf(collection: Collection<T>): Queue<T> {
 class LinkedListQueue<T : Any> : Queue<T> {
     private val storage = LinkedList<T>()
 
-    override fun enqueue(element: T): Boolean {
-        return storage.add(element)
-    }
+    override fun enqueue(element: T): Boolean = storage.add(element)
 
-    override fun dequeue(): T? {
-        return try {
+    override fun dequeue(): T? =
+        try {
             storage.pop()
         } catch (ex: NoSuchElementException) {
             null
         }
-    }
 
     override val count: Int
         get() = storage.size
 
-    override fun peek(): T? {
-        return storage.first
-    }
+    override fun peek(): T? = storage.first
 
-    override fun toString(): String {
-        return if (storage.isEmpty()) "[]" else storage.joinToString(separator = " > ")
-    }
+    override fun toString(): String = if (storage.isEmpty()) "[]" else storage.joinToString(separator = " > ")
 }

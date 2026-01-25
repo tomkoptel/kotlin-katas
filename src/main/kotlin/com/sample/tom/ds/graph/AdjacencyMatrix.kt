@@ -16,7 +16,11 @@ class AdjacencyMatrix<T : Any> : Graph<T> {
         return vertex
     }
 
-    override fun addDirectedEdge(source: Vertex<T>, destination: Vertex<T>, weight: Double?) {
+    override fun addDirectedEdge(
+        source: Vertex<T>,
+        destination: Vertex<T>,
+        weight: Double?,
+    ) {
         weights[source.index][destination.index] = weight
     }
 
@@ -31,9 +35,10 @@ class AdjacencyMatrix<T : Any> : Graph<T> {
         return edges
     }
 
-    override fun weight(source: Vertex<T>, destination: Vertex<T>): Double? {
-        return weights[source.index][destination.index]
-    }
+    override fun weight(
+        source: Vertex<T>,
+        destination: Vertex<T>,
+    ): Double? = weights[source.index][destination.index]
 
     override val allVertices: List<Vertex<T>>
         get() = vertices
@@ -44,11 +49,12 @@ class AdjacencyMatrix<T : Any> : Graph<T> {
         weights.forEach {
             var row = ""
             (0 until weights.size).forEach { columnIndex ->
-                row += if (columnIndex >= it.size) {
-                    "ø\t\t"
-                } else {
-                    it[columnIndex]?.let { "$it\t" } ?: "ø\t\t"
-                }
+                row +=
+                    if (columnIndex >= it.size) {
+                        "ø\t\t"
+                    } else {
+                        it[columnIndex]?.let { "$it\t" } ?: "ø\t\t"
+                    }
             }
             grid.add(row)
         }

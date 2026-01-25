@@ -17,7 +17,10 @@ fun <T : Any> LinkedList<T>.immutableRecursiveReverse(): LinkedList<T> {
     return newList
 }
 
-private fun <T : Any> immutableRecursiveReverse(node: Node<T>, list: LinkedList<T>) {
+private fun <T : Any> immutableRecursiveReverse(
+    node: Node<T>,
+    list: LinkedList<T>,
+) {
     val next = node.next
     if (next != null) {
         immutableRecursiveReverse(next, list)

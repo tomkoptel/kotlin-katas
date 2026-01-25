@@ -71,11 +71,12 @@ object RadixSort {
         return result
     }
 
-    fun MutableList<Int>.lexicographicalSortRecursive(): MutableList<Int> {
-        return msdRadixSorted(this, 0)
-    }
+    fun MutableList<Int>.lexicographicalSortRecursive(): MutableList<Int> = msdRadixSorted(this, 0)
 
-    private fun msdRadixSorted(list: MutableList<Int>, position: Int): MutableList<Int> {
+    private fun msdRadixSorted(
+        list: MutableList<Int>,
+        position: Int,
+    ): MutableList<Int> {
         if (position >= list.maxDigits()) return list
         val buckets = MutableList<MutableList<Int>>(10) { mutableListOf() }
         val priorityBucket = arrayListOf<Int>()
@@ -89,11 +90,12 @@ object RadixSort {
             }
         }
 
-        val newValues = buckets.reduce { result, bucket ->
-            if (bucket.isEmpty()) return@reduce result
-            result.addAll(msdRadixSorted(bucket, position + 1))
-            result
-        }
+        val newValues =
+            buckets.reduce { result, bucket ->
+                if (bucket.isEmpty()) return@reduce result
+                result.addAll(msdRadixSorted(bucket, position + 1))
+                result
+            }
         priorityBucket.addAll(newValues)
         return priorityBucket
     }
@@ -119,7 +121,5 @@ object RadixSort {
         return num % 10
     }
 
-    private fun List<Int>.maxDigits(): Int {
-        return maxOrNull()?.digits() ?: 0
-    }
+    private fun List<Int>.maxDigits(): Int = maxOrNull()?.digits() ?: 0
 }

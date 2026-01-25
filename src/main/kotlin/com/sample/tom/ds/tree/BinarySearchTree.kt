@@ -41,16 +41,20 @@ class BinarySearchTree<T : Comparable<T>> {
                 return true
             }
 
-            current = if (value < current.value) {
-                current.leftChild
-            } else {
-                current.rightChild
-            }
+            current =
+                if (value < current.value) {
+                    current.leftChild
+                } else {
+                    current.rightChild
+                }
         }
         return false
     }
 
-    private fun insertInternal(node: BinaryNode<T>?, value: T): BinaryNode<T> {
+    private fun insertInternal(
+        node: BinaryNode<T>?,
+        value: T,
+    ): BinaryNode<T> {
         node ?: return BinaryNode(value)
         if (value < node.value) {
             node.leftChild = insertInternal(node.leftChild, value)
@@ -64,7 +68,10 @@ class BinarySearchTree<T : Comparable<T>> {
         root = removeRecursive(root, value)
     }
 
-    private fun removeRecursive(node: BinaryNode<T>?, value: T): BinaryNode<T>? {
+    private fun removeRecursive(
+        node: BinaryNode<T>?,
+        value: T,
+    ): BinaryNode<T>? {
         node ?: return null
 
         when {
@@ -121,7 +128,11 @@ class BinarySearchTree<T : Comparable<T>> {
         }
     }
 
-    private fun removeNode(node: BinaryNode<T>, parent: BinaryNode<T>?, isLeftChild: Boolean) {
+    private fun removeNode(
+        node: BinaryNode<T>,
+        parent: BinaryNode<T>?,
+        isLeftChild: Boolean,
+    ) {
         if (node.leftChild == null && node.rightChild == null) {
             // Case 1: Node is a leaf node
             if (parent == null) {
@@ -200,7 +211,11 @@ class BinarySearchTree<T : Comparable<T>> {
             return isBST(root, min = null, max = null)
         }
 
-    private fun isBST(node: BinaryNode<T>?, min: T?, max: T?): Boolean {
+    private fun isBST(
+        node: BinaryNode<T>?,
+        min: T?,
+        max: T?,
+    ): Boolean {
         node ?: return true
 
         if (min != null && node.value <= min) {
@@ -255,9 +270,7 @@ class BinarySearchTree<T : Comparable<T>> {
             return true
         }
 
-    override fun toString(): String {
-        return root?.let { "$it" } ?: "empty"
-    }
+    override fun toString(): String = root?.let { "$it" } ?: "empty"
 
     @Suppress("UNCHECKED_CAST")
     override fun equals(other: Any?): Boolean {
@@ -267,12 +280,14 @@ class BinarySearchTree<T : Comparable<T>> {
         val otherTree = other as BinarySearchTree<T>
         val currentTree = this
 
-        val currentNodes = ArrayDeque<BinaryNode<T>?>().also {
-            it.addFirst(currentTree.root)
-        }
-        val otherNodes = ArrayDeque<BinaryNode<T>?>().also {
-            it.addFirst(otherTree.root)
-        }
+        val currentNodes =
+            ArrayDeque<BinaryNode<T>?>().also {
+                it.addFirst(currentTree.root)
+            }
+        val otherNodes =
+            ArrayDeque<BinaryNode<T>?>().also {
+                it.addFirst(otherTree.root)
+            }
 
         while (currentNodes.isNotEmpty()) {
             val currentNode = currentNodes.removeFirst()
@@ -311,7 +326,5 @@ class BinarySearchTree<T : Comparable<T>> {
         return isEqual
     }
 
-    override fun hashCode(): Int {
-        return root?.hashCode() ?: 0
-    }
+    override fun hashCode(): Int = root?.hashCode() ?: 0
 }

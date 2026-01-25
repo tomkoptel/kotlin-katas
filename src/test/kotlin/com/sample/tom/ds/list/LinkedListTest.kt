@@ -97,7 +97,12 @@ class LinkedListTest {
 
     @Test
     fun `removeAfter removes a value after a particular node of the list`() {
-        val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        val list1 =
+            LinkedList<String>()
+                .append("1")
+                .append("2")
+                .append("3")
+                .append("4")
 
         val node2 = list1.nodeAt(1).shouldNotBeNull()
         list1.removeAfter(node2) shouldBe "3"
@@ -118,14 +123,24 @@ class LinkedListTest {
         list1.size shouldBe 1
         "$list1" shouldBe "1"
 
-        val list2 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        val list2 =
+            LinkedList<String>()
+                .append("1")
+                .append("2")
+                .append("3")
+                .append("4")
         list2.removeAfter(list2.nodeAt(2).shouldNotBeNull()) shouldBe "4"
         "$list2" shouldBe "1 -> 2 -> 3"
     }
 
     @Test
     fun `list should support the iterator`() {
-        val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        val list1 =
+            LinkedList<String>()
+                .append("1")
+                .append("2")
+                .append("3")
+                .append("4")
         val iterator = list1.iterator()
         iterator.hasNext() shouldBe true
         iterator.next() shouldBe "1"
@@ -178,7 +193,12 @@ class LinkedListTest {
     @Test
     fun `should support contains all`() {
         val list1 = LinkedList<String>().append("1").append("2")
-        val list2 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        val list2 =
+            LinkedList<String>()
+                .append("1")
+                .append("2")
+                .append("3")
+                .append("4")
         list2.containsAll(list1).shouldBeTrue()
         list1.containsAll(list2).shouldBeFalse()
     }
@@ -251,7 +271,12 @@ class LinkedListTest {
 
     @Test
     fun `immutableReverse should allow us to reverse the list`() {
-        val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        val list1 =
+            LinkedList<String>()
+                .append("1")
+                .append("2")
+                .append("3")
+                .append("4")
         "${list1.immutableReverse()}" shouldBe "4 -> 3 -> 2 -> 1"
 
         val list2 = LinkedList<String>().append("1").append("2")
@@ -263,13 +288,24 @@ class LinkedListTest {
         val list4 = LinkedList<String>()
         "${list4.immutableReverse()}" shouldBe "[]"
 
-        val list5 = LinkedList<String>().append("3").append("2").append("1").append("4").append("5")
+        val list5 =
+            LinkedList<String>()
+                .append("3")
+                .append("2")
+                .append("1")
+                .append("4")
+                .append("5")
         "${list5.immutableReverse()}" shouldBe "5 -> 4 -> 1 -> 2 -> 3"
     }
 
     @Test
     fun `middle ext should give us middle node`() {
-        val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        val list1 =
+            LinkedList<String>()
+                .append("1")
+                .append("2")
+                .append("3")
+                .append("4")
         "${list1.middle()}" shouldBe "3"
 
         val list2 = LinkedList<String>().append("1").append("2").append("3")
@@ -284,10 +320,21 @@ class LinkedListTest {
 
     @Test
     fun `middleWithRunner ext should give us middle node`() {
-        val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        val list1 =
+            LinkedList<String>()
+                .append("1")
+                .append("2")
+                .append("3")
+                .append("4")
         "${list1.middleWithRunner()}" shouldBe "3"
 
-        val list2 = LinkedList<String>().append("1").append("2").append("3").append("4").append("5")
+        val list2 =
+            LinkedList<String>()
+                .append("1")
+                .append("2")
+                .append("3")
+                .append("4")
+                .append("5")
         "${list2.middleWithRunner()}" shouldBe "3"
 
         val list3 = LinkedList<String>().append("1")
@@ -299,7 +346,12 @@ class LinkedListTest {
 
     @Test
     fun `mutableReverse should allow us to reverse the list`() {
-        val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        val list1 =
+            LinkedList<String>()
+                .append("1")
+                .append("2")
+                .append("3")
+                .append("4")
         "${list1.mutableReverse()}" shouldBe "4 -> 3 -> 2 -> 1"
 
         val list2 = LinkedList<String>().append("1").append("2")
@@ -311,13 +363,24 @@ class LinkedListTest {
         val list4 = LinkedList<String>()
         "${list4.mutableReverse()}" shouldBe "[]"
 
-        val list5 = LinkedList<String>().append("3").append("2").append("1").append("4").append("5")
+        val list5 =
+            LinkedList<String>()
+                .append("3")
+                .append("2")
+                .append("1")
+                .append("4")
+                .append("5")
         "${list5.mutableReverse()}" shouldBe "5 -> 4 -> 1 -> 2 -> 3"
     }
 
     @Test
     fun `immutableRecursiveReverse should allow us to reverse the list`() {
-        val list1 = LinkedList<String>().append("1").append("2").append("3").append("4")
+        val list1 =
+            LinkedList<String>()
+                .append("1")
+                .append("2")
+                .append("3")
+                .append("4")
         "${list1.immutableRecursiveReverse()}" shouldBe "4 -> 3 -> 2 -> 1"
 
         val list2 = LinkedList<String>().append("1").append("2")
@@ -329,14 +392,30 @@ class LinkedListTest {
         val list4 = LinkedList<String>()
         "${list4.immutableRecursiveReverse()}" shouldBe "[]"
 
-        val list5 = LinkedList<String>().append("3").append("2").append("1").append("4").append("5")
+        val list5 =
+            LinkedList<String>()
+                .append("3")
+                .append("2")
+                .append("1")
+                .append("4")
+                .append("5")
         "${list5.immutableRecursiveReverse()}" shouldBe "5 -> 4 -> 1 -> 2 -> 3"
     }
 
     @Test
     fun produceSortedMerge() {
-        val list1 = LinkedList<Int>().append(1).append(4).append(10).append(11)
-        val list2 = LinkedList<Int>().append(-1).append(2).append(3).append(6)
+        val list1 =
+            LinkedList<Int>()
+                .append(1)
+                .append(4)
+                .append(10)
+                .append(11)
+        val list2 =
+            LinkedList<Int>()
+                .append(-1)
+                .append(2)
+                .append(3)
+                .append(6)
         "${list1.produceSortedMerge(list2)}" shouldBe "-1 -> 1 -> 2 -> 3 -> 4 -> 6 -> 10 -> 11"
     }
 }

@@ -13,7 +13,8 @@ class AVLTreeTest {
             tree.insert(it)
         }
 
-        tree.toString() shouldContain """
+        tree.toString() shouldContain
+            """
               ┌──14
              ┌──13
              │ └──12
@@ -29,7 +30,7 @@ class AVLTreeTest {
              │ ┌──2
              └──1
               └──0
-        """.trimIndent()
+            """.trimIndent()
     }
 
     @Test
@@ -41,13 +42,14 @@ class AVLTreeTest {
         tree.insert(7)
         tree.insert(8)
 
-        tree.toString() shouldContain """
-         ┌──null
-        ┌──50
-        │ └──8
-        7
-        └──6
-        """.trimIndent()
+        tree.toString() shouldContain
+            """
+             ┌──null
+            ┌──50
+            │ └──8
+            7
+            └──6
+            """.trimIndent()
     }
 
     @Test
@@ -61,13 +63,14 @@ class AVLTreeTest {
         tree.insert(60)
         tree.remove(60)
 
-        tree.toString() shouldContain """
-         ┌──null
-        ┌──50
-        │ └──8
-        7
-        └──6
-        """.trimIndent()
+        tree.toString() shouldContain
+            """
+             ┌──null
+            ┌──50
+            │ └──8
+            7
+            └──6
+            """.trimIndent()
     }
 
     @Test

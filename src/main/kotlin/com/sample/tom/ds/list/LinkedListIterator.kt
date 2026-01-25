@@ -1,21 +1,22 @@
 package com.sample.tom.ds.list
 
-class LinkedListIterator<T : Any>(private val list: LinkedList<T>) : MutableIterator<T> {
+class LinkedListIterator<T : Any>(
+    private val list: LinkedList<T>,
+) : MutableIterator<T> {
     private var currentIndex: Int = 0
     private var lastNode: Node<T>? = null
 
-    override fun hasNext(): Boolean {
-        return currentIndex < list.size
-    }
+    override fun hasNext(): Boolean = currentIndex < list.size
 
     override fun next(): T {
         if (currentIndex >= list.size) throw IndexOutOfBoundsException()
 
-        lastNode = if (currentIndex == 0) {
-            list.nodeAt(0)
-        } else {
-            lastNode?.next
-        }
+        lastNode =
+            if (currentIndex == 0) {
+                list.nodeAt(0)
+            } else {
+                lastNode?.next
+            }
         currentIndex++
         return lastNode!!.value
     }

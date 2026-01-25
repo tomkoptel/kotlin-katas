@@ -1,35 +1,23 @@
 package com.sample.tom.ds.trie
 
-import java.util.*
+import java.util.Stack
 
 class Trie<Key : Any> {
     private val root = TrieNode<Key>()
     private val storedLists: MutableSet<List<Key>> = mutableSetOf()
 
     companion object {
-        fun Trie<Char>.insert(word: String): Trie<Char> {
-            return apply { insert(word.toList()) }
-        }
+        fun Trie<Char>.insert(word: String): Trie<Char> = apply { insert(word.toList()) }
 
-        fun Trie<Char>.contains(word: String): Boolean {
-            return contains(word.toList())
-        }
+        fun Trie<Char>.contains(word: String): Boolean = contains(word.toList())
 
-        fun Trie<Char>.remove(word: String): Trie<Char> {
-            return apply { remove(word.toList()) }
-        }
+        fun Trie<Char>.remove(word: String): Trie<Char> = apply { remove(word.toList()) }
 
-        fun Trie<Char>.allPrefixesRecursive(prefix: String): List<String> {
-            return allPrefixesRecursive(prefix.toList()).map { it.joinToString(separator = "") }
-        }
+        fun Trie<Char>.allPrefixesRecursive(prefix: String): List<String> = allPrefixesRecursive(prefix.toList()).map { it.joinToString(separator = "") }
 
-        fun Trie<Char>.allPrefixesNonRecursive(prefix: String): List<String> {
-            return allPrefixesNonRecursive(prefix.toList()).map { it.joinToString(separator = "") }
-        }
+        fun Trie<Char>.allPrefixesNonRecursive(prefix: String): List<String> = allPrefixesNonRecursive(prefix.toList()).map { it.joinToString(separator = "") }
 
-        fun Trie<Char>.allLists(): List<String> {
-            return lists().map { it.joinToString(separator = "") }
-        }
+        fun Trie<Char>.allLists(): List<String> = lists().map { it.joinToString(separator = "") }
     }
 
     fun insert(keys: List<Key>) {
@@ -83,7 +71,10 @@ class Trie<Key : Any> {
         return allPrefixesRecursive(prefix, current)
     }
 
-    private fun allPrefixesRecursive(prefix: List<Key>, node: TrieNode<Key>): List<List<Key>> {
+    private fun allPrefixesRecursive(
+        prefix: List<Key>,
+        node: TrieNode<Key>,
+    ): List<List<Key>> {
         val results = mutableListOf<List<Key>>()
 
         if (node.isTerminating) {
@@ -106,9 +97,10 @@ class Trie<Key : Any> {
         }
 
         val results = mutableListOf<List<Key>>()
-        val stack = Stack<Pair<List<Key>, TrieNode<Key>>>().also {
-            it.push(prefix to current)
-        }
+        val stack =
+            Stack<Pair<List<Key>, TrieNode<Key>>>().also {
+                it.push(prefix to current)
+            }
 
         while (stack.size > 0) {
             val (currentPrefix, currentNode) = stack.pop()

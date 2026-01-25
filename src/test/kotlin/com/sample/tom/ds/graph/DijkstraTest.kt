@@ -36,10 +36,11 @@ class DijkstraTest {
     fun smokeTest() {
         val dijkstra = Dijkstra(graph)
         val route = dijkstra.shortestPath(singapore, washingtonDC)
-        route shouldBe listOf(
-            Edge(source = tokyo, destination = washingtonDC, weight = 300.0),
-            Edge(source = singapore, destination = tokyo, weight = 500.0)
-        )
+        route shouldBe
+            listOf(
+                Edge(source = tokyo, destination = washingtonDC, weight = 300.0),
+                Edge(source = singapore, destination = tokyo, weight = 500.0)
+            )
     }
 
     @Test
@@ -49,36 +50,41 @@ class DijkstraTest {
         paths.shouldContain(tokyo to listOf(Edge(source = singapore, destination = tokyo, weight = 500.0)))
         paths.shouldContain(hongKong to listOf(Edge(source = singapore, destination = hongKong, weight = 300.0)))
         paths.shouldContain(
-            detroit to listOf(
-                Edge(source = tokyo, destination = detroit, weight = 450.0),
-                Edge(source = singapore, destination = tokyo, weight = 500.0)
-            )
+            detroit to
+                listOf(
+                    Edge(source = tokyo, destination = detroit, weight = 450.0),
+                    Edge(source = singapore, destination = tokyo, weight = 500.0)
+                )
         )
         paths.shouldContain(
-            sanFrancisco to listOf(
-                Edge(source = hongKong, destination = sanFrancisco, weight = 600.0),
-                Edge(source = singapore, destination = hongKong, weight = 300.0)
-            )
+            sanFrancisco to
+                listOf(
+                    Edge(source = hongKong, destination = sanFrancisco, weight = 600.0),
+                    Edge(source = singapore, destination = hongKong, weight = 300.0)
+                )
         )
         paths.shouldContain(
-            washingtonDC to listOf(
-                Edge(source = tokyo, destination = washingtonDC, weight = 300.0),
-                Edge(source = singapore, destination = tokyo, weight = 500.0)
-            )
+            washingtonDC to
+                listOf(
+                    Edge(source = tokyo, destination = washingtonDC, weight = 300.0),
+                    Edge(source = singapore, destination = tokyo, weight = 500.0)
+                )
         )
         paths.shouldContain(
-            austinTexas to listOf(
-                Edge(source = detroit, destination = austinTexas, weight = 50.0),
-                Edge(source = tokyo, destination = detroit, weight = 450.0),
-                Edge(source = singapore, destination = tokyo, weight = 500.0)
-            )
+            austinTexas to
+                listOf(
+                    Edge(source = detroit, destination = austinTexas, weight = 50.0),
+                    Edge(source = tokyo, destination = detroit, weight = 450.0),
+                    Edge(source = singapore, destination = tokyo, weight = 500.0)
+                )
         )
         paths.shouldContain(
-            seattle to listOf(
-                Edge(source = washingtonDC, destination = seattle, weight = 277.0),
-                Edge(source = tokyo, destination = washingtonDC, weight = 300.0),
-                Edge(source = singapore, destination = tokyo, weight = 500.0)
-            )
+            seattle to
+                listOf(
+                    Edge(source = washingtonDC, destination = seattle, weight = 277.0),
+                    Edge(source = tokyo, destination = washingtonDC, weight = 300.0),
+                    Edge(source = singapore, destination = tokyo, weight = 500.0)
+                )
         )
     }
 }

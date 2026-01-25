@@ -1,6 +1,6 @@
 package com.sample.tom.sort
 
-import java.util.*
+import java.util.LinkedList
 
 object MergeSort {
     fun <T : Comparable<T>> List<T>.mergeSort(): List<T> {
@@ -19,7 +19,10 @@ object MergeSort {
         return queue.remove()
     }
 
-    private fun <T : Comparable<T>> merge(left: List<T>, right: List<T>): List<T> {
+    private fun <T : Comparable<T>> merge(
+        left: List<T>,
+        right: List<T>,
+    ): List<T> {
         val result = mutableListOf<T>()
         var leftIndex = 0
         var rightIndex = 0
@@ -81,7 +84,5 @@ object MergeSort {
         return result
     }
 
-    private fun <T> Iterator<T>.nextOrNull(): T? {
-        return if (this.hasNext()) this.next() else null
-    }
+    private fun <T> Iterator<T>.nextOrNull(): T? = if (this.hasNext()) this.next() else null
 }

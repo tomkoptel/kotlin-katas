@@ -24,11 +24,12 @@ fun String.isBalanced(): Boolean {
     for (char in this) {
         when (char) {
             '(' -> stack.push(char)
-            ')' -> if (stack.isEmpty) {
-                return false
-            } else {
-                stack.pop()
-            }
+            ')' ->
+                if (stack.isEmpty) {
+                    return false
+                } else {
+                    stack.pop()
+                }
         }
     }
     return stack.isEmpty

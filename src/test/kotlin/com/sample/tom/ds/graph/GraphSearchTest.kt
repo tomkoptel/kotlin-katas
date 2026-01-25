@@ -24,16 +24,32 @@ class GraphSearchTest {
 
     @Test
     fun breadthFirstSearch() {
-        connectedGraph().breadthFirstSearch(singapore).map { it.data } shouldBe listOf(
-            "Singapore", "Hong Kong", "Tokyo", "San Francisco", "Detroit", "Washington DC", "Seattle", "Austin Texas"
-        )
+        connectedGraph().breadthFirstSearch(singapore).map { it.data } shouldBe
+            listOf(
+                "Singapore",
+                "Hong Kong",
+                "Tokyo",
+                "San Francisco",
+                "Detroit",
+                "Washington DC",
+                "Seattle",
+                "Austin Texas"
+            )
     }
 
     @Test
     fun breadthFirstSearchRecursive() {
-        connectedGraph().breadthFirstSearchRecursive(singapore).map { it.data } shouldBe listOf(
-            "Singapore", "Hong Kong", "Tokyo", "San Francisco", "Detroit", "Washington DC", "Seattle", "Austin Texas"
-        )
+        connectedGraph().breadthFirstSearchRecursive(singapore).map { it.data } shouldBe
+            listOf(
+                "Singapore",
+                "Hong Kong",
+                "Tokyo",
+                "San Francisco",
+                "Detroit",
+                "Washington DC",
+                "Seattle",
+                "Austin Texas"
+            )
     }
 
     @Test
@@ -76,21 +92,21 @@ class GraphSearchTest {
     @Test
     fun `hasCycles for graph with cycles should be true`() {
         val graphWithCycles = AdjacencyList<Int>()
-        val n_0 = graphWithCycles.createVertex(0)
-        val n_1 = graphWithCycles.createVertex(1)
-        val n_2 = graphWithCycles.createVertex(2)
-        val n_3 = graphWithCycles.createVertex(3)
-        val n_4 = graphWithCycles.createVertex(4)
-        val n_5 = graphWithCycles.createVertex(5)
+        val n0 = graphWithCycles.createVertex(0)
+        val n1 = graphWithCycles.createVertex(1)
+        val n2 = graphWithCycles.createVertex(2)
+        val n3 = graphWithCycles.createVertex(3)
+        val n4 = graphWithCycles.createVertex(4)
+        val n5 = graphWithCycles.createVertex(5)
 
-        graphWithCycles.addDirectedEdge(n_0, n_1, 0.0)
-        graphWithCycles.addDirectedEdge(n_0, n_3, 0.0)
-        graphWithCycles.addDirectedEdge(n_0, n_5, 0.0)
-        graphWithCycles.addDirectedEdge(n_1, n_2, 0.0)
-        graphWithCycles.addDirectedEdge(n_1, n_3, 0.0)
-        graphWithCycles.addDirectedEdge(n_3, n_4, 0.0)
-        graphWithCycles.addDirectedEdge(n_5, n_3, 0.0)
-        graphWithCycles.addDirectedEdge(n_4, n_5, 0.0)
+        graphWithCycles.addDirectedEdge(n0, n1, 0.0)
+        graphWithCycles.addDirectedEdge(n0, n3, 0.0)
+        graphWithCycles.addDirectedEdge(n0, n5, 0.0)
+        graphWithCycles.addDirectedEdge(n1, n2, 0.0)
+        graphWithCycles.addDirectedEdge(n1, n3, 0.0)
+        graphWithCycles.addDirectedEdge(n3, n4, 0.0)
+        graphWithCycles.addDirectedEdge(n5, n3, 0.0)
+        graphWithCycles.addDirectedEdge(n4, n5, 0.0)
 
         graphWithCycles.hasCycles.shouldBeTrue()
     }

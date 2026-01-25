@@ -16,9 +16,7 @@ fun <T : Any> arrayListQueueOf(collection: Collection<T>): Queue<T> {
 class ArrayListQueue<T : Any> : Queue<T> {
     private var storage = arrayListOf<T>()
 
-    override fun enqueue(element: T): Boolean {
-        return storage.add(element)
-    }
+    override fun enqueue(element: T): Boolean = storage.add(element)
 
     override fun dequeue(): T? {
         if (storage.isEmpty()) return null
@@ -28,11 +26,7 @@ class ArrayListQueue<T : Any> : Queue<T> {
     override val count: Int
         get() = storage.size
 
-    override fun peek(): T? {
-        return storage.firstOrNull()
-    }
+    override fun peek(): T? = storage.firstOrNull()
 
-    override fun toString(): String {
-        return if (storage.isEmpty()) "[]" else storage.joinToString(separator = " > ")
-    }
+    override fun toString(): String = if (storage.isEmpty()) "[]" else storage.joinToString(separator = " > ")
 }

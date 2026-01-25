@@ -2,7 +2,8 @@ package com.sample.tom.ds.ringbuffer
 
 class RingBufferImpl<T : Any>(
     private val capacity: Int,
-) : RingBuffer<T>, Iterable<T> {
+) : RingBuffer<T>,
+    Iterable<T> {
     private val buffer: Array<Any?> = arrayOfNulls<Any?>(capacity)
 
     // Head - remove from the head (red index)
@@ -39,9 +40,7 @@ class RingBufferImpl<T : Any>(
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun peekFirst(): T? {
-        return buffer[head] as? T
-    }
+    override fun peekFirst(): T? = buffer[head] as? T
 
     /**
      * If capacity is 5 and tail = 3, then tail - 1 is 2, and lastIndex is 2.
@@ -75,9 +74,7 @@ class RingBufferImpl<T : Any>(
             private var currentIndex = head
             private var remaining = size
 
-            override fun hasNext(): Boolean {
-                return remaining > 0
-            }
+            override fun hasNext(): Boolean = remaining > 0
 
             @Suppress("UNCHECKED_CAST")
             override fun next(): T {

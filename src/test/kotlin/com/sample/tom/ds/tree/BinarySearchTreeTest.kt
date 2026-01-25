@@ -8,15 +8,17 @@ import org.junit.jupiter.api.Test
 class BinarySearchTreeTest {
     @Test
     fun insert() {
-        val tree = BinarySearchTree<Int>().apply {
-            insert(3)
-            insert(1)
-            insert(4)
-            insert(0)
-            insert(2)
-            insert(5)
-        }
-        tree.toString() shouldContain """
+        val tree =
+            BinarySearchTree<Int>().apply {
+                insert(3)
+                insert(1)
+                insert(4)
+                insert(0)
+                insert(2)
+                insert(5)
+            }
+        tree.toString() shouldContain
+            """
              ┌──5
             ┌──4
             │ └──null
@@ -24,13 +26,14 @@ class BinarySearchTreeTest {
             │ ┌──2
             └──1
              └──0
-        """.trimIndent()
+            """.trimIndent()
     }
 
     @Test
     fun insertRecursive() {
         val tree = tree()
-        tree.toString() shouldContain """
+        tree.toString() shouldContain
+            """
              ┌──5
             ┌──4
             │ └──null
@@ -38,7 +41,7 @@ class BinarySearchTreeTest {
             │ ┌──2
             └──1
              └──0
-        """.trimIndent()
+            """.trimIndent()
     }
 
     @Test
@@ -51,32 +54,35 @@ class BinarySearchTreeTest {
     fun removeRecursive() {
         val tree = tree()
         tree.removeRecursive(3)
-        "$tree" shouldContain """
+        "$tree" shouldContain
+            """
             ┌──5
             4
             │ ┌──2
             └──1
              └──0
-        """.trimIndent()
+            """.trimIndent()
     }
 
     @Test
     fun remove() {
         val tree = tree()
         tree.remove(3)
-        "$tree" shouldContain """
+        "$tree" shouldContain
+            """
             ┌──5
             4
             │ ┌──2
             └──1
              └──0
-        """.trimIndent()
+            """.trimIndent()
     }
 
     @Test
     fun remove_leave_left() {
         val tree = biggerTree()
-        "$tree" shouldContain """
+        "$tree" shouldContain
+            """
              ┌──50
             ┌──40
             │ └──35
@@ -90,9 +96,10 @@ class BinarySearchTreeTest {
              │ ┌──null
              └──9
               └──8
-        """.trimIndent()
+            """.trimIndent()
         tree.remove(8)
-        "$tree" shouldContain """
+        "$tree" shouldContain
+            """
              ┌──50
             ┌──40
             │ └──35
@@ -104,13 +111,14 @@ class BinarySearchTreeTest {
             │ │  └──null
             └──10
              └──9
-        """.trimIndent()
+            """.trimIndent()
     }
 
     @Test
     fun remove_leave_right() {
         val tree = biggerTree()
-        "$tree" shouldContain """
+        "$tree" shouldContain
+            """
              ┌──50
             ┌──40
             │ └──35
@@ -124,9 +132,10 @@ class BinarySearchTreeTest {
              │ ┌──null
              └──9
               └──8
-        """.trimIndent()
+            """.trimIndent()
         tree.remove(50)
-        "$tree" shouldContain """
+        "$tree" shouldContain
+            """
              ┌──null
             ┌──40
             │ └──35
@@ -140,13 +149,14 @@ class BinarySearchTreeTest {
              │ ┌──null
              └──9
               └──8
-        """.trimIndent()
+            """.trimIndent()
     }
 
     @Test
     fun remove_node_with_2_branches() {
         val tree = biggerTree()
-        "$tree" shouldContain """
+        "$tree" shouldContain
+            """
              ┌──50
             ┌──40
             │ └──35
@@ -160,9 +170,10 @@ class BinarySearchTreeTest {
              │ ┌──null
              └──9
               └──8
-        """.trimIndent()
+            """.trimIndent()
         tree.remove(20)
-        "$tree" shouldContain """
+        "$tree" shouldContain
+            """
              ┌──50
             ┌──40
             │ └──35
@@ -176,13 +187,14 @@ class BinarySearchTreeTest {
              │ ┌──null
              └──9
               └──8
-        """.trimIndent()
+            """.trimIndent()
     }
 
     @Test
     fun remove_root_node() {
         val tree = biggerTree()
-        "$tree" shouldContain """
+        "$tree" shouldContain
+            """
              ┌──50
             ┌──40
             │ └──35
@@ -196,9 +208,10 @@ class BinarySearchTreeTest {
              │ ┌──null
              └──9
               └──8
-        """.trimIndent()
+            """.trimIndent()
         tree.remove(30)
-        "$tree" shouldContain """
+        "$tree" shouldContain
+            """
              ┌──50
             ┌──40
             │ └──null
@@ -212,7 +225,7 @@ class BinarySearchTreeTest {
              │ ┌──null
              └──9
               └──8
-        """.trimIndent()
+            """.trimIndent()
     }
 
     @Test
@@ -247,43 +260,45 @@ class BinarySearchTreeTest {
                     insert(12)
                 }
             )
-            ).shouldBeTrue()
+        ).shouldBeTrue()
         (biggerTree().contains(tree())).shouldBeFalse()
     }
 
-    private fun biggerTree() = BinarySearchTree<Int>().apply {
-        /**
-         ┌──50
-         ┌──40
-         │   └──35
-         30
-         │    ┌──25
-         │   ┌──20
-         │   │ └──11
-         └──10
-         │ ┌──null
-         └──9
-         └──8
-         */
-        insert(30)
-        insert(10)
-        insert(40)
-        insert(9)
-        insert(20)
-        insert(50)
-        insert(25)
-        insert(8)
-        insert(11)
-        insert(35)
-        insert(12)
-    }
+    private fun biggerTree() =
+        BinarySearchTree<Int>().apply {
+            /**
+             ┌──50
+             ┌──40
+             │   └──35
+             30
+             │    ┌──25
+             │   ┌──20
+             │   │ └──11
+             └──10
+             │ ┌──null
+             └──9
+             └──8
+             */
+            insert(30)
+            insert(10)
+            insert(40)
+            insert(9)
+            insert(20)
+            insert(50)
+            insert(25)
+            insert(8)
+            insert(11)
+            insert(35)
+            insert(12)
+        }
 
-    private fun tree() = BinarySearchTree<Int>().apply {
-        insertRecursive(3)
-        insertRecursive(1)
-        insertRecursive(4)
-        insertRecursive(0)
-        insertRecursive(2)
-        insertRecursive(5)
-    }
+    private fun tree() =
+        BinarySearchTree<Int>().apply {
+            insertRecursive(3)
+            insertRecursive(1)
+            insertRecursive(4)
+            insertRecursive(0)
+            insertRecursive(2)
+            insertRecursive(5)
+        }
 }

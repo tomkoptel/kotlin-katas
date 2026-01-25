@@ -34,16 +34,17 @@ class TrieTest {
 
     @Test
     fun `supports listing of the prefixes in recursive way`() {
-        val trie = Trie<Char>().apply {
-            insert("car")
-            insert("card")
-            insert("care")
-            insert("cared")
-            insert("cars")
-            insert("carbs")
-            insert("carapace")
-            insert("cargo")
-        }
+        val trie =
+            Trie<Char>().apply {
+                insert("car")
+                insert("card")
+                insert("care")
+                insert("cared")
+                insert("cars")
+                insert("carbs")
+                insert("carapace")
+                insert("cargo")
+            }
 
         val prefixedWithCar = trie.allPrefixesRecursive("car")
         prefixedWithCar shouldContainAll listOf("car", "carapace", "carbs", "cars", "card", "care", "cared", "cargo")
@@ -54,16 +55,17 @@ class TrieTest {
 
     @Test
     fun `supports listing of the prefixes in non recursive way`() {
-        val trie = Trie<Char>().apply {
-            insert("car")
-            insert("card")
-            insert("care")
-            insert("cared")
-            insert("cars")
-            insert("carbs")
-            insert("carapace")
-            insert("cargo")
-        }
+        val trie =
+            Trie<Char>().apply {
+                insert("car")
+                insert("card")
+                insert("care")
+                insert("cared")
+                insert("cars")
+                insert("carbs")
+                insert("carapace")
+                insert("cargo")
+            }
 
         val prefixedWithCar = trie.allPrefixesNonRecursive("car")
         prefixedWithCar shouldContainAll listOf("car", "carapace", "carbs", "cars", "card", "care", "cared", "cargo")
@@ -74,16 +76,17 @@ class TrieTest {
 
     @Test
     fun `lists return collection of all words`() {
-        val trie = Trie<Char>().apply {
-            insert("car")
-            insert("card")
-            insert("care")
-            insert("cared")
-            insert("cars")
-            insert("carbs")
-            insert("carapace")
-            insert("cargo")
-        }
+        val trie =
+            Trie<Char>().apply {
+                insert("car")
+                insert("card")
+                insert("care")
+                insert("cared")
+                insert("cars")
+                insert("carbs")
+                insert("carapace")
+                insert("cargo")
+            }
 
         trie.allLists() shouldContainAll listOf("car", "card", "care", "cared", "cars", "carbs", "carapace", "cargo")
         trie.listsCount shouldBe 8
