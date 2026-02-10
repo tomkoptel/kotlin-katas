@@ -97,5 +97,28 @@ class `0070_ClimbingStairs` {
             }
             return paths
         }
+
+        /**
+         * backward from last step to 0
+         */
+        fun climbStairs3(n: Int): Int {
+            if (n == 1) return 1
+            if (n == 2) return 2
+            val ways = Array(n) { 0 }
+            ways[n - 1] = 1
+            var step = n - 2
+            while (step >= 0) {
+                var counter = 0
+                if (step + 1 <= n - 1) {
+                    counter += ways[step + 1]
+                }
+                if (step + 2 <= n - 1) {
+                    counter += ways[step + 2]
+                }
+                ways[step] = counter
+                step--
+            }
+            return ways[0] + ways[1]
+        }
     }
 }
