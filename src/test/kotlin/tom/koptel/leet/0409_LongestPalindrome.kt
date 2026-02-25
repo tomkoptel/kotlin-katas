@@ -67,8 +67,6 @@ class `0409_LongestPalindrome` {
 
     class Solution {
         fun longestPalindrome(s: String): Int {
-            if (s.length == 0) return 0
-            if (s.length == 1) return 1
             val dict = mutableMapOf<Char, Int>()
             s.forEach { ch ->
                 dict[ch] = (dict[ch] ?: 0) + 1
@@ -92,6 +90,23 @@ class `0409_LongestPalindrome` {
             }
 
             return longest
+        }
+
+        fun longestPalindromeClaude(s: String): Int {
+            val dict = mutableMapOf<Char, Int>()
+            // val dict = s.groupingBy { it }.eachCount()
+            s.forEach { ch ->
+                dict[ch] = (dict[ch] ?: 0) + 1
+            }
+
+            var longest = 0
+            var hasEven = false
+            dict.forEach { (_, count) ->
+                longest += count / 2 * 2 // count in all pairs
+                if (count % 2 == 1) hasEven = true
+            }
+
+            return if (hasEven) longest + 1 else longest
         }
     }
 }
