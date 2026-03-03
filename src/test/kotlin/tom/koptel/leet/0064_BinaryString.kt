@@ -44,8 +44,41 @@ class `0064_BinaryString` {
         Solution().addBinary("1111", "1") shouldBe "10000"
     }
 
+    /**
+     * 1 + 1 = 0 (carry 1)
+     * 1 + 0 = 1 (carry 0)
+     * 0 + 0 = 0 (carry 0)
+     * 0 + 1 = 1 (carry 0)
+     */
     class Solution {
+        /**
+         * second attempt
+         */
         fun addBinary(a: String, b: String): String {
+            var aIndex = a.lastIndex
+            var bIndex = b.lastIndex
+            var computation = ""
+
+            var carry = 0
+            while (aIndex >= 0 || bIndex >= 0 || carry == 1) {
+                val aBit = a.getOrNull(aIndex)?.digitToInt() ?: 0
+                val bBit = b.getOrNull(bIndex)?.digitToInt() ?: 0
+
+                val sum = carry + aBit + bBit
+                val result = sum % 2
+                carry = sum / 2
+                computation = "$result$computation"
+
+                aIndex--
+                bIndex--
+            }
+            return computation
+        }
+
+        /**
+         * first attempt
+         */
+        fun addBinary2(a: String, b: String): String {
             val stackA = ArrayDeque<Char>()
             val stackB = ArrayDeque<Char>()
             val result = ArrayDeque<Char>()
