@@ -3,6 +3,12 @@ package com.sample.tom.ds.graph
 class AdjacencyList<T : Any> : Graph<T> {
     private val adjacencies = mutableMapOf<Vertex<T>, ArrayList<Edge<T>>>()
 
+    fun copyVertices(graph: Graph<T>) {
+        graph.allVertices.forEach {
+            adjacencies[it] = ArrayList()
+        }
+    }
+
     override fun createVertex(data: T): Vertex<T> {
         val vertex = Vertex(adjacencies.count(), data)
         adjacencies[vertex] = ArrayList()
