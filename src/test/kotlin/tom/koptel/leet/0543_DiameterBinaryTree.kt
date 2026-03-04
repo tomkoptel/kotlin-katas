@@ -112,29 +112,29 @@ class `0543_DiameterBinaryTree` {
             if (root == null) return 0
             var maxDiameter = 0
             val heightMap = mutableMapOf<TreeNode, Int>()
-
-            val stack1 = ArrayDeque<TreeNode>().also { it.addLast(root) }
-
+            val stack = ArrayDeque<TreeNode>().also { it.addLast(root) }
 
             var lastProcessed: TreeNode? = null
-            while (stack1.isNotEmpty()) {
-                val node = stack1.last()
+            while (stack.isNotEmpty()) {
+                val node = stack.last()
                 val leftNode = node.left
                 val rightNode = node.right
-                if (lastProcessed == leftNode && rightNode != null) {
-                    stack1.addLast(rightNode)
-                } else if ((leftNode == null && rightNode == null) || (rightNode != null && lastProcessed == rightNode) || (leftNode != null && lastProcessed == leftNode)) {
-                    val leftHeight = node.left?.let { heightMap[it] ?: 0 } ?: 0
-                    val rightHeight = node.right?.let { heightMap[it] ?: 0 } ?: 0
+                val lastChild = rightNode ?: leftNode
+
+                if ((lastChild == null) || (lastProcessed == lastChild)) {
+                    val leftHeight = leftNode?.let { heightMap[it] ?: 0 } ?: 0
+                    val rightHeight = rightNode?.let { heightMap[it] ?: 0 } ?: 0
                     heightMap[node] = maxOf(leftHeight, rightHeight) + 1
+
                     val diameter = leftHeight + rightHeight
                     maxDiameter = maxOf(maxDiameter, diameter)
-                    lastProcessed = stack1.removeLast()
+                    lastProcessed = stack.removeLast()
                 } else {
-                    rightNode?.let { stack1.addLast(it) }
-                    leftNode?.let { stack1.addLast(it) }
+                    rightNode?.let { stack.addLast(it) }
+                    leftNode?.let { stack.addLast(it) }
                 }
             }
+
             return maxDiameter
         }
     }
