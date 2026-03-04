@@ -114,23 +114,26 @@ class `0543_DiameterBinaryTree` {
             val heightMap = mutableMapOf<TreeNode, Int>()
 
             val stack1 = ArrayDeque<TreeNode>().also { it.addLast(root) }
-            val stack2 = ArrayDeque<TreeNode>()
 
+
+            var lastProcessed: TreeNode? = null
             while (stack1.isNotEmpty()) {
-                val node = stack1.removeLast()
-                stack2.addLast(node)
-
-                node.left?.let { stack1.addLast(it) }
-                node.right?.let { stack1.addLast(it) }
-            }
-
-            while (stack2.isNotEmpty()) {
-                val node = stack2.removeLast()
-                val leftHeight = node.left?.let { heightMap[it] ?: 0 } ?: 0
-                val rightHeight = node.right?.let { heightMap[it] ?: 0 } ?: 0
-                heightMap[node] = maxOf(leftHeight, rightHeight) + 1
-                val diameter = leftHeight + rightHeight
-                maxDiameter = maxOf(maxDiameter, diameter)
+                val node = stack1.last()
+                val leftNode = node.left
+                val rightNode = node.right
+                if (lastProcessed == leftNode && rightNode != null) {
+                    stack1.addLast(rightNode)
+                } else if ((leftNode == null && rightNode == null) || (rightNode != null && lastProcessed == rightNode) || (leftNode != null && lastProcessed == leftNode)) {
+                    val leftHeight = node.left?.let { heightMap[it] ?: 0 } ?: 0
+                    val rightHeight = node.right?.let { heightMap[it] ?: 0 } ?: 0
+                    heightMap[node] = maxOf(leftHeight, rightHeight) + 1
+                    val diameter = leftHeight + rightHeight
+                    maxDiameter = maxOf(maxDiameter, diameter)
+                    lastProcessed = stack1.removeLast()
+                } else {
+                    rightNode?.let { stack1.addLast(it) }
+                    leftNode?.let { stack1.addLast(it) }
+                }
             }
             return maxDiameter
         }
