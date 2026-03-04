@@ -2,6 +2,7 @@ package tom.koptel.leet
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import java.util.TreeMap
 
 class `0543_DiameterBinaryTree` {
     /**
@@ -111,29 +112,45 @@ class `0543_DiameterBinaryTree` {
         fun diameterOfBinaryTree(root: TreeNode?): Int {
             if (root == null) return 0
             var maxDiameter = 0
-            val stack = ArrayDeque<Pair<TreeNode, Int>>()
-            root.left?.let { stack.add(it to 1) }
-            root.right?.let { stack.add(it to 1) }
-            while (stack.isNotEmpty()) {
-                val leftPath = stack.removeLastOrNull()
-                val rightPath = stack.removeLastOrNull()
-                val left = leftPath?.first
-                val leftDepth = leftPath?.second ?: 0
-                val right = rightPath?.first
-                val rightDepth = rightPath?.second ?: 0
-                val diameter = leftDepth + rightDepth
-                maxDiameter = maxOf(diameter, maxDiameter)
-                left?.left?.let { stack.addLast(it to leftDepth + 1) }
-                left?.right?.let { stack.addLast(it to rightDepth + 1) }
-                right?.left?.let { stack.addLast(it to leftDepth + 1) }
-                right?.right?.let { stack.addLast(it to rightDepth + 1) }
+            val nodes = postOrderTraversal(root)
+            val heightMap = mutableMapOf<TreeNode, Int>()
+            for (node in nodes) {
+                val leftHeight = node.left?.let { heightMap[it] ?: 0 } ?: 0
+                val rightHeight = node.right?.let { heightMap[it] ?: 0 } ?: 0
+                heightMap[node] = maxOf(leftHeight, rightHeight) + 1
+                val diameter = leftHeight + rightHeight
+                maxDiameter = maxOf(maxDiameter, diameter)
             }
             return maxDiameter
+        }
+
+        private fun postOrderTraversal(root: TreeNode): List<TreeNode> {
+            val stack1 = ArrayDeque<TreeNode>().also { it.addLast(root) }
+            val stack2 = ArrayDeque<TreeNode>()
+            val result = mutableListOf<TreeNode>()
+
+            while (stack1.isNotEmpty()) {
+                val node = stack1.removeLast()
+                stack2.addLast(node)
+
+                node.left?.let { stack1.addLast(it) }
+                node.right?.let { stack1.addLast(it) }
+            }
+
+            while (stack2.isNotEmpty()) {
+                stack2.removeLast().let { result.add(it) }
+            }
+
+            return result
         }
     }
 
     class TreeNode(var `val`: Int) {
         var left: TreeNode? = null
         var right: TreeNode? = null
+
+        override fun toString(): String {
+            return "TreeNode(`val`=$`val`)"
+        }
     }
 }
