@@ -2,7 +2,6 @@ package tom.koptel.leet
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import java.util.TreeMap
 
 class `0543_DiameterBinaryTree` {
     /**
@@ -112,22 +111,10 @@ class `0543_DiameterBinaryTree` {
         fun diameterOfBinaryTree(root: TreeNode?): Int {
             if (root == null) return 0
             var maxDiameter = 0
-            val nodes = postOrderTraversal(root)
             val heightMap = mutableMapOf<TreeNode, Int>()
-            for (node in nodes) {
-                val leftHeight = node.left?.let { heightMap[it] ?: 0 } ?: 0
-                val rightHeight = node.right?.let { heightMap[it] ?: 0 } ?: 0
-                heightMap[node] = maxOf(leftHeight, rightHeight) + 1
-                val diameter = leftHeight + rightHeight
-                maxDiameter = maxOf(maxDiameter, diameter)
-            }
-            return maxDiameter
-        }
 
-        private fun postOrderTraversal(root: TreeNode): List<TreeNode> {
             val stack1 = ArrayDeque<TreeNode>().also { it.addLast(root) }
             val stack2 = ArrayDeque<TreeNode>()
-            val result = mutableListOf<TreeNode>()
 
             while (stack1.isNotEmpty()) {
                 val node = stack1.removeLast()
@@ -138,10 +125,14 @@ class `0543_DiameterBinaryTree` {
             }
 
             while (stack2.isNotEmpty()) {
-                stack2.removeLast().let { result.add(it) }
+                val node = stack2.removeLast()
+                val leftHeight = node.left?.let { heightMap[it] ?: 0 } ?: 0
+                val rightHeight = node.right?.let { heightMap[it] ?: 0 } ?: 0
+                heightMap[node] = maxOf(leftHeight, rightHeight) + 1
+                val diameter = leftHeight + rightHeight
+                maxDiameter = maxOf(maxDiameter, diameter)
             }
-
-            return result
+            return maxDiameter
         }
     }
 
