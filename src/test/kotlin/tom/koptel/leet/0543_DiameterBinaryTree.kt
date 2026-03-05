@@ -2,7 +2,6 @@ package tom.koptel.leet
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import kotlin.math.max
 
 class `0543_DiameterBinaryTree` {
     /**

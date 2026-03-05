@@ -120,9 +120,7 @@ class `0687_LongestUnivaluePath` {
         var left: TreeNode? = null
         var right: TreeNode? = null
 
-        override fun toString(): String {
-            return "TreeNode(`val`=$`val`)"
-        }
+        override fun toString(): String = "TreeNode(`val`=$`val`)"
     }
 
     private class Solution {
@@ -195,4 +193,3 @@ class `0687_LongestUnivaluePath` {
         }
     }
 }
-
