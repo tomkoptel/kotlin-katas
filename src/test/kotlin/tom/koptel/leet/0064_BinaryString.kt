@@ -90,7 +90,7 @@ class `0064_BinaryString` {
             }
 
             var leftOver = '0'
-            while(stackA.isNotEmpty() || stackB.isNotEmpty() || leftOver == '1') {
+            while (stackA.isNotEmpty() || stackB.isNotEmpty() || leftOver == '1') {
                 val bitA = stackA.removeLastOrNull() ?: '0'
                 val bitB = stackB.removeLastOrNull() ?: '0'
 
@@ -111,14 +111,12 @@ class `0064_BinaryString` {
             return builder.toString()
         }
 
-        private fun binarySum(bitA: Char, bitB: Char) : Pair<Char, Char> {
-            return when {
-                bitA == '1' && bitB == '1' -> '0' to '1'
-                bitA == '0' && bitB == '1' -> '1' to '0'
-                bitA == '1' && bitB == '0' -> '1' to '0'
-                bitA == '0' && bitB == '0' -> '0' to '0'
-                else -> throw UnsupportedOperationException("we are not working with binary string")
-            }
+        private fun binarySum(bitA: Char, bitB: Char): Pair<Char, Char> = when {
+            bitA == '1' && bitB == '1' -> '0' to '1'
+            bitA == '0' && bitB == '1' -> '1' to '0'
+            bitA == '1' && bitB == '0' -> '1' to '0'
+            bitA == '0' && bitB == '0' -> '0' to '0'
+            else -> throw UnsupportedOperationException("we are not working with binary string")
         }
     }
 }

@@ -40,9 +40,7 @@ class QuickSortWithClaudeTest {
         return mutableInput
     }
 
-    class Data private constructor(
-        val range: IntRange,
-    ) {
+    class Data private constructor(val range: IntRange) {
         companion object {
             fun prepare(input: MutableList<Int>, range: IntRange): Data {
                 val pivotIndex = pickApivot(input, range)
@@ -104,7 +102,7 @@ class QuickSortWithClaudeTest {
                 wall++
             }
         }
-        Collections.swap(input,data.pivotIndex, wall)
+        Collections.swap(input, data.pivotIndex, wall)
         return wall
     }
 }
