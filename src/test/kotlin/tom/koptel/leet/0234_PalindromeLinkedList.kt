@@ -97,13 +97,10 @@ class `0234_PalindromeLinkedList` {
             val reversed = reverse(middle)
             var slow1: ListNode? = head
             var slow2: ListNode? = reversed
-            while (slow1 != middle) {
-                if (slow1?.`val` == slow2?.`val`) {
-                    slow1 = slow1?.next
-                    slow2 = slow2?.next
-                } else {
-                    return false
-                }
+            while (slow2 != null) {
+                if (slow1?.`val` != slow2.`val`) return false
+                slow1 = slow1.next
+                slow2 = slow2.next
             }
             return true
         }
@@ -113,10 +110,10 @@ class `0234_PalindromeLinkedList` {
             var next: ListNode? = current.next // 2 -> 3 ...
             current.next = null // 1
             while (next != null) {
-                val tmp = next.next
-                next.next = current
-                current = next
-                next = tmp
+                val tmp = next.next // 3 -> ...
+                next.next = current // 2 -> 1 -> null
+                current = next // 2 -> 1 -> null
+                next = tmp // 3 -> ...
             }
             return current
         }
@@ -125,7 +122,7 @@ class `0234_PalindromeLinkedList` {
             var slow = head
             var fast: ListNode? = head
             while (fast != null && fast.next != null) {
-                slow = slow.next!!
+                slow = slow.next ?: break
                 fast = fast.next?.next
             }
             return slow
