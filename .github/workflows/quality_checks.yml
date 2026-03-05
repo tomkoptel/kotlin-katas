@@ -20,10 +20,10 @@ jobs:
     if: ${{ !contains(github.event.pull_request.labels.*.name, 'skip-checks') && github.event.pull_request.draft == false }}
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@main
 
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@main
 
       - name: Run spotlessCheck
         shell: bash

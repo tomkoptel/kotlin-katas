@@ -4,9 +4,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 object Prim {
-    fun <T : Any> produceMinimumSpanningTree(
-        graph: AdjacencyList<T>,
-    ): Pair<Double, AdjacencyList<T>> {
+    fun <T : Any> produceMinimumSpanningTree(graph: AdjacencyList<T>): Pair<Double, AdjacencyList<T>> {
         var cost = 0.0
         val visited = mutableSetOf<Vertex<T>>()
         val comparator = Comparator<Edge<T>> { first, second ->
@@ -36,12 +34,7 @@ object Prim {
         return (cost to mst)
     }
 
-    private fun <T : Any> addAvailableEdges(
-        vertex: Vertex<T>,
-        graph: Graph<T>,
-        visited: Set<Vertex<T>>,
-        priorityQueue: PriorityQueue<Edge<T>>,
-    ) {
+    private fun <T : Any> addAvailableEdges(vertex: Vertex<T>, graph: Graph<T>, visited: Set<Vertex<T>>, priorityQueue: PriorityQueue<Edge<T>>) {
         graph.edges(vertex).forEach {
             if (!visited.contains(it.destination)) {
                 priorityQueue.add(it)
