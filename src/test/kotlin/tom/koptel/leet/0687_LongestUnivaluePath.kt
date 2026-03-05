@@ -127,6 +127,35 @@ class `0687_LongestUnivaluePath` {
 
     private class Solution {
         fun longestUnivaluePath(root: TreeNode?): Int {
+            var maxDiameter = 0
+            val dfs = DeepRecursiveFunction<TreeNode?, Int> { tree ->
+                if (tree == null) {
+                    0
+                } else {
+                    val parentValue = tree.`val`
+                    val right = tree.right
+                    val left = tree.left
+
+                    val rightValue = (right?.`val` ?: 0)
+                    val heightRight = callRecursive(right).let {
+                        if (parentValue == rightValue) it else 0
+                    }
+
+                    val leftValue = (left?.`val` ?: 0)
+                    val heightLeft = callRecursive(left).let {
+                        if (parentValue == leftValue) it else 0
+                    }
+
+                    val diameter = heightRight + heightLeft
+                    maxDiameter = maxOf(maxDiameter, diameter)
+                    maxOf(heightRight, heightLeft) + 1
+                }
+            }
+            dfs(root)
+            return maxDiameter
+        }
+
+        fun longestUnivaluePathImperative(root: TreeNode?): Int {
             if (root == null) return 0
             val stack = ArrayDeque<TreeNode>().also { it.add(root) }
             val nodeHeights = mutableMapOf<TreeNode, Int>()

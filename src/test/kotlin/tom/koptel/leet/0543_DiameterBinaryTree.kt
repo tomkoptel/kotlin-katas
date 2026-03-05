@@ -2,6 +2,7 @@ package tom.koptel.leet
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import kotlin.math.max
 
 class `0543_DiameterBinaryTree` {
     /**
@@ -109,6 +110,25 @@ class `0543_DiameterBinaryTree` {
 
     class Solution {
         fun diameterOfBinaryTree(root: TreeNode?): Int {
+            var maxDiameter = 0
+            val dfs = DeepRecursiveFunction<TreeNode?, Int> { tree ->
+                if (tree == null) {
+                    0
+                } else {
+                    val right = tree.right
+                    val left = tree.left
+                    val rightHeight = callRecursive(right)
+                    val leftHeight = callRecursive(left)
+                    val diameter = rightHeight + leftHeight
+                    maxDiameter = maxOf(maxDiameter, diameter)
+                    maxOf(rightHeight, leftHeight) + 1
+                }
+            }
+            dfs(root)
+            return maxDiameter
+        }
+
+        fun diameterOfBinaryTreeImperative(root: TreeNode?): Int {
             if (root == null) return 0
             var maxDiameter = 0
             val heightMap = mutableMapOf<TreeNode, Int>()
