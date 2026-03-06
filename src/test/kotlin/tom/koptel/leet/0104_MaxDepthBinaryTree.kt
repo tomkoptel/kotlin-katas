@@ -134,9 +134,7 @@ class `0104_MaxDepthBinaryTree` {
             return heights[root] ?: 0
         }
 
-        private infix fun MutableMap<TreeNode, Int>.heightOf(node: TreeNode?): Int {
-            return node?.let { this[it] } ?: 0
-        }
+        private infix fun MutableMap<TreeNode, Int>.heightOf(node: TreeNode?): Int = node?.let { this[it] } ?: 0
     }
 
     private class TreeNode(var `val`: Int) {
