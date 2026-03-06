@@ -109,7 +109,31 @@ class `0104_MaxDepthBinaryTree` {
         }
 
         fun maxDepthNonRecursive(root: TreeNode?): Int {
-            TODO()
+            var depth = 0
+            if (root == null) return depth
+            val heights = mutableMapOf<TreeNode, Int>()
+            val stack = ArrayDeque<TreeNode>().also { it.addLast(root) }
+            var visited: TreeNode? = null
+
+            while (stack.isNotEmpty()) {
+                val parent = stack.last()
+                val left = parent.left
+                val right = parent.right
+                val child = right ?: left
+                if ((child == null) || (visited == child)) {
+                    val rightHeight = right?.let { heights[it] ?: 0 } ?: 0
+                    val leftHeight = left?.let { heights[it] ?: 0 } ?: 0
+                    val height = maxOf(rightHeight, leftHeight) + 1
+                    heights[parent] = height
+                    depth = maxOf(depth, height)
+                    visited = stack.removeLast()
+                } else {
+                    right?.let { stack.addLast(it) }
+                    left?.let { stack.addLast(it) }
+                }
+            }
+
+            return depth
         }
     }
 
