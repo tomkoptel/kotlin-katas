@@ -51,7 +51,6 @@ class `0217_ContainsDuplicate` {
 
     private class Solution {
         fun containsDuplicate(nums: IntArray): Boolean {
-            if (nums.size == 1) return false
             nums.sort()
             var visited = nums[0]
             for (i in 1 until nums.size) {
