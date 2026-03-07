@@ -102,6 +102,49 @@ class `0053_MaximumSubarray` {
             return max
         }
 
+        fun maxSubArrayDivideAndConquer(nums: IntArray): Int {
+            fun crossMaxLeft(progression: IntProgression): Int {
+                var sum = nums[progression.last]
+                var best = sum
+                for (i in progression.last - 1 downTo progression.first) {
+                    sum += nums[i]
+                    best = maxOf(best, sum)
+                }
+                return best
+            }
+
+            fun crossMaxRight(progression: IntProgression): Int {
+                var sum = nums[progression.first]
+                var best = sum
+                for (i in (progression.first + 1)..(progression.last)) {
+                    sum += nums[i]
+                    best = maxOf(best, sum)
+                }
+                return best
+            }
+
+            val maxSubArray = DeepRecursiveFunction<IntProgression, Int> { progression ->
+                if (progression.first == progression.last) {
+                    nums[progression.first]
+                } else {
+                    val left = progression.first
+                    val right = progression.last
+                    val mid = (left + right).ushr(1)
+
+                    val leftProgression = left..mid
+                    val leftSum = callRecursive(leftProgression)
+
+                    val rightProgression = mid + 1..right
+                    val rightSum = callRecursive(rightProgression)
+
+                    val crossSum = crossMaxLeft(leftProgression) + crossMaxRight(rightProgression)
+
+                    maxOf(leftSum, rightSum, crossSum)
+                }
+            }
+            return maxSubArray(0 until nums.size)
+        }
+
         /**
          * O(n^2) - time
          * O(n^2) - complexity
