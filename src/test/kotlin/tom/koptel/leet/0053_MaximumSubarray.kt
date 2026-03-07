@@ -157,7 +157,7 @@ class `0053_MaximumSubarray` {
             return maxOf(
                 computeMax(nums, table) { row -> (nums.lastIndex - row) downTo row },
                 computeMax(nums, table) { row -> (nums.lastIndex - row) downTo 0 },
-                computeMax(nums, table) { row -> nums.lastIndex downTo row },
+                computeMax(nums, table) { row -> nums.lastIndex downTo row }
             )
         }
 
