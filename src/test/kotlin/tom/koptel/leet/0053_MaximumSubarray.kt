@@ -49,7 +49,42 @@ class `0053_MaximumSubarray` {
         Solution().maxSubArray(intArrayOf(-1, -2, 5, 6, -3, -4)) shouldBe 11
     }
 
+    @Test
+    fun `leet code example 1`() {
+        Solution().maxSubArray(intArrayOf(31, -41, 59, 26, -53, 58, 97, -93, -23, 84)) shouldBe 187
+    }
+
     private class Solution {
-        fun maxSubArray(nums: IntArray): Int = TODO()
+        fun maxSubArray(nums: IntArray): Int {
+            val table: Array<IntArray> = Array(size = nums.size) {
+                IntArray(nums.size) { 0 }
+            }
+
+            return maxOf(
+                computeMax(nums, table) { row -> (nums.lastIndex - row) downTo row },
+                computeMax(nums, table) { row -> (nums.lastIndex - row) downTo 0 },
+                computeMax(nums, table) { row -> nums.lastIndex downTo row },
+            )
+        }
+
+        private fun computeMax(nums: IntArray, table: Array<IntArray>, compute: (row: Int) -> IntProgression): Int {
+            var max = nums[0]
+
+            for (row in 0 until nums.size) {
+                val dp = table[row]
+                val progression = compute(row)
+
+                for (column in progression) {
+                    val nextEl = dp.getOrNull(column + 1) ?: 0
+                    val el = nums[column]
+
+                    val sum = nextEl + el
+                    dp[column] = sum
+                    max = maxOf(max, sum)
+                }
+            }
+
+            return max
+        }
     }
 }
