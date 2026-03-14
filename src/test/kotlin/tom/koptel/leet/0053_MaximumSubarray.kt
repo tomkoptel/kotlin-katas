@@ -102,6 +102,20 @@ class `0053_MaximumSubarray` {
             return max
         }
 
+        /**
+         * https://medium.com/@rsinghal757/kadanes-algorithm-dynamic-programming-how-and-why-does-it-work-3fd8849ed73d
+         */
+        fun maxSubArray2(nums: IntArray): Int {
+            var max = nums[0]
+            var currentSum = max
+            for (i in 1 until nums.size) {
+                val num = nums[i]
+                currentSum = maxOf(num, currentSum + num)
+                max = maxOf(max, currentSum)
+            }
+            return max
+        }
+
         fun maxSubArrayDivideAndConquer(nums: IntArray): Int {
             fun crossMaxLeft(progression: IntProgression): Int {
                 var sum = nums[progression.last]
