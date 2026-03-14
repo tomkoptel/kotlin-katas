@@ -2,6 +2,7 @@ package tom.koptel.leet
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import java.util.Collections
 
 class `0283_MoveZeroes` {
     @Test
@@ -68,6 +69,23 @@ class `0283_MoveZeroes` {
     }
 
     private class Solution {
-        fun moveZeroes(nums: IntArray): Unit = TODO()
+        fun moveZeroes(nums: IntArray) {
+            for (i in 0 until nums.size) {
+                val num = nums[i]
+                if (num != 0) continue
+                for (j in i until nums.size) {
+                    if (j+1 <= nums.lastIndex) {
+                        nums.swap(j, j+1)
+                    }
+                }
+            }
+        }
+
+        private fun IntArray.swap(i: Int, j: Int) {
+            // i=1 j=2
+            val tmp = this[j]
+            this[j] = this[i]
+            this[i] = tmp
+        }
     }
 }
