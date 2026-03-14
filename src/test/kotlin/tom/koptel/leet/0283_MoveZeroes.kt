@@ -2,8 +2,6 @@ package tom.koptel.leet
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import java.util.Arrays
-import java.util.Collections
 
 class `0283_MoveZeroes` {
     @Test
@@ -86,8 +84,8 @@ class `0283_MoveZeroes` {
                 val num = nums[i]
                 if (num != 0) continue
                 for (j in i until nums.size) {
-                    if (j+1 <= nums.lastIndex) {
-                        nums.swap(j, j+1)
+                    if (j + 1 <= nums.lastIndex) {
+                        nums.swap(j, j + 1)
                     }
                 }
             }
