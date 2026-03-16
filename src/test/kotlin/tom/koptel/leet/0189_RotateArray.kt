@@ -2,7 +2,6 @@ package tom.koptel.leet
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import java.util.Arrays
 
 class `0189_RotateArray` {
     @Test
