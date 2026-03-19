@@ -21,38 +21,26 @@ class LinkedList2Test {
         private var length = 0
 
         fun add(value: T, index: Int = length) {
-            val newNode = Node(
-                value = value,
-                next = null
-            )
-            if (head == null) {
-                head = newNode
-                tail = newNode
-                length++
-                return
-            }
+            val newNode = Node(value = value, next = null)
+            val clampedIndex = index.coerceAtMost(length)
 
-            if (index == 0) {
-                newNode.next = head
-                head = newNode
-                length++
-                return
-            }
-
-            if (index >= length) {
-                tail?.next = newNode
-                tail = newNode
-            } else {
-                var step = 0
-                var node = head
-                while (step != index - 1) {
-                    node = node?.next
-                    step++
+            when (clampedIndex) {
+                0 -> {
+                    newNode.next = head
+                    head = newNode
+                    if (tail == null) tail = head
                 }
-                if (node != null) {
-                    val currentNodesNext = node.next
-                    newNode.next = currentNodesNext
-                    node.next = newNode
+                length -> {
+                    tail?.next = newNode
+                    tail = newNode
+                }
+                else -> {
+                    var node = head
+                    repeat(clampedIndex - 1) {node = node?.next}
+                    node?.let {
+                        newNode.next = node.next
+                        node.next = newNode
+                    }
                 }
             }
             length++
