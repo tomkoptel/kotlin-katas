@@ -1,18 +1,80 @@
 package com.sample.tom.ds.list
 
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class LinkedList2Test {
 
     @Test
-    fun name() {
+    fun `add single element to empty list`() {
         val list = LinkedList<Int>()
-        list.add(value = 1)
-        list.add(value =2)
-        list.add(value =3)
-        list.add(value =0, index = 0)
-        list.add(value =99, index = 1)
-        println(list)
+        list.add(1)
+        assertEquals("length: 1 [1] tail=Node(value=1, next=null)", list.toString())
+    }
+
+    @Test
+    fun `append multiple elements`() {
+        val list = LinkedList<Int>()
+        list.add(1)
+        list.add(2)
+        list.add(3)
+        assertEquals("length: 3 [1 -> 2 -> 3] tail=Node(value=3, next=null)", list.toString())
+    }
+
+    @Test
+    fun `prepend to empty list with explicit index 0`() {
+        val list = LinkedList<Int>()
+        list.add(value = 1, index = 0)
+        assertEquals("length: 1 [1] tail=Node(value=1, next=null)", list.toString())
+    }
+
+    @Test
+    fun `prepend to non-empty list`() {
+        val list = LinkedList<Int>()
+        list.add(1)
+        list.add(2)
+        list.add(3)
+        list.add(value = 0, index = 0)
+        assertEquals("length: 4 [0 -> 1 -> 2 -> 3] tail=Node(value=3, next=null)", list.toString())
+    }
+
+    @Test
+    fun `insert at middle index`() {
+        val list = LinkedList<Int>()
+        list.add(1)
+        list.add(2)
+        list.add(3)
+        list.add(value = 99, index = 1)
+        assertEquals("length: 4 [1 -> 99 -> 2 -> 3] tail=Node(value=3, next=null)", list.toString())
+    }
+
+    @Test
+    fun `insert at second to last position`() {
+        val list = LinkedList<Int>()
+        list.add(1)
+        list.add(2)
+        list.add(3)
+        list.add(value = 99, index = 2)
+        assertEquals("length: 4 [1 -> 2 -> 99 -> 3] tail=Node(value=3, next=null)", list.toString())
+    }
+
+    @Test
+    fun `out of bounds index appends to end`() {
+        val list = LinkedList<Int>()
+        list.add(1)
+        list.add(value = 99, index = 10)
+        assertEquals("length: 2 [1 -> 99] tail=Node(value=99, next=null)", list.toString())
+    }
+
+    @Test
+    fun `combined prepend append and insert`() {
+        val list = LinkedList<Int>()
+        list.add(1)
+        list.add(2)
+        list.add(3)
+        list.add(value = 0, index = 0)
+        list.add(value = 99, index = 1)
+        assertEquals("length: 5 [0 -> 99 -> 1 -> 2 -> 3] tail=Node(value=3, next=null)", list.toString())
     }
 
     private class LinkedList<T : Any?> {
