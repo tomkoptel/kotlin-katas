@@ -77,6 +77,51 @@ class LinkedList2Test {
         assertEquals("length: 5 [0 -> 99 -> 1 -> 2 -> 3] tail=Node(value=3, next=null)", list.toString())
     }
 
+    @Test
+    fun `remove head from single element list`() {
+        val list = LinkedList<Int>()
+        list.add(1)
+        list.remove(0)
+        assertEquals("length: 0 [] tail=null", list.toString())
+    }
+
+    @Test
+    fun `remove head from multi element list`() {
+        val list = LinkedList<Int>()
+        list.add(1)
+        list.add(2)
+        list.add(3)
+        list.remove(0)
+        assertEquals("length: 2 [2 -> 3] tail=Node(value=3, next=null)", list.toString())
+    }
+
+    @Test
+    fun `remove middle element`() {
+        val list = LinkedList<Int>()
+        list.add(1)
+        list.add(2)
+        list.add(3)
+        list.remove(1)
+        assertEquals("length: 2 [1 -> 3] tail=Node(value=3, next=null)", list.toString())
+    }
+
+    @Test
+    fun `remove last element`() {
+        val list = LinkedList<Int>()
+        list.add(1)
+        list.add(2)
+        list.add(3)
+        list.remove(2)
+        assertEquals("length: 2 [1 -> 2] tail=Node(value=2, next=null)", list.toString())
+    }
+
+    @Test
+    fun `remove from empty list does nothing`() {
+        val list = LinkedList<Int>()
+        list.remove(0)
+        assertEquals("length: 0 [] tail=null", list.toString())
+    }
+
     private class LinkedList<T : Any?> {
         private var head: Node<T>? = null
         private var tail: Node<T>? = null
@@ -113,7 +158,27 @@ class LinkedList2Test {
             length++
         }
 
-        fun remove(index: Int) {}
+        fun remove(index: Int) {
+            if (length == 0) return
+            val lastIndex = length - 1
+            val clampedIndex = index.coerceAtMost(lastIndex)
+            when {
+                clampedIndex == 0 -> {
+                    head = head?.next
+                    if (head == null) tail = null
+                }
+
+                else -> {
+                    var node = head
+                    repeat(clampedIndex - 1) {
+                        node = node?.next
+                    }
+                    node?.next = node.next?.next
+                    if (node?.next == null) tail = node
+                }
+            }
+            length--
+        }
 
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
