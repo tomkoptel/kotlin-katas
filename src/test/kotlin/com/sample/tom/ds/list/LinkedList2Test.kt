@@ -86,19 +86,24 @@ class LinkedList2Test {
             val newNode = Node(value = value, next = null)
             val clampedIndex = index.coerceAtMost(length)
 
-            when (clampedIndex) {
-                0 -> {
+            when {
+                clampedIndex == 0 -> {
                     newNode.next = head
                     head = newNode
                     if (tail == null) tail = head
                 }
-                length -> {
+
+                clampedIndex == length -> {
                     tail?.next = newNode
                     tail = newNode
                 }
+
                 else -> {
                     var node = head
-                    repeat(clampedIndex - 1) {node = node?.next}
+                    repeat(clampedIndex - 1) {
+                        node = head?.next
+                    }
+
                     node?.let {
                         newNode.next = node.next
                         node.next = newNode
