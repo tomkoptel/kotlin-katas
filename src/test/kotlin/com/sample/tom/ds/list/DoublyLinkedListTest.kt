@@ -79,6 +79,60 @@ class DoublyLinkedListTest {
         assertEquals("length: 5 [0 -> 99 -> 1 -> 2 -> 3] reverse: [3 -> 2 -> 1 -> 99 -> 0] tail=3", list.toString())
     }
 
+    // --- prepend tests ---
+
+    @Test
+    fun `prepend to empty list`() {
+        val list = DoublyLinkedList<Int>()
+        list.prepend(1)
+        assertEquals("length: 1 [1] reverse: [1] tail=1", list.toString())
+    }
+
+    @Test
+    fun `prepend multiple elements builds list in reverse order`() {
+        val list = DoublyLinkedList<Int>()
+        list.prepend(3)
+        list.prepend(2)
+        list.prepend(1)
+        assertEquals("length: 3 [1 -> 2 -> 3] reverse: [3 -> 2 -> 1] tail=3", list.toString())
+    }
+
+    @Test
+    fun `prepend after append`() {
+        val list = DoublyLinkedList<Int>()
+        list.append(2)
+        list.append(3)
+        list.prepend(1)
+        assertEquals("length: 3 [1 -> 2 -> 3] reverse: [3 -> 2 -> 1] tail=3", list.toString())
+    }
+
+    // --- append tests ---
+
+    @Test
+    fun `append to empty list`() {
+        val list = DoublyLinkedList<Int>()
+        list.append(1)
+        assertEquals("length: 1 [1] reverse: [1] tail=1", list.toString())
+    }
+
+    @Test
+    fun `append multiple elements in order`() {
+        val list = DoublyLinkedList<Int>()
+        list.append(1)
+        list.append(2)
+        list.append(3)
+        assertEquals("length: 3 [1 -> 2 -> 3] reverse: [3 -> 2 -> 1] tail=3", list.toString())
+    }
+
+    @Test
+    fun `append after prepend`() {
+        val list = DoublyLinkedList<Int>()
+        list.prepend(1)
+        list.prepend(0)
+        list.append(2)
+        assertEquals("length: 3 [0 -> 1 -> 2] reverse: [2 -> 1 -> 0] tail=2", list.toString())
+    }
+
     // --- remove tests ---
 
     @Test
@@ -130,6 +184,10 @@ class DoublyLinkedListTest {
         private var head: Node<T>? = null
         private var tail: Node<T>? = null
         private var length = 0
+
+        fun prepend(value: T) = add(value, index = 0)
+
+        fun append(value: T) = add(value)
 
         fun add(value: T, index: Int = length) {
             val clampedIndex = index.coerceAtMost(length)
