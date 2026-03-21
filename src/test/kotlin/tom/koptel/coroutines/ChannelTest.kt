@@ -77,11 +77,10 @@ class ChannelTest {
         coroutineContext.cancelChildren()
     }
 
-
     @Test
     fun `fan out`() = runTest {
         fun CoroutineScope.produceNumbers(): ReceiveChannel<Int> = produce {
-            var i = 0;
+            var i = 0
             while (isActive) {
                 send(i++)
                 delay(95)
