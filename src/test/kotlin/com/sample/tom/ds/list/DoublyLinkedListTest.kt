@@ -279,14 +279,8 @@ class DoublyLinkedListTest {
             return "length: $length [$forward] reverse: [$reverse] tail=${tail?.value}"
         }
 
-        private class Node<T : Any?>(
-            val value: T,
-            var next: Node<T>? = null,
-            var prev: Node<T>? = null,
-        ) {
-            override fun toString(): String {
-                return "Node(value=$value)"
-            }
+        private class Node<T : Any?>(val value: T, var next: Node<T>? = null, var prev: Node<T>? = null) {
+            override fun toString(): String = "Node(value=$value)"
         }
     }
 }

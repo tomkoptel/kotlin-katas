@@ -189,9 +189,7 @@ class LinkedList2Test {
             return head == other.head
         }
 
-        override fun hashCode(): Int {
-            return head?.hashCode() ?: 0
-        }
+        override fun hashCode(): Int = head?.hashCode() ?: 0
 
         override fun toString(): String {
             var previousNode: Node<T>? = null
@@ -210,10 +208,7 @@ class LinkedList2Test {
             return "length: $length [$string] tail=$tail"
         }
 
-        private class Node<T : Any?>(
-            val value: T? = null,
-            var next: Node<T>? = null,
-        ) {
+        private class Node<T : Any?>(val value: T? = null, var next: Node<T>? = null) {
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) return true
@@ -233,9 +228,7 @@ class LinkedList2Test {
                 return result
             }
 
-            override fun toString(): String {
-                return "Node(value=$value, next=$next)"
-            }
+            override fun toString(): String = "Node(value=$value, next=$next)"
         }
     }
 }
