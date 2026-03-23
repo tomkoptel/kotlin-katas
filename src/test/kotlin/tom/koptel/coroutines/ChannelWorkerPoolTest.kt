@@ -16,6 +16,9 @@ import kotlinx.coroutines.withContext
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.update
 import java.util.UUID
 
 /**
@@ -29,14 +32,15 @@ import java.util.UUID
  * Producer (execute block)          Channel (buffered queue)         Workers (N coroutines)
  * ┌─────────────────────┐          ┌──────────────────────┐         ┌──────────────────┐
  * │ enqueue(task1)  ────┼─send()──>│ [task1, task2, ...]  │──recv──>│ Worker-0: task()  │
- * │ enqueue(task2)  ────┼─send()──>│                      │──recv──>│ Worker-1: task()  │
+ * │ enqueue(task2)  ────┼─send()──>│   activeCount++      │──recv──>│ Worker-1: task()  │
  * │ enqueue(task3)  ────┼─send()──>│                      │──recv──>│ Worker-2: task()  │
  * │ ...                 │          │                      │         │ ...               │
- * └────────┬────────────┘          └──────────────────────┘         └──────────────────┘
- *          │ .use { } closes                                          ▲
- *          │ channel on exit                                          │ on failure:
- *          ▼                                                          │ retry re-enqueues
- *    channel.close()                                                  │ back into channel
+ * └────────┬────────────┘          └──────────────────────┘         └────────┬──────────┘
+ *          │                                ▲                                │
+ *          │ producerDone=true              │ retry re-enqueues              │ activeCount--
+ *          │                                │ (activeCount++)                │ closeIfDrained()
+ *          ▼                                │                                │
+ *    closeIfDrained() ─── if activeCount==0 && producerDone ──> channel.close()
  * ```
  *
  * ## How concurrency is bounded
@@ -51,30 +55,29 @@ import java.util.UUID
  *
  * 1. `coroutineScope` launches N worker coroutines, each looping over the channel.
  * 2. The `execute` block runs, calling `enqueue()` which sends tasks into the channel.
- * 3. When `execute` completes, `WorkerPoolScope.use {}` calls `close()` → `channel.close()`.
- * 4. Workers see the closed channel — `for (task in channel)` ends naturally.
- * 5. All worker coroutines complete → `coroutineScope` returns.
+ *    Each `enqueue` increments an `activeCount` atomic counter.
+ * 3. When `execute` completes, `producerDone` is set to true. The channel is NOT closed yet —
+ *    there may still be in-flight tasks or pending retries.
+ * 4. Each worker decrements `activeCount` after a task settles (succeeds or exhausts retries).
+ *    After decrementing, `closeIfDrained()` checks: if `producerDone && activeCount == 0`,
+ *    close the channel.
+ * 5. Workers see the closed channel — `for (task in channel)` ends naturally.
+ * 6. All worker coroutines complete → `coroutineScope` returns.
  *
  * ## Error handling
  *
  * - `task.action()` exceptions are caught per-worker — one failing task does not kill the pool.
  * - `CancellationException` is re-thrown to respect structured concurrency cancellation.
  * - Failed tasks are retried up to `maxRetries` (default 3) by re-enqueuing a new Task with
- *   an incremented retry counter.
- * - If the channel is already closed when a retry is enqueued, `ClosedSendChannelException`
- *   is caught and logged — the retry is silently dropped.
+ *   an incremented retry counter. The retry `enqueue` increments `activeCount` BEFORE the
+ *   failed task decrements it, preventing a transient zero that would prematurely close
+ *   the channel.
  *
  * ## Why `coroutineScope` and not `supervisorScope`
  *
  * All task-level errors are caught inside the try/catch — they never propagate to the scope.
  * `coroutineScope` is used so that a structural failure (e.g., channel machinery bug) cancels
  * all workers and fails fast, rather than silently degrading with fewer workers.
- *
- * ## Caveat: retries and channel lifetime
- *
- * Retries are re-enqueued into the same channel. If the `execute` block finishes and closes
- * the channel before retries are processed, they are dropped. Callers that rely on retries
- * should keep the channel open long enough (e.g., add `delay()` after enqueuing).
  */
 class ChannelWorkerPoolTest {
     @Test
@@ -126,8 +129,6 @@ class ChannelWorkerPoolTest {
                 mutex.withLock { attempts++ }
                 throw RuntimeException("Boom")
             }
-            // Keep channel open long enough for retries to be re-enqueued
-            delay(1000)
         }
         // 1 initial + 3 retries = 4
         assertEquals(4, attempts)
@@ -191,7 +192,7 @@ class ChannelWorkerPoolTest {
      * @param workerCount number of concurrent worker coroutines. This is the hard upper
      *   bound on parallelism — no more than this many tasks execute at once.
      * @param execute the producer block that enqueues tasks via [WorkerPoolScope.enqueue].
-     *   When this block returns, the channel is closed and workers drain remaining tasks.
+     *   When this block returns, workers continue until all tasks (including retries) settle.
      */
     private suspend fun workerPool(
         channelCapacity: Int,
@@ -199,7 +200,12 @@ class ChannelWorkerPoolTest {
         execute: suspend WorkerPoolScope.() -> Unit,
     ) {
         val channel = Channel<Task>(capacity = channelCapacity)
-        val workerPoolScope = WorkerPoolScope(channel)
+        // Tracks how many tasks are in-flight (enqueued but not yet settled).
+        // A task "settles" when it succeeds or exhausts all retries.
+        // Works like a dynamic CountDownLatch: count goes up on enqueue, down on settle.
+        // When it reaches 0 after the producer is done, we close the channel.
+        val activeCount = MutableStateFlow(0)
+        val workerPoolScope = WorkerPoolScope(channel, activeCount)
 
         // coroutineScope ensures we wait for all workers to finish before returning.
         // If any worker fails structurally (not a task failure), all workers are cancelled.
@@ -222,50 +228,52 @@ class ChannelWorkerPoolTest {
                             // The worker stays alive and picks up the next task.
                             println("Stumbled on exception ${ex.message} re-enqueue the task")
                             task.retry { newTask ->
-                                try {
-                                    workerPoolScope.enqueue(newTask)
-                                } catch (ex: ClosedSendChannelException) {
-                                    // Channel closed between failure and retry —
-                                    // the execute block already finished. Drop the retry.
-                                    println("Can not schedule new work channel closed ${ex.message}")
-                                }
+                                // Increment BEFORE decrementing the failed task to avoid
+                                // a transient 0 that would prematurely close the channel.
+                                workerPoolScope.enqueue(newTask)
                             }
                         }
+                        // Task settled (succeeded or will not be retried further).
+                        activeCount.update { it - 1 }
                     }
                 }
             }
 
-            // Producer: runs the caller's block then closes the channel via AutoCloseable.
-            // .use {} guarantees channel.close() even if execute throws.
-            // Closing signals workers that no more tasks will arrive —
-            // they finish their current task, drain any buffered tasks, then exit.
-            workerPoolScope.use {
-                it.execute()
-            }
+            // Producer: runs the caller's block, then suspends until all in-flight
+            // tasks (including retries) have settled. Only then close the channel.
+            //
+            // Why this is safe from transient zeros:
+            // - activeCount.first { it == 0 } is only called AFTER execute() returns
+            // - While execute() runs, we're not watching the flow — so tasks completing
+            //   during production don't trigger a premature close
+            // - After execute(), if count > 0, we suspend until retries drain to 0
+            // - Retry enqueue increments BEFORE the failed task decrements, so the
+            //   count never transiently hits 0 during a retry cycle
+            workerPoolScope.execute()
+            activeCount.first { it == 0 }
+            channel.close()
         }
     }
 
     /**
      * Scoped interface exposed to the producer block.
-     * Provides [enqueue] to submit tasks and implements [AutoCloseable]
-     * to close the underlying channel when the producer finishes (via `.use {}`).
+     * Provides [enqueue] to submit tasks. Tracks active task count via [MutableStateFlow]
+     * so the pool can suspend until all work (including retries) has settled.
      */
     private class WorkerPoolScope(
         private val channel: Channel<Task>,
-    ) : AutoCloseable {
-        /** Enqueue a [Task] (used internally by retry logic). */
+        private val activeCount: MutableStateFlow<Int>,
+    ) {
+        /** Enqueue a [Task] — increments the active counter. Used by retry logic. */
         suspend fun enqueue(task: Task) {
+            activeCount.update { it + 1 }
             channel.send(task)
         }
 
-        /** Enqueue a suspend lambda as a new task. */
+        /** Enqueue a suspend lambda as a new task — increments the active counter. */
         suspend fun enqueue(task: suspend () -> Unit) {
+            activeCount.update { it + 1 }
             channel.send(Task(action = task))
-        }
-
-        /** Closes the channel, signaling workers that no more tasks will arrive. */
-        override fun close() {
-            channel.close()
         }
     }
 
