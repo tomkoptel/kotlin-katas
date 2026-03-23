@@ -1,14 +1,14 @@
 package tom.koptel.coroutines
 
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.ClosedSendChannelException
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.test.runTest
@@ -16,9 +16,6 @@ import kotlinx.coroutines.withContext
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.update
 import java.util.UUID
 
 /**
@@ -260,10 +257,7 @@ class ChannelWorkerPoolTest {
      * Provides [enqueue] to submit tasks. Tracks active task count via [MutableStateFlow]
      * so the pool can suspend until all work (including retries) has settled.
      */
-    private class WorkerPoolScope(
-        private val channel: Channel<Task>,
-        private val activeCount: MutableStateFlow<Int>,
-    ) {
+    private class WorkerPoolScope(private val channel: Channel<Task>, private val activeCount: MutableStateFlow<Int>) {
         /** Enqueue a [Task] — increments the active counter. Used by retry logic. */
         suspend fun enqueue(task: Task) {
             activeCount.update { it + 1 }
@@ -285,12 +279,7 @@ class ChannelWorkerPoolTest {
      * @param maxRetries upper bound on retries. After this, the task is dropped.
      * @param action the suspend function that performs the actual work.
      */
-    private class Task(
-        val id: String = UUID.randomUUID().toString(),
-        val retries: Int = 0,
-        val maxRetries: Int = 3,
-        val action: suspend () -> Unit,
-    ) {
+    private class Task(val id: String = UUID.randomUUID().toString(), val retries: Int = 0, val maxRetries: Int = 3, val action: suspend () -> Unit) {
         /**
          * If retries remain, creates a copy with incremented retry count and passes it
          * to [block] (which re-enqueues it). Otherwise logs and drops the task.
@@ -324,8 +313,6 @@ class ChannelWorkerPoolTest {
             return result
         }
 
-        override fun toString(): String {
-            return "Task(id='$id', retries=$retries)"
-        }
+        override fun toString(): String = "Task(id='$id', retries=$retries)"
     }
 }
