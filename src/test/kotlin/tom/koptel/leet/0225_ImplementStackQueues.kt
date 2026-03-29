@@ -27,21 +27,13 @@ class `0225_ImplementStackQueues` {
             println()
         }
 
-        fun pop(): Int {
-            return queue.remove()
-        }
+        fun pop(): Int = queue.remove()
 
-        fun top(): Int {
-            return queue.element()
-        }
+        fun top(): Int = queue.element()
 
-        fun empty(): Boolean {
-            return queue.isEmpty()
-        }
+        fun empty(): Boolean = queue.isEmpty()
 
-        override fun toString(): String {
-            return "$queue"
-        }
+        override fun toString(): String = "$queue"
     }
 
     @Test

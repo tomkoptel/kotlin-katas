@@ -20,7 +20,6 @@ class QueueTest {
         queue.enqueue(2)
         queue.enqueue(3)
 
-
         queue.dequeue() shouldBe 1
         queue.dequeue() shouldBe 2
         queue.toString() shouldBe "3 length=1"
@@ -29,13 +28,8 @@ class QueueTest {
     }
 
     private class Queue<T> {
-        class Node<T>(
-            val value: T,
-            var next: Node<T>? = null,
-        ) {
-            override fun toString(): String {
-                return "Node(next=$next)"
-            }
+        class Node<T>(val value: T, var next: Node<T>? = null) {
+            override fun toString(): String = "Node(next=$next)"
         }
 
         private var head: Node<T>? = null
@@ -64,20 +58,18 @@ class QueueTest {
             return currentHead.value
         }
 
-        override fun toString(): String {
-            return if (head == null) {
-                "length=$length"
-            } else {
-                var node = head
-                val builder = StringBuilder()
-                while (node != null) {
-                    builder.append(node.value)
-                    node = node.next?.also {
-                        builder.append("->")
-                    }
+        override fun toString(): String = if (head == null) {
+            "length=$length"
+        } else {
+            var node = head
+            val builder = StringBuilder()
+            while (node != null) {
+                builder.append(node.value)
+                node = node.next?.also {
+                    builder.append("->")
                 }
-                "$builder length=$length"
             }
+            "$builder length=$length"
         }
     }
 }

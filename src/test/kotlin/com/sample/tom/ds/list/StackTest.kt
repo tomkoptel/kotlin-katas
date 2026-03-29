@@ -39,13 +39,8 @@ class StackTest {
     }
 
     private class Stack<T> {
-        class Node<T>(
-            val value: T,
-            var next: Node<T>? = null,
-        ) {
-            override fun toString(): String {
-                return "Node(value=$value)"
-            }
+        class Node<T>(val value: T, var next: Node<T>? = null) {
+            override fun toString(): String = "Node(value=$value)"
         }
 
         private var top: Node<T>? = null
@@ -63,9 +58,7 @@ class StackTest {
             length++
         }
 
-        fun peek(): Node<T>? {
-            return top
-        }
+        fun peek(): Node<T>? = top
 
         fun pop(): Node<T>? {
             val currentTop = top ?: return null
