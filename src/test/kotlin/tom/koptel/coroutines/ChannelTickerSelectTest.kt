@@ -34,7 +34,7 @@ class ChannelTickerSelectTest {
         launch(Dispatchers.Unconfined) {
             repeat(5) {
                 delay(100)
-                channel.send("${it}")
+                channel.send("$it")
             }
             channel.close()
         }
@@ -87,7 +87,8 @@ class ChannelTickerSelectTest {
                     delay(50)
                     "from Cache"
                 }
-            ))
+            )
+        )
 
         println("result=$result")
 
@@ -98,11 +99,29 @@ class ChannelTickerSelectTest {
     fun `multiplexing 3 channels + select`() = runTest {
         coroutineScope {
             val channel1 = Channel<String>()
-            launch { repeat(times = 5) { delay(100); channel1.send("channel1 - $it") }; channel1.close() }
+            launch {
+                repeat(times = 5) {
+                    delay(100)
+                    channel1.send("channel1 - $it")
+                }
+                channel1.close()
+            }
             val channel2 = Channel<String>()
-            launch { repeat(times = 5) { delay(50); channel2.send("channel2 - $it") }; channel2.close() }
+            launch {
+                repeat(times = 5) {
+                    delay(50)
+                    channel2.send("channel2 - $it")
+                }
+                channel2.close()
+            }
             val channel3 = Channel<String>()
-            launch { repeat(times = 5) { delay(20); channel3.send("channel3 - $it") }; channel3.close() }
+            launch {
+                repeat(times = 5) {
+                    delay(20)
+                    channel3.send("channel3 - $it")
+                }
+                channel3.close()
+            }
 
             val channels = mutableListOf(channel1, channel2, channel3)
 
@@ -166,7 +185,7 @@ class ChannelTickerSelectTest {
             val delay = it * 300L
             println("starting vendor=$it with delay=$delay")
             delay(delay)
-            return "product${it}"
+            return "product$it"
         }
 
         val results = Channel<String>()
