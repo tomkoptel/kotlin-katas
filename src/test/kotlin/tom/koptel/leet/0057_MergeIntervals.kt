@@ -13,8 +13,9 @@ class `0057_MergeIntervals` {
                 intArrayOf(6, 7),
                 intArrayOf(8, 10),
                 intArrayOf(15, 17),
-                intArrayOf(20, 22),
-            ), intArrayOf(11, 12)
+                intArrayOf(20, 22)
+            ),
+            intArrayOf(11, 12)
         )
 
         result shouldBe arrayOf(
@@ -24,7 +25,7 @@ class `0057_MergeIntervals` {
             intArrayOf(8, 10),
             intArrayOf(11, 12),
             intArrayOf(15, 17),
-            intArrayOf(20, 22),
+            intArrayOf(20, 22)
         )
     }
 
@@ -37,8 +38,9 @@ class `0057_MergeIntervals` {
                 intArrayOf(6, 7),
                 intArrayOf(8, 10),
                 intArrayOf(15, 17),
-                intArrayOf(20, 22),
-            ), intArrayOf(10, 14)
+                intArrayOf(20, 22)
+            ),
+            intArrayOf(10, 14)
         )
 
         result shouldBe arrayOf(
@@ -47,7 +49,7 @@ class `0057_MergeIntervals` {
             intArrayOf(6, 7),
             intArrayOf(8, 14),
             intArrayOf(15, 17),
-            intArrayOf(20, 22),
+            intArrayOf(20, 22)
         )
     }
 
@@ -60,8 +62,9 @@ class `0057_MergeIntervals` {
                 intArrayOf(6, 7),
                 intArrayOf(8, 10),
                 intArrayOf(15, 17),
-                intArrayOf(20, 22),
-            ), intArrayOf(15, 18)
+                intArrayOf(20, 22)
+            ),
+            intArrayOf(15, 18)
         )
 
         result shouldBe arrayOf(
@@ -70,7 +73,7 @@ class `0057_MergeIntervals` {
             intArrayOf(6, 7),
             intArrayOf(8, 10),
             intArrayOf(15, 18),
-            intArrayOf(20, 22),
+            intArrayOf(20, 22)
         )
     }
 
@@ -83,15 +86,16 @@ class `0057_MergeIntervals` {
                 intArrayOf(6, 7),
                 intArrayOf(8, 10),
                 intArrayOf(15, 17),
-                intArrayOf(20, 22),
-            ), intArrayOf(6, 17)
+                intArrayOf(20, 22)
+            ),
+            intArrayOf(6, 17)
         )
 
         result shouldBe arrayOf(
             intArrayOf(1, 2),
             intArrayOf(3, 5),
             intArrayOf(6, 17),
-            intArrayOf(20, 22),
+            intArrayOf(20, 22)
         )
     }
 
@@ -102,14 +106,15 @@ class `0057_MergeIntervals` {
                 intArrayOf(1, 3),
                 intArrayOf(5, 7),
                 intArrayOf(9, 11),
-                intArrayOf(13, 15),
-            ), intArrayOf(4, 12)  // start in gap, end in gap, swallows [5,7] and [9,11]
+                intArrayOf(13, 15)
+            ),
+            intArrayOf(4, 12) // start in gap, end in gap, swallows [5,7] and [9,11]
         )
 
         result shouldBe arrayOf(
             intArrayOf(1, 3),
             intArrayOf(4, 12),
-            intArrayOf(13, 15),
+            intArrayOf(13, 15)
         )
     }
 
@@ -232,11 +237,11 @@ class `0057_MergeIntervals` {
                     toTypedArray()
                 }
             } else {
-                val mergedStart = when(lowerOutcome) {
+                val mergedStart = when (lowerOutcome) {
                     is Outcome.Found -> minOf(newInterval[0], intervals[lowerOutcome.index][0])
                     is Outcome.NotFound -> newInterval[0]
                 }
-                val mergedEnd = when(upperOutcome) {
+                val mergedEnd = when (upperOutcome) {
                     is Outcome.Found -> maxOf(newInterval[1], intervals[upperOutcome.index][1])
                     is Outcome.NotFound -> newInterval[1]
                 }
