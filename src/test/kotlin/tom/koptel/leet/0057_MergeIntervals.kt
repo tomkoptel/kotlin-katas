@@ -122,18 +122,21 @@ class `0057_MergeIntervals` {
             var inserted = false
             for (interval in intervals) {
                 if (interval.last() < newInterval.first()) {
-                    result.add(interval)
+                    result.add(interval) // before
                 } else if (interval.first() > newInterval.last()) {
+                    // after interval
                     if (!inserted) {
                         inserted = true
                         result.add(newInterval)
                     }
                     result.add(interval)
                 } else {
+                    // overlaps, so we need mutate newInterval in place to extend
                     newInterval[0] = minOf(interval.first(), newInterval.first())
                     newInterval[1] = maxOf(interval.last(), newInterval.last())
                 }
             }
+            // never inserted, so we are simply adding to the end
             if (!inserted) result.add(newInterval)
             return result.toTypedArray()
         }
@@ -170,64 +173,77 @@ class `0057_MergeIntervals` {
          * ---
          *
          * Your instinct was sharp, just applied one level too deep. The sorted property *is* useful here — but it's already exploited by the fact that the three zones appear in order, never interleaved.
+         *
+         * can we say that runtime complexity of binary search approach is better?
+         * No — and it's a subtle but important point.
+         *
+         * ---
+         *
+         * ### Both are O(n)
+         *
+         * The binary search itself is `O(log n)`. But that's not the whole story. After finding the insertion points you still have to **copy the intervals into the result array** — and that's unavoidable, because the output can contain up to `n + 1` elements.
+         *
+         * ```
+         * binary search:    O(log n)
+         * building result:  O(n)      ← dominates
+         * ─────────────────────────
+         * total:            O(n)
+         * ```
+         *
+         * The O(n) output construction swallows the O(log n) search entirely.
+         *
+         * ---
+         *
+         * ### When would binary search actually win?
+         *
+         * Only if you could **skip building the output** — for example if the problem were:
+         *
+         * > "Does `newInterval` overlap with any existing interval? Return true/false."
+         *
+         * There you don't need to touch every element, so `O(log n)` would be a genuine improvement over `O(n)`.
+         *
+         * But here the output *is* the work. You can't return a result array without visiting every interval at least once to decide which zone it belongs to.
+         *
+         * ---
+         *
+         * ### The general rule
+         *
+         * > Binary search wins when you can **skip processing** large chunks of input.
+         * > It doesn't help when you're **obligated to process everything** anyway.
+         *
+         * This problem falls in the second category — so the simpler linear scan is not just cleaner, it's equally optimal.
          */
-        fun insertWithBug(intervals: Array<IntArray>, newInterval: IntArray): Array<IntArray> {
-            val lower = newInterval.first()
-            val upper = newInterval.last()
-            val lowerOutcome = find(intervals, lower)
-            val upperOutcome = find(intervals, upper)
+        fun insertBinary(intervals: Array<IntArray>, newInterval: IntArray): Array<IntArray> {
+            val lowerOutcome = find(intervals, newInterval.first())
+            val upperOutcome = find(intervals, newInterval.last())
 
-            return when (lowerOutcome) {
-                is Outcome.Found -> when (upperOutcome) {
-                    is Outcome.Found -> {
-                        merge(intervals[lowerOutcome.index], newInterval).let { merge1 ->
-                            merge(intervals[upperOutcome.index], merge1).let { merge2 ->
-                                intervals.toMutableList().run {
-                                    val leftPart = this.subList(0, lowerOutcome.index).toMutableList()
-                                    leftPart.add(merge2)
-                                    val rightPart = this.subList(upperOutcome.index + 1, intervals.size)
-                                    leftPart.addAll(rightPart)
-                                    leftPart.toTypedArray()
-                                }
-                            }
-                        }
-                    }
-                    is Outcome.NotFound -> replaceAt(
-                        intervals,
-                        newInterval,
-                        lowerOutcome.index
-                    )
-                }
-
-                is Outcome.NotFound -> when (upperOutcome) {
-                    is Outcome.Found -> replaceAt(
-                        intervals,
-                        newInterval,
-                        upperOutcome.index
-                    )
-                    is Outcome.NotFound -> intervals.toMutableList().run {
-                        add(upperOutcome.index + 1, newInterval)
-                        toTypedArray()
-                    }
-                }
+            val leftIndex = when (lowerOutcome) {
+                is Outcome.Found -> lowerOutcome.index
+                is Outcome.NotFound -> lowerOutcome.index + 1
             }
-        }
-
-        private fun replaceAt(
-            intervals: Array<IntArray>,
-            newInterval: IntArray,
-            at: Int,
-        ): Array<IntArray> = merge(intervals[at], newInterval).let { merged ->
-            intervals.toMutableList().run {
-                this[at] = merged
-                toTypedArray()
+            val rightIndex = when (upperOutcome) {
+                is Outcome.Found -> upperOutcome.index
+                is Outcome.NotFound -> upperOutcome.index
             }
-        }
 
-        private fun merge(intervalA: IntArray, intervalB: IntArray): IntArray {
-            val lower = minOf(intervalA.first(), intervalB.first())
-            val upper = maxOf(intervalA.last(), intervalB.last())
-            return intArrayOf(lower, upper)
+            return if (leftIndex > rightIndex) {
+                intervals.toMutableList().run {
+                    add(leftIndex, newInterval)
+                    toTypedArray()
+                }
+            } else {
+                val mergedStart = when(lowerOutcome) {
+                    is Outcome.Found -> minOf(newInterval[0], intervals[lowerOutcome.index][0])
+                    is Outcome.NotFound -> newInterval[0]
+                }
+                val mergedEnd = when(upperOutcome) {
+                    is Outcome.Found -> maxOf(newInterval[1], intervals[upperOutcome.index][1])
+                    is Outcome.NotFound -> newInterval[1]
+                }
+                val left = intervals.take(leftIndex)
+                val right = intervals.drop(rightIndex + 1)
+                (left + intArrayOf(mergedStart, mergedEnd) + right).toTypedArray()
+            }
         }
 
         private fun find(intervals: Array<IntArray>, value: Int): Outcome {
