@@ -114,7 +114,64 @@ class `0057_MergeIntervals` {
     }
 
     private class Solution {
+        /**
+         * Linear scan handles **what to do with everything**.
+         */
         fun insert(intervals: Array<IntArray>, newInterval: IntArray): Array<IntArray> {
+            val result = mutableListOf<IntArray>()
+            var inserted = false
+            for (interval in intervals) {
+                if (interval.last() < newInterval.first()) {
+                    result.add(interval)
+                } else if (interval.first() > newInterval.last()) {
+                    if (!inserted) {
+                        inserted = true
+                        result.add(newInterval)
+                    }
+                    result.add(interval)
+                } else {
+                    newInterval[0] = minOf(interval.first(), newInterval.first())
+                    newInterval[1] = maxOf(interval.last(), newInterval.last())
+                }
+            }
+            if (!inserted) result.add(newInterval)
+            return result.toTypedArray()
+        }
+
+        /**
+         * Mine first attempt.
+         * Classic over-engineering pattern — and it happens for a specific reason.
+         *
+         * ---
+         *
+         * ### You saw a sorted array and reached for binary search
+         *
+         * That instinct is not wrong in general. Sorted input + searching = binary search is a deeply ingrained and usually correct heuristic. It's the right tool for "find me index of value X."
+         *
+         * But this problem isn't really a *search* problem. It's a *partition* problem. You're not looking for a specific value — you're **categorizing every interval** into one of three zones. Binary search finds a point; a linear scan builds a picture. Those are different needs.
+         *
+         * ---
+         *
+         * ### Then the sealed class followed naturally
+         *
+         * Once you committed to binary search, you needed to handle what happens when a value falls *between* intervals — hence `Outcome.Found` and `Outcome.NotFound`. That's a reasonable design for a binary search result. But now you had two outcomes × two bounds = four combinations to enumerate, and the logic diverged in each branch.
+         *
+         * The complexity didn't come from bad design — it came from solving a **harder version of the problem** than was actually asked.
+         *
+         * ---
+         *
+         * ### The underlying pattern
+         *
+         * > Binary search finds **where something is**.
+         * > Linear scan handles **what to do with everything**.
+         *
+         * When the answer requires processing all intervals anyway, linear scan dominates. Binary search only wins when you can *skip* work — and here you can't, because every interval needs to land somewhere in the result.
+         *
+         * ---
+         *
+         * Your instinct was sharp, just applied one level too deep. The sorted property *is* useful here — but it's already exploited by the fact that the three zones appear in order, never interleaved.
+         */
+        fun insertWithBug(intervals: Array<IntArray>, newInterval: IntArray): Array<IntArray> {
             val lower = newInterval.first()
             val upper = newInterval.last()
             val lowerOutcome = find(intervals, lower)
