@@ -15,7 +15,7 @@ class `0542_01Matrix` {
         val expected = arrayOf(
             intArrayOf(0, 0, 0),
             intArrayOf(0, 1, 0),
-            intArrayOf(0, 0, 0),
+            intArrayOf(0, 0, 0)
         )
         Solution().updateMatrix(input) shouldBe expected
     }
