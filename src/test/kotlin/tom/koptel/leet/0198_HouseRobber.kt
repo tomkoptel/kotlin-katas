@@ -1,8 +1,7 @@
 package tom.koptel.leet
 
-import org.junit.jupiter.api.Test
-
 import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.Test
 
 class `0198_HouseRobber` {
     @Test
