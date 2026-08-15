@@ -5,20 +5,91 @@ import org.junit.jupiter.api.Test
 
 class `0542_01Matrix` {
 
+    private data class Case(val input: Array<IntArray>, val expected: Array<IntArray>)
+
+    private val cases = listOf(
+        // example 1: single 1 surrounded by 0s
+        Case(
+            arrayOf(
+                intArrayOf(0, 0, 0),
+                intArrayOf(0, 1, 0),
+                intArrayOf(0, 0, 0)
+            ),
+            arrayOf(
+                intArrayOf(0, 0, 0),
+                intArrayOf(0, 1, 0),
+                intArrayOf(0, 0, 0)
+            )
+        ),
+        // example 2: bottom row all 1s
+        Case(
+            arrayOf(
+                intArrayOf(0, 0, 0),
+                intArrayOf(0, 1, 0),
+                intArrayOf(1, 1, 1)
+            ),
+            arrayOf(
+                intArrayOf(0, 0, 0),
+                intArrayOf(0, 1, 0),
+                intArrayOf(1, 2, 1)
+            )
+        ),
+        // single row, one 0 at the end
+        Case(
+            arrayOf(intArrayOf(1, 1, 1, 0)),
+            arrayOf(intArrayOf(3, 2, 1, 0))
+        ),
+        // single column, one 0 at the top
+        Case(
+            arrayOf(intArrayOf(0), intArrayOf(1), intArrayOf(1)),
+            arrayOf(intArrayOf(0), intArrayOf(1), intArrayOf(2))
+        ),
+        // 1x1 with the only cell being 0
+        Case(
+            arrayOf(intArrayOf(0)),
+            arrayOf(intArrayOf(0))
+        ),
+        // all zeros
+        Case(
+            arrayOf(
+                intArrayOf(0, 0),
+                intArrayOf(0, 0)
+            ),
+            arrayOf(
+                intArrayOf(0, 0),
+                intArrayOf(0, 0)
+            )
+        ),
+        // single 0 in a corner, distances grow diagonally
+        Case(
+            arrayOf(
+                intArrayOf(0, 1, 1),
+                intArrayOf(1, 1, 1),
+                intArrayOf(1, 1, 1)
+            ),
+            arrayOf(
+                intArrayOf(0, 1, 2),
+                intArrayOf(1, 2, 3),
+                intArrayOf(2, 3, 4)
+            )
+        )
+    )
+
     @Test
-    fun first() {
-        val input = arrayOf(
-            intArrayOf(0, 0, 0),
-            intArrayOf(0, 1, 0),
-            intArrayOf(0, 0, 0)
-        )
-        val expected = arrayOf(
-            intArrayOf(0, 0, 0),
-            intArrayOf(0, 1, 0),
-            intArrayOf(0, 0, 0)
-        )
-        Solution().updateMatrix(input) shouldBe expected
+    fun `bfs solves all cases`() {
+        for (case in cases) {
+            Solution().updateMatrix(deepCopy(case.input)) shouldBe case.expected
+        }
     }
+
+    @Test
+    fun `dp solves all cases`() {
+        for (case in cases) {
+            Solution().dpUpdateMatrix(deepCopy(case.input)) shouldBe case.expected
+        }
+    }
+
+    private fun deepCopy(mat: Array<IntArray>): Array<IntArray> = Array(mat.size) { r -> mat[r].copyOf() }
 
     private class Solution {
         fun updateMatrix(mat: Array<IntArray>): Array<IntArray> {
