@@ -1,5 +1,6 @@
 package tom.koptel.leet
 
+import io.kotest.data.row
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
@@ -46,6 +47,52 @@ class `0542_01Matrix` {
                     ) {
                         distance[nr][nc] = distance[row][col] + 1
                         seed.add((nr to nc))
+                    }
+                }
+            }
+
+            return distance
+        }
+
+        fun dpUpdateMatrix(mat: Array<IntArray>): Array<IntArray> {
+            val rows = mat.size
+            val columns = mat[0].size
+            val distance = Array(rows) { r ->
+                IntArray(columns) { c ->
+                    if (mat[r][c] == 0) 0 else rows + columns
+                }
+            }
+
+            for (r in 0 until rows) {
+                for (c in 0 until columns) {
+                    if (r > 0) {
+                        distance[r][c] = minOf(
+                            distance[r - 1][c] + 1,
+                            distance[r][c]
+                        )
+                    }
+                    if (c > 0) {
+                        distance[r][c] = minOf(
+                            distance[r][c - 1] + 1,
+                            distance[r][c]
+                        )
+                    }
+                }
+            }
+
+            for (r in rows - 1 downTo 0) {
+                for (c in columns - 1 downTo 0) {
+                    if (r < rows - 1) {
+                        distance[r][c] = minOf(
+                            distance[r + 1][c] + 1,
+                            distance[r][c]
+                        )
+                    }
+                    if (c < columns - 1) {
+                        distance[r][c] = minOf(
+                            distance[r][c + 1] + 1,
+                            distance[r][c]
+                        )
                     }
                 }
             }
